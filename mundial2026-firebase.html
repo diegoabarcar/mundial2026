@@ -2,8 +2,23 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Mundial 2026 — Álbum de Láminas</title>
+<meta name="description" content="Completá tu álbum Panini FIFA World Cup 2026, encontrá coleccionistas y organizá intercambios.">
+<meta name="theme-color" content="#1a6b3a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mundial 2026">
+<link rel="manifest" href="manifest.json">
+<!-- Apple touch icons -->
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  /* Safe area for notch phones */
+  :root { --sat: env(safe-area-inset-top); --sab: env(safe-area-inset-bottom); }
+  .navbar { padding-bottom: calc(var(--sab, 0px)); height: calc(62px + var(--sab, 0px)); }
+  .hdr { padding-top: calc(12px + var(--sat, 0px)); }
+</style>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- ============================================================
@@ -196,6 +211,53 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 @keyframes spin{to{transform:rotate(360deg)}}
 .rating-star{font-size:26px;cursor:pointer;color:var(--gray-l)}
 .plabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px}
+
+/* GROUPS */
+.group-card{background:#fff;border-radius:var(--r);margin:7px 14px;padding:13px;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;transition:transform .15s}
+.group-card:active{transform:scale(.98)}
+.group-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--green-d),var(--green));display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.group-name{font-weight:700;font-size:14px;margin-bottom:2px}
+.group-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.group-meta{display:flex;gap:10px;margin-top:7px;font-size:10px;color:var(--muted);font-weight:700}
+.group-meta span{display:flex;align-items:center;gap:3px}
+.group-view{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:50}
+.group-hdr{background:var(--green);padding:13px 14px;color:#fff;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.group-tabs{display:flex;background:#fff;border-bottom:1px solid var(--gray-l);flex-shrink:0}
+.gtab{flex:1;padding:11px 4px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);border:none;background:none;font-family:inherit;transition:all .2s}
+.gtab.act{color:var(--green);border-bottom:2px solid var(--green)}
+.group-content{flex:1;overflow-y:auto}
+.member-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--gray-l);background:#fff}
+.rank-badge{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:13px;flex-shrink:0}
+.rank-1{background:linear-gradient(135deg,#f5c518,#f7d060);color:var(--green-d)}
+.rank-2{background:linear-gradient(135deg,#c0c0c0,#e0e0e0);color:#444}
+.rank-3{background:linear-gradient(135deg,#cd7f32,#e8a060);color:#fff}
+.rank-n{background:var(--gray-l);color:var(--muted)}
+.emoji-picker{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
+.emoji-opt{font-size:28px;cursor:pointer;padding:6px;border-radius:8px;border:2px solid transparent;transition:all .15s;line-height:1}
+.emoji-opt.sel{border-color:var(--green);background:#e8f5ee}
+.join-badge{display:inline-flex;align-items:center;gap:4px;border-radius:100px;padding:3px 10px;font-size:10px;font-weight:700}
+.join-pending{background:#fff3cd;color:#856404}
+.join-member{background:#e8f5ee;color:var(--green-d)}
+.join-admin{background:var(--green);color:#fff}
+
+/* DONATION BANNER */
+.donate-banner{position:absolute;bottom:calc(var(--nav) + 12px);left:12px;right:12px;z-index:90;
+  background:linear-gradient(135deg,#1a3a6b,#1a5fa8);
+  border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+  animation:bannerIn .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes bannerIn{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.donate-banner .d-icon{font-size:28px;flex-shrink:0}
+.donate-banner .d-text{flex:1}
+.donate-banner .d-title{font-weight:700;font-size:13px;color:#fff;line-height:1.3}
+.donate-banner .d-sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px}
+.donate-banner .d-btn{background:#f5c518;color:#1a3a6b;border:none;border-radius:8px;
+  padding:8px 12px;font-family:inherit;font-weight:700;font-size:12px;cursor:pointer;
+  white-space:nowrap;flex-shrink:0;transition:transform .15s}
+.donate-banner .d-btn:active{transform:scale(.96)}
+.donate-banner .d-close{background:rgba(255,255,255,.15);border:none;color:#fff;
+  width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -273,10 +335,106 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
       <div class="form-group">
         <label class="form-label">Ciudad / Región</label>
         <select class="form-input" id="s-city">
-          <option>Buenos Aires</option><option>Santiago</option><option>Bogotá</option>
-          <option>Lima</option><option>Montevideo</option><option>La Paz</option>
-          <option>Asunción</option><option>Quito</option><option>Caracas</option>
-          <option>Ciudad de México</option><option>Otra</option>
+          <optgroup label="🇦🇷 Argentina">
+            <option>Buenos Aires</option><option>Córdoba</option><option>Rosario</option>
+            <option>Mendoza</option><option>Tucumán</option><option>La Plata</option>
+            <option>Mar del Plata</option><option>Salta</option><option>Santa Fe</option>
+            <option>San Juan</option><option>Resistencia</option><option>Neuquén</option>
+          </optgroup>
+          <optgroup label="🇧🇴 Bolivia">
+            <option>La Paz</option><option>Santa Cruz de la Sierra</option><option>Cochabamba</option>
+            <option>Oruro</option><option>Potosí</option><option>Sucre</option>
+            <option>Tarija</option><option>Trinidad</option>
+          </optgroup>
+          <optgroup label="🇧🇷 Brasil">
+            <option>São Paulo</option><option>Río de Janeiro</option><option>Brasilia</option>
+            <option>Salvador</option><option>Fortaleza</option><option>Belo Horizonte</option>
+            <option>Manaus</option><option>Curitiba</option><option>Recife</option>
+            <option>Porto Alegre</option><option>Belém</option><option>Goiânia</option>
+          </optgroup>
+          <optgroup label="🇨🇱 Chile">
+            <option>Santiago</option><option>Valparaíso</option><option>Concepción</option>
+            <option>La Serena</option><option>Antofagasta</option><option>Temuco</option>
+            <option>Rancagua</option><option>Talca</option><option>Arica</option>
+            <option>Iquique</option><option>Puerto Montt</option><option>Coquimbo</option>
+            <option>Osorno</option><option>Quilpué</option><option>Calama</option>
+          </optgroup>
+          <optgroup label="🇨🇴 Colombia">
+            <option>Bogotá</option><option>Medellín</option><option>Cali</option>
+            <option>Barranquilla</option><option>Cartagena</option><option>Cúcuta</option>
+            <option>Bucaramanga</option><option>Pereira</option><option>Santa Marta</option>
+            <option>Ibagué</option><option>Manizales</option><option>Pasto</option>
+          </optgroup>
+          <optgroup label="🇨🇷 Costa Rica">
+            <option>San José</option><option>Alajuela</option><option>Cartago</option>
+            <option>Heredia</option><option>Liberia</option>
+          </optgroup>
+          <optgroup label="🇨🇺 Cuba">
+            <option>La Habana</option><option>Santiago de Cuba</option><option>Camagüey</option>
+            <option>Holguín</option><option>Guantánamo</option>
+          </optgroup>
+          <optgroup label="🇩🇴 República Dominicana">
+            <option>Santo Domingo</option><option>Santiago de los Caballeros</option>
+            <option>La Romana</option><option>San Pedro de Macorís</option>
+          </optgroup>
+          <optgroup label="🇪🇨 Ecuador">
+            <option>Quito</option><option>Guayaquil</option><option>Cuenca</option>
+            <option>Machala</option><option>Durán</option><option>Manta</option>
+            <option>Portoviejo</option><option>Loja</option><option>Ambato</option>
+          </optgroup>
+          <optgroup label="🇸🇻 El Salvador">
+            <option>San Salvador</option><option>Soyapango</option><option>Santa Ana</option>
+            <option>San Miguel</option><option>Mejicanos</option>
+          </optgroup>
+          <optgroup label="🇬🇹 Guatemala">
+            <option>Ciudad de Guatemala</option><option>Mixco</option><option>Villa Nueva</option>
+            <option>Quetzaltenango</option><option>Escuintla</option>
+          </optgroup>
+          <optgroup label="🇭🇳 Honduras">
+            <option>Tegucigalpa</option><option>San Pedro Sula</option><option>Choloma</option>
+            <option>La Ceiba</option><option>El Progreso</option>
+          </optgroup>
+          <optgroup label="🇲🇽 México">
+            <option>Ciudad de México</option><option>Guadalajara</option><option>Monterrey</option>
+            <option>Puebla</option><option>Tijuana</option><option>León</option>
+            <option>Juárez</option><option>Zapopan</option><option>Mérida</option>
+            <option>San Luis Potosí</option><option>Aguascalientes</option><option>Hermosillo</option>
+            <option>Mexicali</option><option>Cancún</option><option>Culiacán</option>
+            <option>Acapulco</option><option>Querétaro</option><option>Chihuahua</option>
+          </optgroup>
+          <optgroup label="🇳🇮 Nicaragua">
+            <option>Managua</option><option>León</option><option>Masaya</option>
+            <option>Matagalpa</option><option>Chinandega</option>
+          </optgroup>
+          <optgroup label="🇵🇦 Panamá">
+            <option>Ciudad de Panamá</option><option>Colón</option><option>David</option>
+            <option>La Chorrera</option><option>Santiago</option>
+          </optgroup>
+          <optgroup label="🇵🇾 Paraguay">
+            <option>Asunción</option><option>Ciudad del Este</option><option>San Lorenzo</option>
+            <option>Luque</option><option>Capiatá</option><option>Encarnación</option>
+          </optgroup>
+          <optgroup label="🇵🇪 Perú">
+            <option>Lima</option><option>Arequipa</option><option>Trujillo</option>
+            <option>Chiclayo</option><option>Iquitos</option><option>Piura</option>
+            <option>Cusco</option><option>Huancayo</option><option>Tacna</option>
+          </optgroup>
+          <optgroup label="🇵🇷 Puerto Rico">
+            <option>San Juan</option><option>Bayamón</option><option>Carolina</option>
+            <option>Ponce</option><option>Caguas</option>
+          </optgroup>
+          <optgroup label="🇺🇾 Uruguay">
+            <option>Montevideo</option><option>Salto</option><option>Paysandú</option>
+            <option>Las Piedras</option><option>Rivera</option><option>Maldonado</option>
+          </optgroup>
+          <optgroup label="🇻🇪 Venezuela">
+            <option>Caracas</option><option>Maracaibo</option><option>Valencia</option>
+            <option>Barquisimeto</option><option>Maracay</option><option>Ciudad Guayana</option>
+            <option>Barcelona</option><option>Maturín</option><option>San Cristóbal</option>
+          </optgroup>
+          <optgroup label="🌎 Otra">
+            <option>Otra ciudad</option>
+          </optgroup>
         </select>
       </div>
       <div class="form-group">
@@ -288,6 +446,17 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
           <span class="av-opt" data-av="🦅">🦅</span><span class="av-opt" data-av="🔥">🔥</span>
           <span class="av-opt" data-av="💎">💎</span><span class="av-opt" data-av="🌟">🌟</span>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Cómo llamás a las láminas?</label>
+        <select class="form-input" id="s-term">
+          <option value="lámina">Lámina (Chile, México)</option>
+          <option value="figurita">Figurita (Argentina, Uruguay)</option>
+          <option value="cromo">Cromo (España)</option>
+          <option value="estampa">Estampa (Colombia, Venezuela)</option>
+          <option value="calcomania">Calcomanía (Ecuador, Perú)</option>
+          <option value="pegatina">Pegatina (otros)</option>
+        </select>
       </div>
       <div class="form-group">
         <label class="form-label">Contacto (opcional)</label>
@@ -312,6 +481,9 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
       <div id="tab-matches" style="display:none"></div>
       <div id="tab-messages" style="display:none"></div>
       <div id="tab-profile" style="display:none"></div>
+      <div id="tab-groups" style="display:none"></div>
+      <div id="tab-faq" style="display:none"></div>
+      <div id="group-overlay" style="display:none;position:absolute;inset:0;z-index:50"></div>
     </div>
     <nav class="navbar">
       <button class="ni act" id="nav-album" onclick="setTab('album')"><span class="ico">📖</span><span class="lbl">Álbum</span></button>
@@ -319,11 +491,22 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
       <button class="ni" id="nav-matches" onclick="setTab('matches')"><span class="ico">🎯</span><span class="lbl">Matches</span></button>
       <button class="ni" id="nav-messages" onclick="setTab('messages')"><span class="ico">💬</span><span class="lbl">Mensajes</span></button>
       <button class="ni" id="nav-profile" onclick="setTab('profile')"><span class="ico" id="nav-pico">👤</span><span class="lbl">Perfil</span></button>
+      <button class="ni" id="nav-groups" onclick="setTab('groups')"><span class="ico">👥</span><span class="lbl">Grupos</span></button>
+      <button class="ni" id="nav-faq" onclick="setTab('faq')"><span class="ico">❓</span><span class="lbl">Ayuda</span></button>
     </nav>
     <div id="chat-overlay" style="display:none;position:absolute;inset:0;z-index:50;background:var(--bg)"></div>
     <div class="modal-ov" id="modal-ov"></div>
   </div>
 </div>
+
+<!-- SERVICE WORKER -->
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+</script>
 
 <!-- FIREBASE SDK -->
 <script type="module">
@@ -346,59 +529,60 @@ const db    = getFirestore(app);
 // ============================================================
 // CONSTANTS
 // ============================================================
-const TOTAL = 640;
+
 const SECTIONS = [
-  {id:'intro',name:'Presentación Oficial',range:[1,20],flag:'🌍'},
-  {id:'arg',name:'Argentina',range:[21,32],flag:'🇦🇷'},
-  {id:'bra',name:'Brasil',range:[33,44],flag:'🇧🇷'},
-  {id:'fra',name:'Francia',range:[45,56],flag:'🇫🇷'},
-  {id:'eng',name:'Inglaterra',range:[57,68],flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
-  {id:'ger',name:'Alemania',range:[69,80],flag:'🇩🇪'},
-  {id:'esp',name:'España',range:[81,92],flag:'🇪🇸'},
-  {id:'por',name:'Portugal',range:[93,104],flag:'🇵🇹'},
-  {id:'ned',name:'Países Bajos',range:[105,116],flag:'🇳🇱'},
-  {id:'bel',name:'Bélgica',range:[117,128],flag:'🇧🇪'},
-  {id:'cro',name:'Croacia',range:[129,140],flag:'🇭🇷'},
-  {id:'uru',name:'Uruguay',range:[141,152],flag:'🇺🇾'},
-  {id:'mex',name:'México',range:[153,164],flag:'🇲🇽'},
-  {id:'usa',name:'Estados Unidos',range:[165,176],flag:'🇺🇸'},
-  {id:'can',name:'Canadá',range:[177,188],flag:'🇨🇦'},
-  {id:'col',name:'Colombia',range:[189,200],flag:'🇨🇴'},
-  {id:'chi',name:'Chile',range:[201,212],flag:'🇨🇱'},
-  {id:'ecu',name:'Ecuador',range:[213,224],flag:'🇪🇨'},
-  {id:'ven',name:'Venezuela',range:[225,236],flag:'🇻🇪'},
-  {id:'per',name:'Perú',range:[237,248],flag:'🇵🇪'},
-  {id:'bol',name:'Bolivia',range:[249,260],flag:'🇧🇴'},
-  {id:'par',name:'Paraguay',range:[261,272],flag:'🇵🇾'},
-  {id:'mor',name:'Marruecos',range:[273,284],flag:'🇲🇦'},
-  {id:'sen',name:'Senegal',range:[285,296],flag:'🇸🇳'},
-  {id:'nga',name:'Nigeria',range:[297,308],flag:'🇳🇬'},
-  {id:'egy',name:'Egipto',range:[309,320],flag:'🇪🇬'},
-  {id:'jpn',name:'Japón',range:[321,332],flag:'🇯🇵'},
-  {id:'kor',name:'Corea del Sur',range:[333,344],flag:'🇰🇷'},
-  {id:'aus',name:'Australia',range:[345,356],flag:'🇦🇺'},
-  {id:'ira',name:'Irán',range:[357,368],flag:'🇮🇷'},
-  {id:'sau',name:'Arabia Saudita',range:[369,380],flag:'🇸🇦'},
-  {id:'tur',name:'Turquía',range:[381,392],flag:'🇹🇷'},
-  {id:'sui',name:'Suiza',range:[393,404],flag:'🇨🇭'},
-  {id:'pol',name:'Polonia',range:[405,416],flag:'🇵🇱'},
-  {id:'ukr',name:'Ucrania',range:[417,428],flag:'🇺🇦'},
-  {id:'den',name:'Dinamarca',range:[429,440],flag:'🇩🇰'},
-  {id:'sco',name:'Escocia',range:[441,452],flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'},
-  {id:'ser',name:'Serbia',range:[453,464],flag:'🇷🇸'},
-  {id:'hun',name:'Hungría',range:[465,476],flag:'🇭🇺'},
-  {id:'aut',name:'Austria',range:[477,488],flag:'🇦🇹'},
-  {id:'geo',name:'Georgia',range:[489,500],flag:'🇬🇪'},
-  {id:'rom',name:'Rumania',range:[501,512],flag:'🇷🇴'},
-  {id:'cze',name:'República Checa',range:[513,524],flag:'🇨🇿'},
-  {id:'alb',name:'Albania',range:[525,536],flag:'🇦🇱'},
-  {id:'slo',name:'Eslovenia',range:[537,548],flag:'🇸🇮'},
-  {id:'isl',name:'Islandia',range:[549,560],flag:'🇮🇸'},
-  {id:'nzl',name:'Nueva Zelanda',range:[561,572],flag:'🇳🇿'},
-  {id:'qat',name:'Qatar',range:[573,584],flag:'🇶🇦'},
-  {id:'civ',name:'Costa de Marfil',range:[585,596],flag:'🇨🇮'},
-  {id:'fin',name:'Final & Ceremonia',range:[597,640],flag:'🏆'},
+  {id:'fwc', name:'FIFA World Cup', flag:'🌍', prefix:'FWC', count:19},
+  {id:'mex', name:'México', flag:'🇲🇽', prefix:'MEX', count:20},
+  {id:'rsa', name:'Arabia Saudita', flag:'🇸🇦', prefix:'RSA', count:20},
+  {id:'kor', name:'Corea del Sur', flag:'🇰🇷', prefix:'KOR', count:20},
+  {id:'cze', name:'República Checa', flag:'🇨🇿', prefix:'CZE', count:20},
+  {id:'can', name:'Canadá', flag:'🇨🇦', prefix:'CAN', count:20},
+  {id:'bih', name:'Bosnia y Herzegovina', flag:'🇧🇦', prefix:'BIH', count:20},
+  {id:'qat', name:'Qatar', flag:'🇶🇦', prefix:'QAT', count:20},
+  {id:'sui', name:'Suiza', flag:'🇨🇭', prefix:'SUI', count:20},
+  {id:'bra', name:'Brasil', flag:'🇧🇷', prefix:'BRA', count:20},
+  {id:'mar', name:'Marruecos', flag:'🇲🇦', prefix:'MAR', count:20},
+  {id:'hai', name:'Haití', flag:'🇭🇹', prefix:'HAI', count:20},
+  {id:'sco', name:'Escocia', flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', prefix:'SCO', count:20},
+  {id:'usa', name:'Estados Unidos', flag:'🇺🇸', prefix:'USA', count:20},
+  {id:'par', name:'Paraguay', flag:'🇵🇾', prefix:'PAR', count:20},
+  {id:'aus', name:'Australia', flag:'🇦🇺', prefix:'AUS', count:20},
+  {id:'tur', name:'Turquía', flag:'🇹🇷', prefix:'TUR', count:20},
+  {id:'ger', name:'Alemania', flag:'🇩🇪', prefix:'GER', count:20},
+  {id:'cuw', name:'Curazao', flag:'🇨🇼', prefix:'CUW', count:20},
+  {id:'civ', name:'Costa de Marfil', flag:'🇨🇮', prefix:'CIV', count:20},
+  {id:'ecu', name:'Ecuador', flag:'🇪🇨', prefix:'ECU', count:20},
+  {id:'ned', name:'Países Bajos', flag:'🇳🇱', prefix:'NED', count:20},
+  {id:'jpn', name:'Japón', flag:'🇯🇵', prefix:'JPN', count:20},
+  {id:'swe', name:'Suecia', flag:'🇸🇪', prefix:'SWE', count:20},
+  {id:'tun', name:'Túnez', flag:'🇹🇳', prefix:'TUN', count:20},
+  {id:'bel', name:'Bélgica', flag:'🇧🇪', prefix:'BEL', count:20},
+  {id:'egy', name:'Egipto', flag:'🇪🇬', prefix:'EGY', count:20},
+  {id:'irn', name:'Irán', flag:'🇮🇷', prefix:'IRN', count:20},
+  {id:'nzl', name:'Nueva Zelanda', flag:'🇳🇿', prefix:'NZL', count:20},
+  {id:'esp', name:'España', flag:'🇪🇸', prefix:'ESP', count:20},
+  {id:'cpv', name:'Cabo Verde', flag:'🇨🇻', prefix:'CPV', count:20},
+  {id:'ksa', name:'Arabia Saudita (KSA)', flag:'🇸🇦', prefix:'KSA', count:20},
+  {id:'uru', name:'Uruguay', flag:'🇺🇾', prefix:'URU', count:20},
+  {id:'fra', name:'Francia', flag:'🇫🇷', prefix:'FRA', count:20},
+  {id:'sen', name:'Senegal', flag:'🇸🇳', prefix:'SEN', count:20},
+  {id:'irq', name:'Irak', flag:'🇮🇶', prefix:'IRQ', count:20},
+  {id:'nor', name:'Noruega', flag:'🇳🇴', prefix:'NOR', count:20},
+  {id:'arg', name:'Argentina', flag:'🇦🇷', prefix:'ARG', count:20},
+  {id:'alg', name:'Argelia', flag:'🇩🇿', prefix:'ALG', count:20},
+  {id:'aut', name:'Austria', flag:'🇦🇹', prefix:'AUT', count:20},
+  {id:'jor', name:'Jordania', flag:'🇯🇴', prefix:'JOR', count:20},
+  {id:'por', name:'Portugal', flag:'🇵🇹', prefix:'POR', count:20},
+  {id:'cod', name:'Rep. Dem. del Congo', flag:'🇨🇩', prefix:'COD', count:20},
+  {id:'uzb', name:'Uzbekistán', flag:'🇺🇿', prefix:'UZB', count:20},
+  {id:'col', name:'Colombia', flag:'🇨🇴', prefix:'COL', count:20},
+  {id:'eng', name:'Inglaterra', flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', prefix:'ENG', count:20},
+  {id:'cro', name:'Croacia', flag:'🇭🇷', prefix:'CRO', count:20},
+  {id:'gha', name:'Ghana', flag:'🇬🇭', prefix:'GHA', count:20},
+  {id:'pan', name:'Panamá', flag:'🇵🇦', prefix:'PAN', count:20},
+  {id:'cc', name:'Copa de Campeones', flag:'🏆', prefix:'CC', count:14},
 ];
+const TOTAL_STICKERS = SECTIONS.reduce((a,s)=>a+s.count,0);
 
 // ============================================================
 // STATE
@@ -422,6 +606,15 @@ let emailMode   = 'login';   // 'login' | 'register'
 function genCode(){return 'COL-'+Math.floor(1000+Math.random()*9000);}
 function genId(){return Math.random().toString(36).slice(2,10);}
 function nowTs(){return Date.now();}
+function getTerm(cap=false){
+  const t=userProfile?.term||'lámina';
+  return cap?t.charAt(0).toUpperCase()+t.slice(1):t;
+}
+function getTermPlural(cap=false){
+  const t=userProfile?.term||'lámina';
+  const p=t==='lámina'?'láminas':t==='figurita'?'figuritas':t==='cromo'?'cromos':t==='estampa'?'estampas':t==='calcomania'?'calcomanías':'pegatinas';
+  return cap?p.charAt(0).toUpperCase()+p.slice(1):p;
+}
 function timeAgo(ts){
   const d=(nowTs()-ts)/1000;
   if(d<60)return'hace un momento';
@@ -429,9 +622,14 @@ function timeAgo(ts){
   if(d<86400)return`hace ${Math.floor(d/3600)} h`;
   return`hace ${Math.floor(d/86400)} d`;
 }
+function getAllStickers(){
+  const all=[];
+  SECTIONS.forEach(sec=>{for(let i=1;i<=sec.count;i++)all.push(sec.prefix+i);});
+  return all;
+}
 function getAlbumStats(album={}){
   let have=0,doubles=0,missing=0;
-  for(let i=1;i<=TOTAL;i++){const s=album[i];if(!s||s.state==='missing')missing++;else if(s.state==='have')have++;else{have++;doubles++;}}
+  getAllStickers().forEach(id=>{const s=album[id];if(!s||s.state==='missing')missing++;else if(s.state==='have')have++;else{have++;doubles++;}});
   return{have,doubles,missing};
 }
 function getUserRating(u){if(!u?.ratings?.length)return 0;return u.ratings.reduce((a,b)=>a+b,0)/u.ratings.length;}
@@ -443,12 +641,12 @@ function starsHtml(rating,count){
   if(count!==undefined)h+=`<span style="font-size:10px;color:var(--muted);margin-left:2px">(${count})</span>`;
   return h;
 }
-function getDoublesList(album={}){return Object.entries(album).filter(([,v])=>v.state==='double').map(([k])=>+k);}
-function getMissingList(album={}){const m=[];for(let i=1;i<=TOTAL;i++)if(!album[i]||album[i].state==='missing')m.push(i);return m;}
-function pillsHtml(nums=[],cls,max=14){
-  if(!nums.length)return'<span style="font-size:11px;color:var(--muted)">—</span>';
-  let h=nums.slice(0,max).map(n=>`<span class="pill ${cls}">#${n}</span>`).join('');
-  if(nums.length>max)h+=`<span class="pill">+${nums.length-max}</span>`;
+function getDoublesList(album={}){return Object.entries(album).filter(([,v])=>v.state==='double').map(([k])=>k);}
+function getMissingList(album={}){return getAllStickers().filter(id=>!album[id]||album[id].state==='missing');}
+function pillsHtml(ids=[],cls,max=14){
+  if(!ids.length)return'<span style="font-size:11px;color:var(--muted)">—</span>';
+  let h=ids.slice(0,max).map(id=>`<span class="pill ${cls}">${id}</span>`).join('');
+  if(ids.length>max)h+=`<span class="pill">+${ids.length-max}</span>`;
   return`<div class="pills">${h}</div>`;
 }
 function avHtml(u,size=40){
@@ -589,9 +787,10 @@ window.saveProfile=async function(){
   const city=document.getElementById('s-city').value;
   const contact=document.getElementById('s-contact').value.trim();
   if(!alias){toast('Escribí tu alias');return;}
+  const term=document.getElementById('s-term').value;
   const profile={
     name:currentUser.displayName||alias,
-    alias,city,avatar:setupAvatar,contact,
+    alias,city,avatar:setupAvatar,contact,term,
     code:genCode(),album:{},ratings:[],
     photoURL:currentUser.photoURL||null,
     joinedAt:serverTimestamp(),
@@ -613,7 +812,58 @@ function showApp(){
   el.style.display='flex';el.style.flexDirection='column';
   updateHeader();
   setTab('album');
+  scheduleDonationBanner();
 }
+
+const PAYPAL_URL='https://paypal.me/intercambiaapp';
+let donateTimer=null;
+let donateShown=0;
+
+function scheduleDonationBanner(){
+  // First appearance: 3 minutes after login
+  // Subsequent: every 20 minutes
+  const delay=donateShown===0 ? 3*60*1000 : 20*60*1000;
+  clearTimeout(donateTimer);
+  donateTimer=setTimeout(()=>{
+    showDonateBanner();
+  },delay);
+}
+
+function showDonateBanner(){
+  // Don't show while chat is open or modal is open
+  const chatOpen=document.getElementById('chat-overlay').style.display!=='none';
+  const modalOpen=document.getElementById('modal-ov').style.display!=='none';
+  if(chatOpen||modalOpen){scheduleDonationBanner();return;}
+  donateShown++;
+  const banner=document.getElementById('donate-banner');
+  if(banner){
+    // Vary the message
+    const msgs=[
+      {title:'¡Esta app es gratuita!',sub:'Si te es útil, podés invitarme un café ☕'},
+      {title:'¿Encontraste tus '+getTermPlural()+'?',sub:'Apoyá el proyecto con una donación voluntaria'},
+      {title:'Sin publicidad, sin costos',sub:'Si querés mantener esto vivo, podés colaborar 💙'},
+      {title:'Gracias por usar la app 🏆',sub:'Una pequeña donación ayuda mucho a seguir mejorándola'},
+    ];
+    const m=msgs[(donateShown-1)%msgs.length];
+    const titleEl=banner.querySelector('.d-title');
+    const subEl=banner.querySelector('.d-sub');
+    if(titleEl)titleEl.textContent=m.title;
+    if(subEl)subEl.textContent=m.sub;
+    banner.style.display='flex';
+    // Auto-hide after 12 seconds
+    setTimeout(()=>closeDonate(),12000);
+  }
+  scheduleDonationBanner();
+}
+
+window.openDonate=function(){
+  window.open(PAYPAL_URL,'_blank');
+  closeDonate();
+};
+window.closeDonate=function(){
+  const banner=document.getElementById('donate-banner');
+  if(banner)banner.style.display='none';
+};
 
 function updateHeader(){
   const u=userProfile;
@@ -628,7 +878,7 @@ function updateHeader(){
 
 window.setTab=function(tab){
   currentTab=tab;
-  ['album','tablon','matches','messages','profile'].forEach(t=>{
+  ['album','tablon','matches','messages','profile','groups','faq'].forEach(t=>{
     document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
     const n=document.getElementById('nav-'+t);if(n)n.classList.toggle('act',t===tab);
   });
@@ -639,18 +889,20 @@ window.setTab=function(tab){
   else if(tab==='matches')renderMatches();
   else if(tab==='messages')renderMessages();
   else if(tab==='profile')renderProfile();
+  else if(tab==='groups')renderGroups();
+  else if(tab==='faq')renderFaq();
 };
 
 // ============================================================
 // ALBUM
 // ============================================================
-async function toggleSticker(num){
+async function toggleSticker(id){
   if(!currentUser||!userProfile)return;
   const album=userProfile.album||{};
-  const cur=album[num];
-  if(!cur||cur.state==='missing')album[num]={state:'have'};
-  else if(cur.state==='have')album[num]={state:'double',count:2};
-  else album[num]={state:'missing'};
+  const cur=album[id];
+  if(!cur||cur.state==='missing')album[id]={state:'have'};
+  else if(cur.state==='have')album[id]={state:'double',count:2};
+  else album[id]={state:'missing'};
   userProfile.album=album;
   await saveAlbum(album);
   renderAlbum();
@@ -686,32 +938,31 @@ function renderAlbum(){
   </div>`;
 
   SECTIONS.forEach(sec=>{
-    const range=sec.range;
     let stickers=[];
-    for(let n=range[0];n<=range[1];n++){
-      const st=album[n];const state=st?st.state:'missing';
+    for(let i=1;i<=sec.count;i++){
+      const id=sec.prefix+i;
+      const st=album[id];const state=st?st.state:'missing';
       if(albumFilter==='have'&&state==='missing')continue;
       if(albumFilter==='double'&&state!=='double')continue;
       if(albumFilter==='missing'&&state!=='missing')continue;
-      if(albumSearch&&!String(n).includes(albumSearch)&&!sec.name.toLowerCase().includes(albumSearch.toLowerCase()))continue;
-      stickers.push({n,state,count:st?.count||0});
+      if(albumSearch&&!id.toLowerCase().includes(albumSearch.toLowerCase())&&!sec.name.toLowerCase().includes(albumSearch.toLowerCase()))continue;
+      stickers.push({id,state,count:st?.count||0});
     }
     if(!stickers.length&&(albumFilter!=='all'||albumSearch))return;
-    const total=range[1]-range[0]+1;
-    const haveC=Array.from({length:total},(_,i)=>range[0]+i).filter(n=>album[n]&&album[n].state!=='missing').length;
+    const haveC=Array.from({length:sec.count},(_,i)=>sec.prefix+(i+1)).filter(id=>album[id]&&album[id].state!=='missing').length;
     const isOpen=openSections[sec.id]||(albumFilter!=='all')||albumSearch;
     h+=`<div style="margin-bottom:6px">
       <div class="sec-hdr" onclick="toggleSection('${sec.id}')">
         <span style="font-size:18px">${sec.flag}</span>
         <span class="sec-name">${sec.name}</span>
-        <span style="font-size:10px;opacity:.8;font-weight:600">${haveC}/${total}</span>
+        <span style="font-size:10px;opacity:.8;font-weight:600">${haveC}/${sec.count}</span>
         <span class="sec-chev ${isOpen?'open':''}">▼</span>
       </div>`;
     if(isOpen&&stickers.length){
       h+=`<div class="sticker-grid">`;
-      stickers.forEach(({n,state,count})=>{
-        h+=`<div class="stk ${state}" onclick="stickerClick(${n},this)">
-          <span class="stk-n">${n}</span>
+      stickers.forEach(({id,state,count})=>{
+        h+=`<div class="stk ${state}" onclick="stickerClick('${id.replace("'","\'")}',this)">
+          <span class="stk-n" style="font-size:10px">${id}</span>
           ${state==='have'?'<span class="stk-ico">✓</span>':''}
           ${state==='double'?`<span class="stk-ico">★</span>${count>1?`<span class="stk-c">×${count}</span>`:''}`:''} 
         </div>`;
@@ -723,9 +974,9 @@ function renderAlbum(){
   tab.innerHTML=h;
 }
 
-window.stickerClick=function(n,el){
+window.stickerClick=function(id,el){
   el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);
-  toggleSticker(n);
+  toggleSticker(id);
 };
 window.toggleSection=function(id){openSections[id]=!openSections[id];renderAlbum();};
 window.setAlbumFilter=function(f){albumFilter=f;renderAlbum();};
@@ -803,29 +1054,63 @@ window.openCreatePost=function(){
 // ============================================================
 // MATCHES
 // ============================================================
+let matchProximity='all';
 async function renderMatches(){
   await loadAllUsers();
   const tab=document.getElementById('tab-matches');
   const myAlbum=userProfile?.album||{};
+  const myCity=userProfile?.city||'';
   const myDoubles=getDoublesList(myAlbum);
   const myMissing=getMissingList(myAlbum);
-  const matches=allUsers.filter(u=>u.id!==currentUser?.uid).map(other=>{
+
+  let filtered=allUsers.filter(u=>u.id!==currentUser?.uid);
+  if(matchProximity==='city')filtered=filtered.filter(u=>u.city===myCity);
+  else if(matchProximity==='country'){
+    // match by country prefix from city name (simple heuristic using known cities)
+    const myCountry=getCityCountry(myCity);
+    filtered=filtered.filter(u=>getCityCountry(u.city)===myCountry);
+  }
+
+  const matches=filtered.map(other=>{
     const oa=other.album||{};
     const od=getDoublesList(oa);const om=getMissingList(oa);
     const canGive=myDoubles.filter(n=>om.includes(n)).length;
     const canReceive=od.filter(n=>myMissing.includes(n)).length;
     const score=Math.min(canGive,canReceive);
-    return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1};
-  }).filter(m=>m.score>0).sort((a,b)=>b.score-a.score);
+    const sameCity=other.city===myCity;
+    const sameCountry=getCityCountry(other.city)===getCityCountry(myCity);
+    return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1,sameCity,sameCountry};
+  }).filter(m=>m.score>0).sort((a,b)=>{
+    // Sort: same city first, then same country, then by score
+    if(a.sameCity&&!b.sameCity)return -1;
+    if(!a.sameCity&&b.sameCity)return 1;
+    if(a.sameCountry&&!b.sameCountry)return -1;
+    if(!a.sameCountry&&b.sameCountry)return 1;
+    return b.score-a.score;
+  });
+
+  const term=getTermPlural();
   let h=`<div style="background:var(--green);padding:13px;color:#fff">
     <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">MIS MATCHES</div>
     <div style="font-size:11px;opacity:.8;margin-top:2px">${matches.length} coleccionistas compatibles</div>
+  </div>
+  <div class="filter-row">
+    <button class="chip ${matchProximity==='all'?'act':''}" onclick="setMatchProx('all')">🌎 Todos</button>
+    <button class="chip ${matchProximity==='country'?'act':''}" onclick="setMatchProx('country')">🗺️ Mi país</button>
+    <button class="chip ${matchProximity==='city'?'act':''}" onclick="setMatchProx('city')">📍 Mi ciudad</button>
   </div>`;
-  if(!matches.length){tab.innerHTML=h+`<div class="empty"><div class="ei">🔍</div><p>No hay matches aún. Marcá láminas en tu álbum para encontrar coincidencias.</p></div>`;return;}
-  matches.forEach(({user:other,canGive,canReceive,perfect})=>{
+
+  if(!matches.length){tab.innerHTML=h+`<div class="empty"><div class="ei">🔍</div><p>No hay matches ${matchProximity!=='all'?'en tu zona. Probá ampliar el filtro.':'aún. Marcá ${term} en tu álbum para encontrar coincidencias.'}</p></div>`;return;}
+  matches.forEach(({user:other,canGive,canReceive,perfect,sameCity,sameCountry})=>{
     const rating=getUserRating(other);
+    let proxBadge='';
+    if(sameCity)proxBadge=`<span style="background:#e8f5ee;color:var(--green-d);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">📍 Tu ciudad</span>`;
+    else if(sameCountry)proxBadge=`<span style="background:#e8f0ff;color:#3346a0;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">🗺️ Tu país</span>`;
     h+=`<div class="match-card ${perfect?'perf':''}">
-      ${perfect?`<div class="m-badge">✦ Match Perfecto</div>`:''}
+      <div style="display:flex;gap:6px;margin-bottom:7px;flex-wrap:wrap">
+        ${perfect?`<div class="m-badge">✦ Match Perfecto</div>`:''}
+        ${proxBadge}
+      </div>
       <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
         ${avHtml(other)}<div>
           <div style="font-weight:700;font-size:14px">${other.alias}</div>
@@ -842,6 +1127,52 @@ async function renderMatches(){
   });
   tab.innerHTML=h;
 }
+window.setMatchProx=function(p){matchProximity=p;renderMatches();};
+
+// Country detection from city name
+const CITY_COUNTRY={
+  // Argentina
+  'Buenos Aires':'AR','Córdoba':'AR','Rosario':'AR','Mendoza':'AR','Tucumán':'AR','La Plata':'AR','Mar del Plata':'AR','Salta':'AR','Santa Fe':'AR','San Juan':'AR','Resistencia':'AR','Neuquén':'AR',
+  // Bolivia
+  'La Paz':'BO','Santa Cruz de la Sierra':'BO','Cochabamba':'BO','Oruro':'BO','Potosí':'BO','Sucre':'BO','Tarija':'BO','Trinidad':'BO',
+  // Brasil
+  'São Paulo':'BR','Río de Janeiro':'BR','Brasilia':'BR','Salvador':'BR','Fortaleza':'BR','Belo Horizonte':'BR','Manaus':'BR','Curitiba':'BR','Recife':'BR','Porto Alegre':'BR','Belém':'BR','Goiânia':'BR',
+  // Chile
+  'Santiago':'CL','Valparaíso':'CL','Concepción':'CL','La Serena':'CL','Antofagasta':'CL','Temuco':'CL','Rancagua':'CL','Talca':'CL','Arica':'CL','Iquique':'CL','Puerto Montt':'CL','Coquimbo':'CL','Osorno':'CL','Quilpué':'CL','Calama':'CL',
+  // Colombia
+  'Bogotá':'CO','Medellín':'CO','Cali':'CO','Barranquilla':'CO','Cartagena':'CO','Cúcuta':'CO','Bucaramanga':'CO','Pereira':'CO','Santa Marta':'CO','Ibagué':'CO','Manizales':'CO','Pasto':'CO',
+  // Costa Rica
+  'San José':'CR','Alajuela':'CR','Cartago':'CR','Heredia':'CR','Liberia':'CR',
+  // Cuba
+  'La Habana':'CU','Santiago de Cuba':'CU','Camagüey':'CU','Holguín':'CU','Guantánamo':'CU',
+  // Rep. Dominicana
+  'Santo Domingo':'DO','Santiago de los Caballeros':'DO','La Romana':'DO','San Pedro de Macorís':'DO',
+  // Ecuador
+  'Quito':'EC','Guayaquil':'EC','Cuenca':'EC','Machala':'EC','Durán':'EC','Manta':'EC','Portoviejo':'EC','Loja':'EC','Ambato':'EC',
+  // El Salvador
+  'San Salvador':'SV','Soyapango':'SV','Santa Ana':'SV','San Miguel':'SV','Mejicanos':'SV',
+  // Guatemala
+  'Ciudad de Guatemala':'GT','Mixco':'GT','Villa Nueva':'GT','Quetzaltenango':'GT','Escuintla':'GT',
+  // Honduras
+  'Tegucigalpa':'HN','San Pedro Sula':'HN','Choloma':'HN','La Ceiba':'HN','El Progreso':'HN',
+  // México
+  'Ciudad de México':'MX','Guadalajara':'MX','Monterrey':'MX','Puebla':'MX','Tijuana':'MX','León':'MX','Juárez':'MX','Zapopan':'MX','Mérida':'MX','San Luis Potosí':'MX','Aguascalientes':'MX','Hermosillo':'MX','Mexicali':'MX','Cancún':'MX','Culiacán':'MX','Acapulco':'MX','Querétaro':'MX','Chihuahua':'MX',
+  // Nicaragua
+  'Managua':'NI','León':'NI','Masaya':'NI','Matagalpa':'NI','Chinandega':'NI',
+  // Panamá
+  'Ciudad de Panamá':'PA','Colón':'PA','David':'PA','La Chorrera':'PA',
+  // Paraguay
+  'Asunción':'PY','Ciudad del Este':'PY','San Lorenzo':'PY','Luque':'PY','Capiatá':'PY','Encarnación':'PY',
+  // Perú
+  'Lima':'PE','Arequipa':'PE','Trujillo':'PE','Chiclayo':'PE','Iquitos':'PE','Piura':'PE','Cusco':'PE','Huancayo':'PE','Tacna':'PE',
+  // Puerto Rico
+  'San Juan':'PR','Bayamón':'PR','Carolina':'PR','Ponce':'PR','Caguas':'PR',
+  // Uruguay
+  'Montevideo':'UY','Salto':'UY','Paysandú':'UY','Las Piedras':'UY','Rivera':'UY','Maldonado':'UY',
+  // Venezuela
+  'Caracas':'VE','Maracaibo':'VE','Valencia':'VE','Barquisimeto':'VE','Maracay':'VE','Ciudad Guayana':'VE','Barcelona':'VE','Maturín':'VE','San Cristóbal':'VE',
+};
+function getCityCountry(city){return CITY_COUNTRY[city]||'XX';}
 
 // ============================================================
 // MENSAJES
@@ -1169,6 +1500,597 @@ function showModal(title,body,onConfirm,confirmLabel='Confirmar'){
 function closeModal(){const ov=document.getElementById('modal-ov');ov.style.display='none';ov.innerHTML='';}
 window.closeModal=closeModal;
 window.showModal=showModal;
+
+// ============================================================
+// GROUPS
+// ============================================================
+const GROUP_EMOJIS=['⚽','🏆','🎯','🦁','🔥','💎','🌟','🏅','👑','🎪','🏟️','🎭','🎨','🚀','💪','🦅','🐯','🦊','🌍','🎸','🍕','☕','🏄','🎲','🤝','🏫','🏢','🎓','👨‍👩‍👧‍👦','🌈'];
+let myGroups=[];
+let allGroupsCache=[];
+let currentGroupId=null;
+let currentGroupTab='members';
+let groupSearch='';
+
+function genGroupCode(){return 'GRP-'+Math.floor(1000+Math.random()*9000);}
+
+async function loadMyGroups(){
+  if(!currentUser)return;
+  const {query,collection,where,getDocs,orderBy}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const snap=await getDocs(query(collection(db,'groups'),where('memberIds','array-contains',currentUser.uid)));
+  myGroups=snap.docs.map(d=>({id:d.id,...d.data(),createdAt:d.data().createdAt?.toMillis?.()??nowTs()}));
+}
+
+async function loadAllGroups(search=''){
+  const {query,collection,getDocs,orderBy,limit}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const snap=await getDocs(collection(db,'groups'));
+  allGroupsCache=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(search)allGroupsCache=allGroupsCache.filter(g=>g.name.toLowerCase().includes(search.toLowerCase())||g.description?.toLowerCase().includes(search.toLowerCase()));
+}
+
+async function renderGroups(){
+  await loadMyGroups();
+  const tab=document.getElementById('tab-groups');
+  let h=`<div style="background:var(--green);padding:13px;color:#fff">
+    <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">👥 GRUPOS</div>
+    <div style="font-size:11px;opacity:.8;margin-top:2px">Intercambiá con tu círculo</div>
+  </div>
+  <div class="filter-row">
+    <button class="chip act" id="gtab-mine" onclick="showGroupsTab('mine')">Mis grupos</button>
+    <button class="chip" id="gtab-discover" onclick="showGroupsTab('discover')">Descubrir</button>
+    <button class="chip" id="gtab-join" onclick="showJoinByCode()">🔑 Código</button>
+  </div>
+  <div id="groups-content">`;
+
+  if(!myGroups.length){
+    h+=`<div class="empty"><div class="ei">👥</div><p>Aún no estás en ningún grupo.<br>Creá uno o buscá uno existente.</p></div>`;
+  } else {
+    myGroups.forEach(g=>{ h+=groupCardHtml(g,true); });
+  }
+  h+=`</div><div style="height:80px"></div>`;
+  tab.innerHTML=h;
+  tab.innerHTML+=`<button class="fab" onclick="openCreateGroup()">+</button>`;
+}
+
+function groupCardHtml(g, isMine){
+  const memberCount=g.memberIds?.length||1;
+  const pendingCount=g.pendingIds?.length||0;
+  const isAdmin=g.adminId===currentUser?.uid;
+  let roleBadge='';
+  if(isAdmin)roleBadge=`<span class="join-badge join-admin">Admin</span>`;
+  else if(isMine)roleBadge=`<span class="join-badge join-member">Miembro</span>`;
+  return`<div class="group-card" onclick="openGroup('${g.id}')">
+    <div style="display:flex;align-items:center;gap:11px">
+      <div class="group-icon">${g.emoji||'⚽'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div class="group-name">${g.name}</div>${roleBadge}
+        </div>
+        <div class="group-desc">${g.description||'Sin descripción'}</div>
+        <div class="group-meta">
+          <span>👥 ${memberCount} miembro${memberCount!==1?'s':''}</span>
+          ${pendingCount&&isAdmin?`<span style="color:var(--gold-d)">⏳ ${pendingCount} pendiente${pendingCount!==1?'s':''}</span>`:''}
+          <span>🔑 ${g.code}</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+window.showGroupsTab=async function(tab){
+  document.querySelectorAll('[id^="gtab-"]').forEach(el=>el.classList.remove('act'));
+  document.getElementById('gtab-'+tab)?.classList.add('act');
+  const cont=document.getElementById('groups-content');
+  if(!cont)return;
+  if(tab==='mine'){
+    await loadMyGroups();
+    if(!myGroups.length){cont.innerHTML=`<div class="empty"><div class="ei">👥</div><p>No estás en ningún grupo aún.</p></div>`;return;}
+    cont.innerHTML=myGroups.map(g=>groupCardHtml(g,true)).join('');
+  } else {
+    await loadAllGroups(groupSearch);
+    const others=allGroupsCache.filter(g=>!g.memberIds?.includes(currentUser?.uid)&&!g.pendingIds?.includes(currentUser?.uid));
+    const pending=allGroupsCache.filter(g=>g.pendingIds?.includes(currentUser?.uid));
+    let h='';
+    if(pending.length){
+      h+=`<div style="padding:8px 14px 4px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase">Solicitudes pendientes</div>`;
+      h+=pending.map(g=>`<div class="group-card">
+        <div style="display:flex;align-items:center;gap:11px">
+          <div class="group-icon">${g.emoji||'⚽'}</div>
+          <div style="flex:1"><div class="group-name">${g.name}</div><div class="group-desc">${g.description||''}</div></div>
+          <span class="join-badge join-pending">⏳ Pendiente</span>
+        </div>
+      </div>`).join('');
+    }
+    h+=`<div style="padding:8px 14px 4px"><div class="search-box" style="margin:0">
+      <span>🔍</span>
+      <input placeholder="Buscar grupos..." oninput="searchGroups(this.value)" style="flex:1;border:none;outline:none;padding:8px 7px;font-size:13px;font-family:inherit;background:transparent">
+    </div></div>`;
+    if(!others.length)h+=`<div class="empty"><div class="ei">🔍</div><p>No hay más grupos disponibles.</p></div>`;
+    else h+=others.map(g=>`<div class="group-card">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="group-icon">${g.emoji||'⚽'}</div>
+        <div style="flex:1;min-width:0">
+          <div class="group-name">${g.name}</div>
+          <div class="group-desc">${g.description||''}</div>
+          <div class="group-meta"><span>👥 ${g.memberIds?.length||1}</span><span>🔑 ${g.code}</span></div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();requestJoinGroup('${g.id}')">Solicitar</button>
+      </div>
+    </div>`).join('');
+    cont.innerHTML=h;
+  }
+};
+
+window.searchGroups=async function(v){
+  groupSearch=v;
+  await loadAllGroups(v);
+  const others=allGroupsCache.filter(g=>!g.memberIds?.includes(currentUser?.uid));
+  const cont=document.getElementById('groups-content');
+  if(cont){
+    const cards=others.map(g=>`<div class="group-card">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="group-icon">${g.emoji||'⚽'}</div>
+        <div style="flex:1;min-width:0">
+          <div class="group-name">${g.name}</div>
+          <div class="group-desc">${g.description||''}</div>
+          <div class="group-meta"><span>👥 ${g.memberIds?.length||1}</span></div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();requestJoinGroup('${g.id}')">Solicitar</button>
+      </div>
+    </div>`).join('');
+    // Replace only the cards part after the search box
+    const existing=cont.innerHTML;
+    const searchBox=existing.split('<div class="group-card">')[0];
+    cont.innerHTML=searchBox+(cards||`<div class="empty"><div class="ei">🔍</div><p>Sin resultados.</p></div>`);
+  }
+};
+
+// JOIN BY CODE
+window.showJoinByCode=function(){
+  showModal('Unirse con código',`
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Ingresá el código del grupo (formato GRP-XXXX)</p>
+    <input class="form-input" id="join-code-input" placeholder="GRP-1234" style="text-transform:uppercase;letter-spacing:2px;font-family:'Anton',sans-serif;font-size:18px;text-align:center">
+  `,async()=>{
+    const code=document.getElementById('join-code-input').value.trim().toUpperCase();
+    if(!code.startsWith('GRP-')||code.length!==8){toast('Código inválido. Formato: GRP-1234');return;}
+    const {query,collection,where,getDocs}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const snap=await getDocs(query(collection(db,'groups'),where('code','==',code)));
+    if(snap.empty){toast('Código no encontrado','err');return;}
+    const gDoc=snap.docs[0];
+    const g={id:gDoc.id,...gDoc.data()};
+    if(g.memberIds?.includes(currentUser.uid)){toast('Ya sos miembro de este grupo');closeModal();return;}
+    // Code join = auto approved
+    const {updateDoc,arrayUnion}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    await updateDoc(gDoc.ref,{memberIds:arrayUnion(currentUser.uid)});
+    toast(`✅ ¡Te uniste a ${g.name}!`,'gold');
+    closeModal();
+    await renderGroups();
+  },'Unirse');
+};
+
+// REQUEST JOIN
+window.requestJoinGroup=async function(groupId){
+  const {doc,updateDoc,arrayUnion}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const g=allGroupsCache.find(x=>x.id===groupId);
+  if(!g)return;
+  if(g.memberIds?.includes(currentUser.uid)){toast('Ya sos miembro');return;}
+  if(g.pendingIds?.includes(currentUser.uid)){toast('Ya enviaste una solicitud');return;}
+  await updateDoc(doc(db,'groups',groupId),{pendingIds:arrayUnion(currentUser.uid)});
+  toast(`📨 Solicitud enviada a "${g.name}"`);
+  showGroupsTab('discover');
+};
+
+// CREATE GROUP
+let createGroupEmoji='⚽';
+window.openCreateGroup=function(){
+  createGroupEmoji='⚽';
+  const body=`
+    <div class="form-group">
+      <label class="form-label">Nombre del grupo</label>
+      <input class="form-input" id="cg-name" placeholder="Ej: Oficina Rutpay, Facu Ing., Amigos del barrio">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descripción</label>
+      <textarea class="form-input" id="cg-desc" placeholder="¿De qué se trata el grupo?" style="resize:none;height:70px"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ícono del grupo</label>
+      <div class="emoji-picker" id="cg-emoji-picker">
+        ${GROUP_EMOJIS.map(e=>`<span class="emoji-opt ${e==='⚽'?'sel':''}" onclick="selectGroupEmoji('${e}',this)">${e}</span>`).join('')}
+      </div>
+    </div>`;
+  showModal('Crear grupo',body,async()=>{
+    const name=document.getElementById('cg-name').value.trim();
+    const desc=document.getElementById('cg-desc').value.trim();
+    if(!name){toast('Poné un nombre al grupo');return;}
+    const {addDoc,collection,serverTimestamp}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const groupData={
+      name,description:desc,emoji:createGroupEmoji,
+      code:genGroupCode(),adminId:currentUser.uid,
+      memberIds:[currentUser.uid],pendingIds:[],
+      createdAt:serverTimestamp(),
+    };
+    await addDoc(collection(db,'groups'),groupData);
+    toast(`🎉 Grupo "${name}" creado`,'gold');
+    closeModal();
+    await renderGroups();
+  },'Crear grupo');
+};
+window.selectGroupEmoji=function(e,el){
+  createGroupEmoji=e;
+  document.querySelectorAll('#cg-emoji-picker .emoji-opt').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+};
+
+// OPEN GROUP VIEW
+window.openGroup=async function(groupId){
+  const {doc,getDoc,collection,getDocs,query,orderBy}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const gSnap=await getDoc(doc(db,'groups',groupId));
+  if(!gSnap.exists())return;
+  const g={id:gSnap.id,...gSnap.data()};
+  currentGroupId=groupId;
+  currentGroupTab='members';
+  const overlay=document.getElementById('group-overlay');
+  overlay.style.display='block';
+  await renderGroupView(g);
+};
+
+async function renderGroupView(g){
+  const overlay=document.getElementById('group-overlay');
+  const isAdmin=g.adminId===currentUser?.uid;
+  overlay.innerHTML=`<div class="group-view">
+    <div class="group-hdr">
+      <button onclick="closeGroupOverlay()" style="background:none;border:none;color:#fff;font-size:19px;cursor:pointer">←</button>
+      <div style="font-size:28px">${g.emoji||'⚽'}</div>
+      <div style="flex:1">
+        <div style="font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px">${g.name}</div>
+        <div style="font-size:10px;opacity:.75">${g.memberIds?.length||1} miembros · ${g.code}</div>
+      </div>
+      <button onclick="shareGroupCode('${g.code}')" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer">📋 Código</button>
+    </div>
+    <div class="group-tabs">
+      <button class="gtab act" id="gvtab-members" onclick="switchGroupTab('members','${g.id}')">👥 Miembros</button>
+      <button class="gtab" id="gvtab-matches" onclick="switchGroupTab('matches','${g.id}')">🎯 Matches</button>
+      <button class="gtab" id="gvtab-chat" onclick="switchGroupTab('chat','${g.id}')">💬 Chat</button>
+      <button class="gtab" id="gvtab-ranking" onclick="switchGroupTab('ranking','${g.id}')">🏆 Ranking</button>
+    </div>
+    <div class="group-content" id="group-tab-content"></div>
+  </div>`;
+  await loadGroupTab('members',g);
+}
+
+window.switchGroupTab=async function(tab,groupId){
+  currentGroupTab=tab;
+  document.querySelectorAll('[id^="gvtab-"]').forEach(el=>el.classList.remove('act'));
+  document.getElementById('gvtab-'+tab)?.classList.add('act');
+  const {doc,getDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const gSnap=await getDoc(doc(db,'groups',groupId));
+  if(gSnap.exists())await loadGroupTab(tab,{id:gSnap.id,...gSnap.data()});
+};
+
+async function loadGroupTab(tab,g){
+  const cont=document.getElementById('group-tab-content');
+  if(!cont)return;
+  const isAdmin=g.adminId===currentUser?.uid;
+
+  if(tab==='members'){
+    // Load member profiles
+    const {doc,getDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const members=await Promise.all((g.memberIds||[]).map(async id=>{
+      const snap=await getDoc(doc(db,'users',id));
+      return snap.exists()?{id:snap.id,...snap.data()}:null;
+    }));
+    const pending=isAdmin?await Promise.all((g.pendingIds||[]).map(async id=>{
+      const snap=await getDoc(doc(db,'users',id));
+      return snap.exists()?{id:snap.id,...snap.data()}:null;
+    })):[];
+
+    let h='';
+    if(isAdmin&&pending.filter(Boolean).length){
+      h+=`<div style="padding:10px 14px 4px;font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase">⏳ Solicitudes pendientes</div>`;
+      pending.filter(Boolean).forEach(u=>{
+        h+=`<div class="member-row">
+          ${avHtml(u)}
+          <div style="flex:1"><div style="font-weight:700;font-size:13px">${u.alias}</div><div style="font-size:11px;color:var(--muted)">📍 ${u.city}</div></div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm" style="background:#e8f5ee;color:var(--green-d);min-height:32px" onclick="approveGroupMember('${g.id}','${u.id}')">✓</button>
+            <button class="btn btn-sm btn-danger" style="min-height:32px" onclick="rejectGroupMember('${g.id}','${u.id}')">✕</button>
+          </div>
+        </div>`;
+      });
+      h+=`<div style="height:1px;background:var(--gray-l);margin:4px 0"></div>`;
+    }
+
+    h+=`<div style="padding:10px 14px 4px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase">Miembros (${members.filter(Boolean).length})</div>`;
+    members.filter(Boolean).forEach(u=>{
+      const stats=getAlbumStats(u.album||{});
+      const pct=Math.round(stats.have/TOTAL_STICKERS*100);
+      const isMe=u.id===currentUser?.uid;
+      h+=`<div class="member-row">
+        ${avHtml(u)}
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:13px">${u.alias}${isMe?' (vos)':''}</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px">
+            <div style="background:var(--gray-l);border-radius:100px;height:5px;width:100%;overflow:hidden;margin-top:4px">
+              <div style="background:var(--green);height:100%;border-radius:100px;width:${pct}%"></div>
+            </div>
+            <span>${pct}% completado</span>
+          </div>
+        </div>
+        ${!isMe?`<button class="btn btn-sm" style="background:var(--gray-l);color:var(--text);min-height:32px" onclick="openChatWith('${u.id}')">💬</button>`:''}
+        ${isAdmin&&!isMe?`<button class="btn btn-sm btn-danger" style="min-height:32px" onclick="removeMember('${g.id}','${u.id}')">✕</button>`:''}
+      </div>`;
+    });
+    if(isAdmin){
+      h+=`<div style="padding:14px">
+        <button class="btn btn-danger btn-full" onclick="deleteGroup('${g.id}','${g.name}')">🗑 Eliminar grupo</button>
+      </div>`;
+    } else {
+      h+=`<div style="padding:14px">
+        <button class="btn btn-secondary btn-full" onclick="leaveGroup('${g.id}')">🚪 Salir del grupo</button>
+      </div>`;
+    }
+    cont.innerHTML=h;
+  }
+
+  else if(tab==='matches'){
+    const {doc,getDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const members=await Promise.all((g.memberIds||[]).filter(id=>id!==currentUser?.uid).map(async id=>{
+      const snap=await getDoc(doc(db,'users',id));
+      return snap.exists()?{id:snap.id,...snap.data()}:null;
+    }));
+    const myAlbum=userProfile?.album||{};
+    const myDoubles=getDoublesList(myAlbum);
+    const myMissing=getMissingList(myAlbum);
+    const matches=members.filter(Boolean).map(other=>{
+      const oa=other.album||{};
+      const od=getDoublesList(oa);const om=getMissingList(oa);
+      const canGive=myDoubles.filter(n=>om.includes(n)).length;
+      const canReceive=od.filter(n=>myMissing.includes(n)).length;
+      const score=Math.min(canGive,canReceive);
+      return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1};
+    }).filter(m=>m.score>0).sort((a,b)=>b.score-a.score);
+
+    const term=getTermPlural();
+    let h=`<div style="padding:12px 14px;font-size:12px;color:var(--muted)">Matches con los ${g.memberIds?.length-1} miembros del grupo</div>`;
+    if(!matches.length)h+=`<div class="empty"><div class="ei">🔍</div><p>No hay matches dentro del grupo aún. Marcá más ${term} en tu álbum.</p></div>`;
+    matches.forEach(({user:other,canGive,canReceive,perfect})=>{
+      h+=`<div class="match-card ${perfect?'perf':''}" style="margin:7px 14px">
+        ${perfect?`<div class="m-badge">✦ Match Perfecto</div>`:''}
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+          ${avHtml(other)}<div>
+            <div style="font-weight:700;font-size:14px">${other.alias}</div>
+            <div style="font-size:11px;color:var(--muted)">${starsHtml(getUserRating(other))}</div>
+          </div>
+        </div>
+        <div class="m-nums">
+          <div class="m-box"><div class="m-num g">${canGive}</div><div style="font-size:9px;color:var(--muted);font-weight:600">Puedo darle</div></div>
+          <div style="display:flex;align-items:center;color:var(--muted);font-size:18px">⇄</div>
+          <div class="m-box"><div class="m-num au">${canReceive}</div><div style="font-size:9px;color:var(--muted);font-weight:600">Me puede dar</div></div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="openChatWith('${other.id}')">💬 Iniciar intercambio</button>
+      </div>`;
+    });
+    cont.innerHTML=h;
+  }
+
+  else if(tab==='chat'){
+    const {collection,getDocs,query,orderBy,addDoc,serverTimestamp}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const msgsSnap=await getDocs(query(collection(db,'groups',g.id,'messages'),orderBy('createdAt','asc')));
+    const msgs=msgsSnap.docs.map(d=>({id:d.id,...d.data(),ts:d.data().createdAt?.toMillis?.()??nowTs()}));
+    let h=`<div style="display:flex;flex-direction:column;height:100%">
+      <div id="gchat-msgs" style="flex:1;overflow-y:auto;padding:11px 14px;display:flex;flex-direction:column;gap:7px">`;
+    if(!msgs.length)h+=`<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">Nadie ha escrito aún. ¡Sé el primero!</div>`;
+    msgs.forEach(msg=>{
+      const mine=msg.from===currentUser?.uid;
+      const sender=allUsers.find(u=>u.id===msg.from)||{alias:'Usuario',avatar:'👤'};
+      h+=`<div style="display:flex;flex-direction:column;align-items:${mine?'flex-end':'flex-start'}">
+        ${!mine?`<div style="font-size:10px;color:var(--muted);margin-bottom:2px">${sender.alias}</div>`:''}
+        <div class="bubble ${mine?'mine':'theirs'}">${msg.text}</div>
+        <div style="font-size:9px;opacity:.55;margin-top:3px">${timeAgo(msg.ts)}</div>
+      </div>`;
+    });
+    h+=`</div>
+      <div style="display:flex;gap:7px;padding:9px 14px;background:#fff;border-top:1px solid var(--gray-l);flex-shrink:0">
+        <input class="c-input" id="gchat-input" placeholder="Mensaje al grupo..." onkeydown="if(event.key==='Enter')sendGroupMsg('${g.id}')">
+        <button class="send-btn" onclick="sendGroupMsg('${g.id}')">↑</button>
+      </div>
+    </div>`;
+    cont.innerHTML=h;
+    setTimeout(()=>{const m=document.getElementById('gchat-msgs');if(m)m.scrollTop=m.scrollHeight;},50);
+  }
+
+  else if(tab==='ranking'){
+    const {doc,getDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const members=await Promise.all((g.memberIds||[]).map(async id=>{
+      const snap=await getDoc(doc(db,'users',id));
+      return snap.exists()?{id:snap.id,...snap.data()}:null;
+    }));
+    const ranked=members.filter(Boolean).map(u=>{
+      const stats=getAlbumStats(u.album||{});
+      const pct=Math.round(stats.have/TOTAL_STICKERS*100);
+      return{...u,pct,have:stats.have,doubles:stats.doubles};
+    }).sort((a,b)=>b.pct-a.pct);
+
+    let h=`<div style="padding:12px 14px;font-size:12px;color:var(--muted)">Ranking de progreso del grupo</div>`;
+    ranked.forEach((u,i)=>{
+      const rankClass=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-n';
+      const isMe=u.id===currentUser?.uid;
+      h+=`<div class="member-row" style="${isMe?'background:#f0f8f4':''}">
+        <div class="rank-badge ${rankClass}">${i+1}</div>
+        ${avHtml(u)}
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:13px">${u.alias}${isMe?' 👈':''}</div>
+          <div style="margin-top:4px">
+            <div style="background:var(--gray-l);border-radius:100px;height:6px;width:100%;overflow:hidden">
+              <div style="background:${i===0?'var(--gold)':'var(--green)'};height:100%;border-radius:100px;width:${u.pct}%;transition:width .5s"></div>
+            </div>
+            <div style="font-size:10px;color:var(--muted);margin-top:3px">${u.have} ${getTermPlural()} · ${u.pct}%</div>
+          </div>
+        </div>
+        <div style="font-family:'Anton',sans-serif;font-size:20px;color:${i===0?'var(--gold-d)':'var(--green)'}">${u.pct}%</div>
+      </div>`;
+    });
+    cont.innerHTML=h;
+  }
+}
+
+window.sendGroupMsg=async function(groupId){
+  const inp=document.getElementById('gchat-input');
+  if(!inp?.value.trim())return;
+  const text=inp.value.trim();inp.value='';
+  const {addDoc,collection,serverTimestamp,doc,updateDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  await addDoc(collection(db,'groups',groupId,'messages'),{from:currentUser.uid,text,createdAt:serverTimestamp()});
+  const msgs=document.getElementById('gchat-msgs');
+  if(msgs){
+    const me=userProfile;
+    const div=document.createElement('div');
+    div.style.cssText='display:flex;flex-direction:column;align-items:flex-end';
+    div.innerHTML=`<div class="bubble mine">${text}</div><div style="font-size:9px;opacity:.55;margin-top:3px">ahora</div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+};
+
+window.approveGroupMember=async function(groupId,userId){
+  const {doc,updateDoc,arrayUnion,arrayRemove}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  await updateDoc(doc(db,'groups',groupId),{memberIds:arrayUnion(userId),pendingIds:arrayRemove(userId)});
+  toast('✅ Miembro aprobado');
+  openGroup(groupId);
+};
+window.rejectGroupMember=async function(groupId,userId){
+  const {doc,updateDoc,arrayRemove}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  await updateDoc(doc(db,'groups',groupId),{pendingIds:arrayRemove(userId)});
+  toast('❌ Solicitud rechazada');
+  openGroup(groupId);
+};
+window.removeMember=async function(groupId,userId){
+  if(!confirm('¿Querés remover a este miembro?'))return;
+  const {doc,updateDoc,arrayRemove}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  await updateDoc(doc(db,'groups',groupId),{memberIds:arrayRemove(userId)});
+  toast('Miembro removido');openGroup(groupId);
+};
+window.leaveGroup=async function(groupId){
+  if(!confirm('¿Querés salir del grupo?'))return;
+  const {doc,updateDoc,arrayRemove}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  await updateDoc(doc(db,'groups',groupId),{memberIds:arrayRemove(currentUser.uid)});
+  toast('Saliste del grupo');closeGroupOverlay();renderGroups();
+};
+window.deleteGroup=async function(groupId,name){
+  if(!confirm(`¿Eliminar el grupo "${name}"? Esta acción no se puede deshacer.`))return;
+  const {doc,deleteDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  await deleteDoc(doc(db,'groups',groupId));
+  toast('Grupo eliminado');closeGroupOverlay();renderGroups();
+};
+window.shareGroupCode=function(code){
+  try{navigator.clipboard.writeText(code);}catch(e){}
+  toast('✅ Código copiado: '+code,'gold');
+};
+window.closeGroupOverlay=function(){
+  const ov=document.getElementById('group-overlay');
+  ov.style.display='none';ov.innerHTML='';
+  currentGroupId=null;
+};
+
+// ============================================================
+// FAQ
+// ============================================================
+function renderFaq(){
+  const tab=document.getElementById('tab-faq');
+  const term=getTermPlural();
+  const termCap=getTermPlural(true);
+  const faqItems=[
+    {
+      q:`¿Cómo marco una ${getTerm()} como obtenida?`,
+      a:`En la sección Álbum, tocá cualquier ${getTerm()}. El primer toque la marca como ✓ Tengo (verde). El segundo toque la marca como ★ Doble (amarillo). El tercero la vuelve a Falta (gris). Así podés llevar un registro exacto de tu colección.`
+    },
+    {
+      q:`¿Cómo funciona el sistema de Matches?`,
+      a:`El motor de matching cruza automáticamente tu álbum con el de todos los demás usuarios. Calcula cuántas ${term} podés darle a cada persona (tus dobles que a ellos les faltan) y cuántas ellos pueden darte. Podés filtrar por ciudad o país para encontrar coleccionistas cercanos. Un "Match Perfecto ✦" aparece cuando el intercambio es equilibrado (ambos se dan cantidades similares).`
+    },
+    {
+      q:`¿Cómo propongo un intercambio?`,
+      a:`Encontrá un coleccionista en Matches o Tablón → tocá "Iniciar intercambio" → se abre el chat → tocá "📋 Proponer" → seleccioná qué ${term} entregás y cuáles recibís → "Enviar propuesta". El otro usuario verá la propuesta con botones para Aceptar o Rechazar. Una vez aceptada, el que inició puede marcarla como Completada.`
+    },
+    {
+      q:`¿Qué pasa cuando marco un intercambio como Completado?`,
+      a:`El álbum de ambas personas se actualiza automáticamente: las ${term} que entregaste se descuentan de tus dobles, y las que recibiste se marcan como "Tengo" en tu álbum. Además aparece un prompt para valorar al otro coleccionista con 1 a 5 estrellas.`
+    },
+    {
+      q:`¿Cómo me aseguro de que el intercambio es seguro?`,
+      a:`La app funciona como un sistema de confianza entre coleccionistas. Para intercambios seguros te recomendamos: 1) Revisar el rating y comentarios del otro usuario antes de acordar. 2) Si es tu primer intercambio con alguien, empezá con pocas ${term}. 3) Coordiná el encuentro en un lugar público. 4) Contá las ${term} antes de dárselas. 5) Valorá siempre al otro usuario después para ayudar a la comunidad.`
+    },
+    {
+      q:`¿Cómo funciona el sistema de valoraciones?`,
+      a:`Después de completar un intercambio podés valorar al otro coleccionista de 1 a 5 estrellas con un comentario opcional de hasta 100 caracteres. El rating promedio aparece en el perfil de cada usuario y en el Tablón. Un usuario con muchas valoraciones positivas es más confiable para intercambiar.`
+    },
+    {
+      q:`¿Cómo publico mis ${term} en el Tablón?`,
+      a:`Primero marcá tus dobles en el Álbum. Luego andá al Tablón → tocá el botón + → seleccioná cuáles ${term} ofrecés (de tus dobles) y cuáles buscás → "Publicar". Tu publicación aparecerá en el feed para que otros coleccionistas te contacten.`
+    },
+    {
+      q:`¿Mis datos se guardan si cierro la app?`,
+      a:`Sí. Al estar registrado con Google o Email, tu álbum y toda tu actividad se guarda en la nube (Firebase). Podés abrir la app desde cualquier dispositivo y tu progreso estará disponible.`
+    },
+    {
+      q:`¿Cómo comparto mi código de coleccionista?`,
+      a:`En tu Perfil aparece tu código único (formato COL-XXXX). Tocalo para copiarlo al portapapeles y compartilo con otros coleccionistas para que te encuentren fácilmente.`
+    },
+    {
+      q:`¿Cómo filtro los Matches por ciudad o país?`,
+      a:`En la sección Matches hay tres filtros arriba: "🌎 Todos" muestra todos los coleccionistas, "🗺️ Mi país" filtra solo los de tu país, y "📍 Mi ciudad" muestra solo los de tu ciudad. Además, los coleccionistas de tu ciudad y país aparecen primero en la lista aunque uses el filtro global.`
+    },
+    {
+      q:`¿Qué significan los códigos de las ${term} (MEX1, ARG5, etc.)?`,
+      a:`Cada código corresponde a una ${getTerm()} real del álbum oficial Panini FIFA World Cup 2026. El prefijo indica la selección (ARG = Argentina, BRA = Brasil, ESP = España, etc.) y el número es la posición dentro de ese grupo. Cada selección tiene 20 ${term} (del 1 al 20). La sección FWC son las ${term} de presentación del torneo y CC son las de la Copa de Campeones.`
+    },
+    {
+      q:`¿Puedo usar la app sin registrarme?`,
+      a:`No en esta versión con Firebase. El registro es necesario para guardar tu álbum en la nube y poder intercambiar con otros usuarios. El proceso es rápido: solo necesitás una cuenta de Google o un email.`
+    },
+  ];
+
+  let h=`<div style="background:var(--green);padding:13px;color:#fff;flex-shrink:0">
+    <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">❓ PREGUNTAS FRECUENTES</div>
+    <div style="font-size:11px;opacity:.8;margin-top:2px">Todo sobre el intercambio de ${term}</div>
+  </div>`;
+
+  faqItems.forEach((item,i)=>{
+    h+=`<div style="border-bottom:1px solid var(--gray-l)">
+      <div onclick="toggleFaq(${i})" style="display:flex;align-items:center;justify-content:space-between;padding:14px;cursor:pointer;background:#fff;gap:10px">
+        <span style="font-size:13px;font-weight:700;color:var(--text);flex:1;line-height:1.4">${item.q}</span>
+        <span id="faq-chev-${i}" style="font-size:12px;color:var(--green);flex-shrink:0;transition:transform .3s">▼</span>
+      </div>
+      <div id="faq-ans-${i}" style="display:none;padding:0 14px 14px;font-size:13px;color:var(--muted);line-height:1.6;background:#fff">${item.a}</div>
+    </div>`;
+  });
+
+  h+=`<div style="padding:20px 14px;background:var(--bg)">
+    <div style="background:#fff;border-radius:var(--r);padding:16px;text-align:center;box-shadow:0 1px 8px rgba(0,0,0,.07)">
+      <div style="font-size:24px;margin-bottom:8px">💬</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px">¿Tenés otra pregunta?</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Escribinos en el chat de la comunidad o contactá a un coleccionista verificado.</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#1a3a6b,#1a5fa8);border-radius:var(--r);padding:20px;text-align:center;margin-top:12px">
+      <div style="font-size:32px;margin-bottom:8px">☕</div>
+      <div style="font-family:'Anton',sans-serif;font-size:18px;color:#fff;letter-spacing:1px;margin-bottom:6px">¡ESTA APP ES GRATUITA!</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:16px;line-height:1.6">Sin publicidad, sin costos ocultos.<br>Si te es útil, podés apoyar el proyecto con una donación voluntaria.</div>
+      <button onclick="openDonate()" style="background:var(--gold);color:#1a3a6b;border:none;border-radius:10px;padding:12px 24px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;width:100%">
+        💙 Donar por PayPal
+      </button>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:10px">Cualquier monto ayuda · paypal.me/intercambiaapp</div>
+    </div>
+  </div>
+  <div style="height:80px"></div>`;
+
+  tab.innerHTML=h;
+}
+window.toggleFaq=function(i){
+  const ans=document.getElementById('faq-ans-'+i);
+  const chev=document.getElementById('faq-chev-'+i);
+  const open=ans.style.display==='block';
+  ans.style.display=open?'none':'block';
+  chev.style.transform=open?'':'rotate(180deg)';
+};
 
 </script>
 </body>

@@ -1,0 +1,27 @@
+{
+  "name": "intercambia.app — Álbum Mundial 2026",
+  "short_name": "intercambia.app",
+  "description": "Completá tu álbum Panini FIFA World Cup 2026 e intercambiá con coleccionistas.",
+  "start_url": "./mundial2026-firebase.html",
+  "display": "standalone",
+  "background_color": "#0f4024",
+  "theme_color": "#1a6b3a",
+  "orientation": "portrait",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "social", "entertainment"],
+  "screenshots": []
+}
