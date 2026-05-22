@@ -805,6 +805,9 @@ async function loadConversations(){
 // AUTH
 // ============================================================
 onAuthStateChanged(auth,async user=>{
+  // Show loading while checking auth
+  const loading=document.getElementById('scr-loading');
+  if(loading)loading.style.display='flex';
   hide('scr-loading');
   if(user){
     currentUser=user;
@@ -873,7 +876,7 @@ window.submitEmail=async function(){
     }
     hideEmailForm();
   }catch(e){
-    const msgs={'auth/email-already-in-use':'Ese email ya está registrado.','auth/wrong-password':'Contraseña incorrecta.','auth/user-not-found':'Usuario no encontrado.','auth/weak-password':'La contraseña debe tener al menos 6 caracteres.'};
+    const msgs={'auth/email-already-in-use':'Ese email ya está registrado.','auth/wrong-password':'Contraseña incorrecta.','auth/user-not-found':'No existe una cuenta con ese email.','auth/weak-password':'La contraseña debe tener al menos 6 caracteres.','auth/invalid-email':'El email no es válido.','auth/too-many-requests':'Demasiados intentos. Esperá unos minutos.','auth/network-request-failed':'Error de conexión. Revisá tu internet.','auth/invalid-credential':'Email o contraseña incorrectos.'};
     toast(msgs[e.code]||e.message,'err');
   }
 };
@@ -903,7 +906,7 @@ window.saveProfile=async function(){
     name:currentUser.displayName||alias,
     alias,city,avatar:setupAvatar,contact,term,
     code:genCode(),album:{},ratings:[],
-    photoURL:currentUser.photoURL||null,
+    photoURL:null,
     joinedAt:serverTimestamp(),
   };
   await setDoc(doc(db,'users',currentUser.uid),profile);
@@ -940,10 +943,15 @@ let obOpenSecs = {};
 function shouldShowOnboarding(){
   // Show if user has no stickers marked at all
   const album = userProfile?.album || {};
-  return Object.keys(album).length === 0;
+  const hasAny = Object.values(album).some(v=>v.state==='have'||v.state==='double');
+  return !hasAny;
 }
 
-function startOnboarding(){
+function startOnboarding(force=false){
+  const hasAlbum=Object.values(userProfile?.album||{}).some(v=>v.state==='have'||v.state==='double');
+  if(hasAlbum&&!force){
+    if(!confirm('Ya tenés láminas marcadas. ¿Querés revisar y actualizar tu álbum?'))return;
+  }
   obAlbum = {...(userProfile?.album||{})};
   obCurrentSec = 0;
   obOpenSecs = {};
@@ -996,7 +1004,7 @@ function renderOnboarding(){
   ov.innerHTML = `<div class="ob-screen">
     <div class="ob-hdr">
       <div class="ob-title">${sec.flag} ${sec.name}</div>
-      <div class="ob-sub">Sección ${obCurrentSec+1} de ${totalSecs} · Tocá las láminas que tenés</div>
+      <div class="ob-sub">Sección ${obCurrentSec+1} de ${totalSecs} · ${Math.round((obCurrentSec/totalSecs)*100)}% completado</div>
     </div>
     <div class="ob-prog">
       ${SECTIONS.map((_,i)=>`<div class="ob-step-dot ${i<=obCurrentSec?'done':''}"></div>`).join('')}
@@ -1089,11 +1097,14 @@ window.obMarkAll=function(secId,mark){
 window.obNext=function(){
   obCurrentSec++;
   renderOnboarding();
+  // Scroll to top of onboarding body
+  setTimeout(()=>{const b=document.querySelector('.ob-body');if(b)b.scrollTop=0;},50);
 };
 
 window.obPrev=function(){
   if(obCurrentSec>0)obCurrentSec--;
   renderOnboarding();
+  setTimeout(()=>{const b=document.querySelector('.ob-body');if(b)b.scrollTop=0;},50);
 };
 
 window.obSkip=function(){
@@ -1193,6 +1204,7 @@ window.setTab=function(tab){
 // ============================================================
 // ALBUM
 // ============================================================
+let saveTimer=null;
 async function toggleSticker(id){
   if(!currentUser||!userProfile)return;
   const album=userProfile.album||{};
@@ -1201,8 +1213,10 @@ async function toggleSticker(id){
   else if(cur.state==='have')album[id]={state:'double',count:2};
   else album[id]={state:'missing'};
   userProfile.album=album;
-  await saveAlbum(album);
   renderAlbum();
+  // Debounce saves - only save after 1.5s of no tapping
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveAlbum(album),1500);
 }
 
 function renderAlbum(){
@@ -1213,7 +1227,7 @@ function renderAlbum(){
   let h=`<div class="album-hdr">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
       <span style="font-family:'Anton',sans-serif;font-size:22px;color:#fff;letter-spacing:1px">${pct}% COMPLETADO</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.75)">${stats.have}/${TOTAL_STICKERS}</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.75)">${stats.have} de ${TOTAL_STICKERS} ${getTermPlural()}</span>
     </div>
     <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
     <div style="display:flex;gap:14px;margin-top:10px">
@@ -1230,7 +1244,7 @@ function renderAlbum(){
   </div>
   <div class="search-box">
     <span>🔍</span>
-    <input id="album-search" placeholder="Buscar por número o selección..." value="${albumSearch}" oninput="setAlbumSearch(this.value)">
+    <input id="album-search" placeholder="Buscar por equipo o código (ej: ARG)..." value="${albumSearch}" oninput="setAlbumSearch(this.value)">
     ${albumSearch?`<button onclick="setAlbumSearch('')" style="background:none;border:none;cursor:pointer;color:var(--gray);font-size:16px">×</button>`:''}
   </div>`;
 
@@ -1268,6 +1282,16 @@ function renderAlbum(){
     }
     h+=`</div>`;
   });
+  // Add hint if album is empty
+  const hasAny=Object.values(userProfile?.album||{}).some(v=>v.state==='have'||v.state==='double');
+  if(!hasAny&&albumFilter==='all'&&!albumSearch){
+    h+=`<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">
+      <div style="font-size:32px;margin-bottom:8px">📖</div>
+      <div style="font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:6px">TU ÁLBUM ESTÁ VACÍO</div>
+      <div style="font-size:12px;opacity:.85;margin-bottom:14px;line-height:1.6">Tocá las secciones de arriba para marcar las láminas que tenés, o usá el asistente de carga.</div>
+      <button onclick="startOnboarding()" style="background:var(--gold);color:var(--green-d);border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;width:100%">📖 Cargar mi álbum</button>
+    </div>`;
+  }
   tab.innerHTML=h;
 }
 
@@ -1284,6 +1308,7 @@ window.setAlbumSearch=function(v){albumSearch=v;renderAlbum();};
 // ============================================================
 async function renderTablon(){
   await loadPosts();
+  if(!allUsers.length)await loadAllUsers();
   const tab=document.getElementById('tab-tablon');
   const cities=['all',...new Set(allUsers.map(u=>u.city))];
   let h=`<div class="filter-row">${cities.map(c=>`<button class="chip ${cityFilter===c?'act':''}" onclick="setCityFilter('${c}')">${c==='all'?'🌎 Todas':c}</button>`).join('')}</div>`;
@@ -1353,7 +1378,7 @@ window.openCreatePost=function(){
 // ============================================================
 let matchProximity='all';
 async function renderMatches(){
-  await loadAllUsers();
+  if(!allUsers.length)await loadAllUsers();
   const tab=document.getElementById('tab-matches');
   const myAlbum=userProfile?.album||{};
   const myCity=userProfile?.city||'';
@@ -1397,7 +1422,11 @@ async function renderMatches(){
     <button class="chip ${matchProximity==='city'?'act':''}" onclick="setMatchProx('city')">📍 Mi ciudad</button>
   </div>`;
 
-  if(!matches.length){tab.innerHTML=h+`<div class="empty"><div class="ei">🔍</div><p>No hay matches ${matchProximity!=='all'?'en tu zona. Probá ampliar el filtro.':'aún. Marcá ${term} en tu álbum para encontrar coincidencias.'}</p></div>`;return;}
+  if(!matches.length){
+    const emptyMsg=matchProximity!=='all'?'en tu zona. Probá ampliar el filtro.':'aún. Marcá '+getTermPlural()+' en tu álbum para encontrar coincidencias.';
+    tab.innerHTML=h+`<div class="empty"><div class="ei">🔍</div><p>No hay matches ${emptyMsg}</p></div>`;
+    return;
+  }
   matches.forEach(({user:other,canGive,canReceive,perfect,sameCity,sameCountry})=>{
     const rating=getUserRating(other);
     let proxBadge='';
@@ -1759,6 +1788,7 @@ async function renderProfile(){
         <button onclick="openEditProfile()" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✏️</button>
       </div>
       <div style="font-size:12px;opacity:.8">👤 ${u.name||currentUser?.displayName||''}</div>
+      <div style="font-size:11px;opacity:.65;margin-top:2px">🗓 Miembro desde ${u.joinedAt?new Date(u.joinedAt).toLocaleDateString('es',{month:'long',year:'numeric'}):'hoy'}</div>
       <div style="font-size:12px;opacity:.75;margin-top:3px">📍 ${u.city}</div>
       ${u.contact?`<div style="font-size:11px;opacity:.65;margin-top:3px">💬 ${u.contact}</div>`:''}
       <div onclick="copyCode('${u.code}')" style="background:rgba(255,255,255,.15);border-radius:9px;padding:7px 14px;display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-family:'Anton',sans-serif;font-size:16px;cursor:pointer;border:1.5px dashed rgba(255,255,255,.4)">${u.code} 📋</div>
