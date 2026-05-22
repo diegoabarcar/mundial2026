@@ -14,10 +14,40 @@
 <!-- Apple touch icons -->
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-  /* Safe area for notch phones */
-  :root { --sat: env(safe-area-inset-top); --sab: env(safe-area-inset-bottom); }
-  .navbar { padding-bottom: calc(var(--sab, 0px)); height: calc(62px + var(--sab, 0px)); }
-  .hdr { padding-top: calc(12px + var(--sat, 0px)); }
+  /* Safe area for notch phones - iOS fix */
+  :root {
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --nav: 64px;
+  }
+  #app {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .navbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: #fff;
+    border-top: 1px solid #e8ede9;
+    display: flex;
+    box-shadow: 0 -3px 16px rgba(0,0,0,.07);
+    z-index: 10;
+  }
+  .content {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+  .hdr {
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  }
+  .fab {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 14px);
+  }
+  .donate-banner {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px);
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -95,10 +125,10 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 .hdr-t{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px}
 .hdr-s{font-size:10px;opacity:.75;font-weight:600}
 .hdr-user{background:rgba(255,255,255,.15);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px}
-.content{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:var(--nav)}
+.content{flex:1;overflow-y:auto;overflow-x:hidden}
 .content::-webkit-scrollbar{width:3px}
 .content::-webkit-scrollbar-thumb{background:var(--gray-l);border-radius:3px}
-.navbar{position:absolute;bottom:0;left:0;right:0;height:var(--nav);background:#fff;border-top:1px solid var(--gray-l);display:flex;box-shadow:0 -3px 16px rgba(0,0,0,.07)}
+/* navbar styles now handled by safe-area style block above */
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:3px;color:var(--gray);border:none;background:none;font-family:inherit;min-height:44px;transition:color .2s}
 .ni.act{color:var(--green)}
 .ni .ico{font-size:20px;transition:transform .2s}
@@ -204,7 +234,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 
 .empty{text-align:center;padding:44px 20px;color:var(--muted)}
 .empty .ei{font-size:48px;margin-bottom:10px}
-.fab{position:absolute;bottom:calc(var(--nav) + 14px);right:14px;width:50px;height:50px;border-radius:50%;background:var(--gold);color:var(--green-d);border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;z-index:10;transition:transform .2s}
+.fab{position:absolute;right:14px;width:50px;height:50px;border-radius:50%;background:var(--gold);color:var(--green-d);border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;z-index:10;transition:transform .2s}
 .fab:hover{transform:scale(1.08)}
 .loading-screen{flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--green-d),var(--green));color:#fff;font-family:'Anton',sans-serif;font-size:32px;flex-direction:column;gap:16px}
 .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
@@ -271,7 +301,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 .ob-num{font-family:'Anton',sans-serif;font-size:22px}
 
 /* DONATION BANNER */
-.donate-banner{position:absolute;bottom:calc(var(--nav) + 12px);left:12px;right:12px;z-index:90;
+.donate-banner{position:absolute;left:12px;right:12px;z-index:90;
   background:linear-gradient(135deg,#1a3a6b,#1a5fa8);
   border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;
   box-shadow:0 4px 20px rgba(0,0,0,.25);
