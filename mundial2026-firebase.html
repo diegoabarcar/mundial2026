@@ -91,7 +91,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 #app{max-width:480px;margin:0 auto;height:100vh;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.15)}
 
 /* LOGIN SCREEN */
-.login-screen{flex:1;background:linear-gradient(160deg,var(--green-d) 0%,var(--green) 55%,#2ecc71 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;padding-bottom:calc(32px + env(safe-area-inset-bottom,0px));text-align:center;color:#fff;overflow-y:auto}
+.login-screen{position:absolute;inset:0;background:linear-gradient(160deg,var(--green-d) 0%,var(--green) 55%,#2ecc71 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;padding-bottom:calc(32px + env(safe-area-inset-bottom,0px));text-align:center;color:#fff;overflow-y:auto;z-index:100}
 .login-trophy{font-size:72px;margin-bottom:14px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.3))}
 .login-title{font-family:'Anton',sans-serif;font-size:36px;letter-spacing:2px;line-height:1;margin-bottom:6px}
 .login-sub{font-size:14px;opacity:.85;margin-bottom:32px;font-weight:600}
@@ -259,7 +259,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 .empty .ei{font-size:48px;margin-bottom:10px}
 .fab{position:absolute;right:14px;width:50px;height:50px;border-radius:50%;background:var(--gold);color:var(--green-d);border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;z-index:10;transition:transform .2s}
 .fab:hover{transform:scale(1.08)}
-.loading-screen{flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--green-d),var(--green));color:#fff;font-family:'Anton',sans-serif;font-size:32px;flex-direction:column;gap:16px}
+.loading-screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--green-d),var(--green));color:#fff;font-family:'Anton',sans-serif;font-size:32px;z-index:200;flex-direction:column;gap:16px}
 .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .rating-star{font-size:26px;cursor:pointer;color:var(--gray-l)}
@@ -380,7 +380,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
   </div>
 
   <!-- EMAIL FORM OVERLAY -->
-  <div id="email-form-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;max-width:480px;left:50%;transform:translateX(-50%)">
+  <div id="email-form-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;max-width:480px;left:50%;transform:translateX(-50%)">
     <div class="email-form" id="email-form">
       <button onclick="hideEmailForm()" style="position:absolute;top:14px;right:14px;background:var(--gray-l);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:16px">×</button>
       <div class="email-form-title" id="email-form-title">Iniciar sesión</div>
@@ -700,20 +700,23 @@ onAuthStateChanged(auth,async user=>{
       const snap=await getDoc(ref);
       if(!snap.exists()){
         showSetup();
-      } else {
-        userProfile={id:user.uid,...snap.data()};
-        await loadAllUsers();
-        await loadPosts();
-        await loadConversations();
-        showApp();
+        return;
       }
+      userProfile={id:user.uid,...snap.data()};
     }catch(err){
-      console.error('Auth error:',err);
-      // Fallback: show login on error
-      currentUser=null;
+      console.error('Profile load error:',err);
+      // If we can't load the profile, show login
+      currentUser=null;userProfile=null;
       show('scr-login');
       document.getElementById('scr-login').style.flexDirection='column';
+      return;
     }
+    // Show app first, then load data in background
+    showApp();
+    // Load data without blocking - errors won't affect UI
+    loadAllUsers().catch(e=>console.warn('loadAllUsers:',e));
+    loadPosts().catch(e=>console.warn('loadPosts:',e));
+    loadConversations().catch(e=>console.warn('loadConversations:',e));
   } else {
     currentUser=null;userProfile=null;
     show('scr-login');
@@ -733,13 +736,7 @@ window.loginGoogle=async function(){
 
 
 
-window.loginApple=async function(){
-  try{
-    const provider=new OAuthProvider('apple.com');
-    provider.addScope('email');provider.addScope('name');
-    await signInWithPopup(auth,provider);
-  }catch(e){toast('Error al iniciar con Apple: '+e.message,'err');}
-};
+
 
 window.showEmailForm=function(){
   document.getElementById('email-form-overlay').style.display='flex';
