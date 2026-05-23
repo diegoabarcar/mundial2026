@@ -817,14 +817,17 @@ function renderAlbum(){
       h+='<div class="sticker-grid">';
       stickers.forEach(function(s){
         const sid=s.id,sst=s.state,scnt=s.count||1;
-        let si='<span style="font-family:Anton,sans-serif;font-size:9px">'+sid+'</span>';
-        if(sst==='have')si+='<span style="font-size:10px">✓</span>';
-        if(sst==='repeat')si+='<span style="font-family:Anton,sans-serif;font-size:9px;color:#b8860b">×'+scnt+'</span>';
-        h+='<div class="stk '+sst+'" data-sid="'+sid+'"'
-          +' onclick="stickerClick(this.dataset.sid,this)"'
-          +' oncontextmenu="event.preventDefault();deleteSticker(this.dataset.sid)"'
-          +' ontouchstart="stkLongStart(this.dataset.sid)" ontouchend="stkLongEnd()" ontouchmove="stkLongEnd()">'
-          +si+'</div>';
+        const isMarked=sst==='have'||sst==='repeat';
+        // Use data attribute to avoid string escaping issues
+        let si='<span style="font-family:Anton,sans-serif;font-size:9px;color:'+(isMarked?'var(--green-d)':'var(--muted)')+'">'+sid+'</span>';
+        if(sst==='have')si+='<div style="font-size:11px;color:var(--green)">✓</div>';
+        if(sst==='repeat')si+='<div style="font-family:Anton,sans-serif;font-size:10px;color:#b8860b">x'+scnt+'</div>';
+        const delBtn=isMarked
+          ?'<button class="stk-del" data-del="'+sid+'" onclick="event.stopPropagation();deleteSticker(this.dataset.del)">x</button>'
+          :'';
+        h+='<div class="stk '+sst+'" data-sid="'+sid+'" style="position:relative"'
+          +' onclick="stickerClick(this.dataset.sid,this)">'
+          +delBtn+si+'</div>';
       });
       h+='</div>';
     }
