@@ -515,6 +515,565 @@ const app   = initializeApp(FIREBASE_CONFIG);
 const auth  = getAuth(app);
 const db    = getFirestore(app);
 
+const LOCATION_DATA={
+  "Chile":{
+    "Arica y Parinacota":["Arica","Camarones","Putre","General Lagos"],
+    "Tarapacá":["Iquique","Alto Hospicio","Pozo Almonte","Camiña","Colchane","Huara","Pica"],
+    "Antofagasta":["Antofagasta","Mejillones","Sierra Gorda","Taltal","Calama","Ollagüe","San Pedro de Atacama","Tocopilla","María Elena"],
+    "Atacama":["Copiapó","Caldera","Tierra Amarilla","Chañaral","Diego de Almagro","Vallenar","Alto del Carmen","Freirina","Huasco"],
+    "Coquimbo":["La Serena","Coquimbo","Andacollo","La Higuera","Vicuña","Illapel","Canela","Los Vilos","Salamanca","Ovalle","Combarbalá","Monte Patria","Punitaqui","Río Hurtado"],
+    "Valparaíso":["Valparaíso","Casablanca","Concón","Viña del Mar","Quilpué","Villa Alemana","San Antonio","Los Andes","San Felipe","Quillota","Quintero","Limache","Olmué","Isla de Pascua"],
+    "Metropolitana":["Santiago","Cerrillos","Cerro Navia","Conchalí","El Bosque","Estación Central","Huechuraba","Independencia","La Cisterna","La Florida","La Granja","La Pintana","La Reina","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul","Maipú","Ñuñoa","Pedro Aguirre Cerda","Peñalolén","Providencia","Pudahuel","Quilicura","Quinta Normal","Recoleta","Renca","San Joaquín","San Miguel","San Ramón","Vitacura","Puente Alto","Pirque","San José de Maipo","Colina","Lampa","Tiltil","San Bernardo","Buin","Calera de Tango","Paine","Melipilla","Talagante","El Monte","Isla de Maipo","Padre Hurtado","Peñaflor"],
+    "OHiggins":["Rancagua","Codegua","Coinco","Coltauco","Doñihue","Graneros","Las Cabras","Machalí","Malloa","Mostazal","Olivar","Peumo","Pichidegua","Quinta de Tilcoco","Rengo","Requínoa","San Vicente","Pichilemu","La Estrella","Litueche","Marchihue","Navidad","Paredones","San Fernando","Chépica","Chimbarongo","Lolol","Nancagua","Palmilla","Peralillo","Placilla","Pumanque","Santa Cruz"],
+    "Maule":["Talca","Constitución","Curepto","Empedrado","Maule","Pelarco","Pencahue","Río Claro","San Clemente","San Rafael","Cauquenes","Chanco","Pelluhue","Curicó","Hualañé","Licantén","Molina","Rauco","Romeral","Sagrada Familia","Teno","Vichuquén","Linares","Colbún","Longaví","Parral","Retiro","San Javier","Villa Alegre","Yerbas Buenas"],
+    "Ñuble":["Chillán","Bulnes","Chillán Viejo","El Carmen","Pemuco","Pinto","Quillón","San Ignacio","Yungay","Coihueco","Ñiquén","San Carlos","San Fabián","San Nicolás","Cobquecura","Coelemu","Ninhue","Portezuelo","Quirihue","Ránquil","Treguaco"],
+    "Biobío":["Concepción","Coronel","Chiguayante","Florida","Hualqui","Lota","Penco","San Pedro de la Paz","Santa Juana","Talcahuano","Tomé","Hualpén","Lebu","Arauco","Cañete","Contulmo","Curanilahue","Los Álamos","Tirúa","Los Ángeles","Antuco","Cabrero","Laja","Mulchén","Nacimiento","Negrete","Quilaco","Quilleco","San Rosendo","Santa Bárbara","Tucapel","Yumbel","Alto Biobío"],
+    "La Araucanía":["Temuco","Carahue","Cunco","Curarrehue","Freire","Galvarino","Gorbea","Lautaro","Loncoche","Melipeuco","Nueva Imperial","Padre Las Casas","Perquenco","Pitrufquén","Pucón","Saavedra","Teodoro Schmidt","Toltén","Vilcún","Villarrica","Cholchol","Angol","Collipulli","Curacautín","Ercilla","Lonquimay","Los Sauces","Lumaco","Purén","Renaico","Traiguén","Victoria"],
+    "Los Ríos":["Valdivia","Corral","Futrono","La Unión","Lago Ranco","Lanco","Los Lagos","Máfil","Mariquina","Paillaco","Panguipulli","Río Bueno"],
+    "Los Lagos":["Puerto Montt","Calbuco","Cochamó","Fresia","Frutillar","Los Muermos","Llanquihue","Maullín","Puerto Varas","Castro","Ancud","Chonchi","Curaco de Vélez","Dalcahue","Puqueldón","Queilén","Quellón","Quemchi","Quinchao","Osorno","Puerto Octay","Purranque","Puyehue","Río Negro","San Juan de la Costa","San Pablo","Chaitén","Futaleufú","Hualaihué","Palena"],
+    "Aysén":["Coyhaique","Lago Verde","Puerto Aysén","Cisnes","Guaitecas","Cochrane","Tortel","Chile Chico","Río Ibáñez"],
+    "Magallanes":["Punta Arenas","Laguna Blanca","Río Verde","San Gregorio","Cabo de Hornos","Puerto Williams","Porvenir","Primavera","Timaukel","Puerto Natales","Torres del Paine"],
+  },
+  "Argentina":{
+    "Ciudad de Buenos Aires":["Palermo","Belgrano","Recoleta","San Telmo","La Boca","Caballito","Almagro","Villa Crespo","Flores","Floresta","Villa del Parque","Devoto","Saavedra","Núñez","Colegiales","Chacarita","Villa Urquiza","Liniers","Mataderos","Pompeya","Barracas","Boedo","Paternal","Monte Castro","Puerto Madero","Balvanera","San Cristóbal"],
+    "GBA Norte":["San Isidro","Vicente López","San Martín","Tres de Febrero","Tigre","San Fernando","Escobar","Pilar","Malvinas Argentinas","José C. Paz","San Miguel","Moreno","General Rodríguez"],
+    "GBA Sur":["Avellaneda","Quilmes","Lanús","Lomas de Zamora","Almirante Brown","Esteban Echeverría","Ezeiza","Florencio Varela","Berazategui","La Matanza","Merlo","Morón","Hurlingham","Ituzaingó"],
+    "GBA Oeste":["La Plata","Berisso","Ensenada","Brandsen","Campana","Zárate","San Pedro","Mar del Plata"],
+    "Córdoba":["Córdoba","Villa Carlos Paz","Río Cuarto","San Francisco","Villa María","Cosquín","Alta Gracia"],
+    "Rosario y Santa Fe":["Rosario","Santa Fe","Rafaela","Venado Tuerto"],
+    "Mendoza":["Mendoza","Godoy Cruz","Las Heras","Luján de Cuyo","Guaymallén","San Rafael","Maipú"],
+    "Tucumán":["San Miguel de Tucumán","Tafí Viejo","Banda del Río Salí","Yerba Buena","Concepción"],
+    "Salta y Jujuy":["Salta","San Ramón de la Nueva Orán","Tartagal","San Salvador de Jujuy","Palpalá"],
+    "Otras provincias":["Neuquén","Bariloche","Resistencia","Corrientes","Posadas","San Juan","San Luis","La Rioja","Catamarca","Santiago del Estero","Formosa","Rawson","Viedma","Santa Rosa","Río Gallegos","Ushuaia"],
+  },
+  "México":{
+    "CDMX":["Álvaro Obregón","Azcapotzalco","Benito Juárez","Coyoacán","Cuajimalpa","Cuauhtémoc","Gustavo A. Madero","Iztacalco","Iztapalapa","Magdalena Contreras","Miguel Hidalgo","Milpa Alta","Tláhuac","Tlalpan","Venustiano Carranza","Xochimilco"],
+    "Estado de México":["Ecatepec","Nezahualcóyotl","Naucalpan","Toluca","Tlalnepantla","Chimalhuacán","Tultitlán","Atizapán","Nicolás Romero","Texcoco","Cuautitlán Izcalli","Ixtapaluca","Valle de Chalco"],
+    "Jalisco":["Guadalajara","Zapopan","Tlaquepaque","Tonalá","Tlajomulco","Puerto Vallarta","Lagos de Moreno"],
+    "Nuevo León":["Monterrey","San Nicolás","Guadalupe","Apodaca","General Escobedo","Santa Catarina","San Pedro Garza García"],
+    "Puebla":["Puebla","Tehuacán","San Martín Texmelucan","Atlixco","Cholula"],
+    "Baja California":["Tijuana","Mexicali","Ensenada","Tecate","Rosarito"],
+    "Otras":["León","Mérida","San Luis Potosí","Aguascalientes","Hermosillo","Cancún","Culiacán","Acapulco","Querétaro","Chihuahua","Morelia","Veracruz","Torreón","Saltillo","Villahermosa","Oaxaca","Tuxtla Gutiérrez","Durango"],
+  },
+  "España":{
+    "Comunidad de Madrid":["Centro","Arganzuela","Retiro","Salamanca","Chamartín","Tetuán","Chamberí","Fuencarral","Moncloa","Latina","Carabanchel","Usera","Puente de Vallecas","Moratalaz","Ciudad Lineal","Hortaleza","Villaverde","Vicálvaro","San Blas","Barajas","Alcalá de Henares","Getafe","Leganés","Fuenlabrada","Móstoles","Alcorcón","Torrejón de Ardoz","Pozuelo de Alarcón"],
+    "Cataluña":["Eixample","Gràcia","Sarrià-Sant Gervasi","Les Corts","Sants-Montjuïc","Nou Barris","Sant Andreu","Sant Martí","Horta-Guinardó","Ciutat Vella","Badalona","Hospitalet de Llobregat","Sabadell","Terrassa","Mataró","Santa Coloma","Girona","Lleida","Tarragona"],
+    "Andalucía":["Sevilla","Málaga","Granada","Córdoba","Almería","Huelva","Cádiz","Jaén"],
+    "País Vasco":["Bilbao","San Sebastián","Vitoria","Barakaldo","Getxo","Irún"],
+    "Comunitat Valenciana":["Valencia","Alicante","Elche","Castellón","Torrent","Gandia"],
+    "Otras comunidades":["Zaragoza","Palma","Las Palmas","Santa Cruz de Tenerife","Valladolid","Vigo","Gijón","La Coruña","Oviedo","Pamplona","Santander","Burgos","Logroño","Murcia","Albacete","Toledo","Badajoz","Salamanca"],
+  },
+  "Colombia":{
+    "Bogotá D.C.":["Usaquén","Chapinero","Santa Fe","San Cristóbal","Usme","Tunjuelito","Bosa","Kennedy","Fontibón","Engativá","Suba","Barrios Unidos","Teusaquillo","Mártires","Antonio Nariño","Puente Aranda","Candelaria","Rafael Uribe","Ciudad Bolívar"],
+    "Antioquia":["Medellín","Bello","Itagüí","Envigado","Apartadó","Turbo"],
+    "Valle del Cauca":["Cali","Buenaventura","Palmira","Tuluá","Buga","Cartago"],
+    "Atlántico":["Barranquilla","Soledad","Malambo","Sabanalarga"],
+    "Bolívar":["Cartagena","Magangué","El Carmen de Bolívar"],
+    "Otras ciudades":["Cúcuta","Bucaramanga","Pereira","Santa Marta","Ibagué","Manizales","Pasto","Villavicencio","Armenia","Montería","Sincelejo","Valledupar","Neiva","Popayán"],
+  },
+  "Uruguay":{
+    "Montevideo":["Centro","Pocitos","Punta Carretas","Carrasco","Malvín","Buceo","Cordón","Palermo","Ciudad Vieja","Prado","Belvedere","Sayago"],
+    "Interior":["Salto","Paysandú","Las Piedras","Rivera","Maldonado","Punta del Este","Melo","Minas","Trinidad","Durazno","Florida","San José","Canelones"],
+  },
+  "Perú":{
+    "Lima Metropolitana":["Miraflores","San Isidro","Barranco","Surco","La Molina","San Borja","Jesús María","Lince","Magdalena","Pueblo Libre","Breña","Rímac","San Martín de Porres","Los Olivos","Comas","Independencia","El Agustino","Ate","Santa Anita","Surquillo","San Luis","Chorrillos","Villa El Salvador","Villa María del Triunfo","San Juan de Miraflores","Callao"],
+    "Otras regiones":["Arequipa","Trujillo","Chiclayo","Iquitos","Piura","Cusco","Huancayo","Tacna","Pucallpa","Cajamarca","Chimbote","Ica"],
+  },
+  "Venezuela":{
+    "Caracas":["Libertador","Chacao","Baruta","El Hatillo","Sucre"],
+    "Miranda":["Los Teques","Guarenas","Guatire","Petare","Ocumare del Tuy"],
+    "Otras ciudades":["Maracaibo","Valencia","Barquisimeto","Maracay","Ciudad Guayana","Barcelona","Maturín","San Cristóbal","Cumaná","Barinas"],
+  },
+  "Ecuador":{
+    "Pichincha":["Quito","Cayambe","Mejía","Rumiñahui","Pedro Moncayo"],
+    "Guayas":["Guayaquil","Durán","Milagro","Samborondón","Daule"],
+    "Otras provincias":["Cuenca","Machala","Manta","Portoviejo","Loja","Ambato","Esmeraldas","Santo Domingo","Ibarra"],
+  },
+  "Paraguay":{
+    "Central y Asunción":["Asunción","San Lorenzo","Luque","Capiatá","Lambaré","Fernando de la Mora","Limpio","Ñemby","Villa Elisa","Mariano Roque Alonso"],
+    "Otras ciudades":["Ciudad del Este","Encarnación","Pedro Juan Caballero","Concepción","Villarrica","Coronel Oviedo"],
+  },
+  "Bolivia":{
+    "La Paz y El Alto":["La Paz","El Alto","Viacha","Achocalla","Mecapaca"],
+    "Cochabamba":["Cochabamba","Quillacollo","Sacaba","Colcapirhua","Tiquipaya"],
+    "Otras ciudades":["Santa Cruz de la Sierra","Oruro","Potosí","Sucre","Tarija","Trinidad","Cobija"],
+  },
+  "Otro país":{
+    "Mi ciudad":["Mi ciudad"],
+  },
+};
+const REGION_DISPLAY={"OHiggins":"O'Higgins"};
+function getRegionDisplay(r){return REGION_DISPLAY[r]||r;}
+function getCountries(){return Object.keys(LOCATION_DATA);}
+function getRegions(country){return country&&LOCATION_DATA[country]?Object.keys(LOCATION_DATA[country]):[];}
+function getCities(country,region){return country&&region&&LOCATION_DATA[country]&&LOCATION_DATA[country][region]?LOCATION_DATA[country][region]:[];}
+function getLocationParts(city){
+  if(!city)return{country:'',region:'',city:''};
+  for(const [country,regions] of Object.entries(LOCATION_DATA)){
+    for(const [region,cities] of Object.entries(regions)){
+      if(cities.includes(city))return{country,region,city};
+    }
+  }
+  return{country:'Otro país',region:'Mi ciudad',city};
+}
+
+
+const PAYPAL_URL='https://paypal.me/intercambiaapp';
+let donateTimer=null;
+let donateShown=0;
+
+function scheduleDonationBanner(){
+  // First appearance: 3 minutes after login
+  // Subsequent: every 20 minutes
+  const delay=donateShown===0 ? 3*60*1000 : 20*60*1000;
+  clearTimeout(donateTimer);
+  donateTimer=setTimeout(()=>{
+    showDonateBanner();
+  },delay);
+}
+
+function showDonateBanner(){
+  // Don't show while chat is open or modal is open
+  const chatOpen=document.getElementById('chat-overlay').style.display!=='none';
+  const modalOpen=document.getElementById('modal-ov').style.display!=='none';
+  if(chatOpen||modalOpen){scheduleDonationBanner();return;}
+  donateShown++;
+  const banner=document.getElementById('donate-banner');
+  if(banner){
+    // Vary the message
+    const msgs=[
+      {title:'¡Esta app es gratuita!',sub:'Si te es útil, podés invitarme un café ☕'},
+      {title:'¿Encontraste tus '+getTermPlural()+'?',sub:'Apoyá el proyecto con una donación voluntaria'},
+      {title:'Sin publicidad, sin costos',sub:'Si querés mantener esto vivo, podés colaborar 💙'},
+      {title:'Gracias por usar la app 🏆',sub:'Una pequeña donación ayuda mucho a seguir mejorándola'},
+    ];
+    const m=msgs[(donateShown-1)%msgs.length];
+    const titleEl=banner.querySelector('.d-title');
+    const subEl=banner.querySelector('.d-sub');
+    if(titleEl)titleEl.textContent=m.title;
+    if(subEl)subEl.textContent=m.sub;
+    banner.style.display='flex';
+    // Auto-hide after 12 seconds
+    setTimeout(()=>closeDonate(),12000);
+  }
+  scheduleDonationBanner();
+}
+
+window.openDonate=function(){
+  window.open(PAYPAL_URL,'_blank');
+  closeDonate();
+};
+window.closeDonate=function(){
+  const banner=document.getElementById('donate-banner');
+  if(banner)banner.style.display='none';
+};
+
+function updateHeader(){
+  const u=userProfile;
+  const info=document.getElementById('hdr-user');
+  const pico=document.getElementById('nav-pico');
+  if(u){
+    // Always show avatar emoji + alias, NOT Google photo/name
+    const displayAlias=u.alias||u.name||'Coleccionista';
+    info.innerHTML=`<span style="font-size:18px">${u.avatar||'⚽'}</span><span style="font-size:12px;font-weight:700">${displayAlias}</span>`;
+    if(pico)pico.textContent=u.avatar||'👤';
+  }
+}
+
+// Long press for sticker delete
+let stkLongTimer=null;
+window.stkTouchStart=function(id,el){
+  stkLongTimer=setTimeout(()=>{
+    stkLongTimer=null;
+    deleteSticker(id);
+  },600);
+};
+window.stkTouchEnd=function(){
+  if(stkLongTimer){clearTimeout(stkLongTimer);stkLongTimer=null;}
+};
+
+function setTab(tab){
+  currentTab=tab;
+  ['album','tablon','matches','messages','profile','groups','faq'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
+    const n=document.getElementById('nav-'+t);if(n)n.classList.toggle('act',t===tab);
+  });
+  document.getElementById('content').scrollTop=0;
+  closeChatOverlay();closeModal();
+  const gov=document.getElementById('group-overlay');if(gov)gov.style.display='none';
+  if(tab==='album')renderAlbum();
+  else if(tab==='tablon')renderTablon();
+  else if(tab==='matches')renderMatches();
+  else if(tab==='messages')renderMessages();
+  else if(tab==='profile')renderProfile();
+  else if(tab==='groups')renderGroups();
+  else if(tab==='faq')renderFaq();
+}
+
+// ============================================================
+// ALBUM
+// ============================================================
+let saveTimer=null;
+async function toggleSticker(id){
+  if(!currentUser||!userProfile)return;
+  const album=userProfile.album||{};
+  const cur=album[id];
+  const curCount=cur?.count||1;
+  const curState=cur?.state||'missing';
+
+  if(!cur||curState==='missing'){
+    // First tap: mark as have x1
+    album[id]={state:'have',count:1};
+  } else {
+    // Subsequent taps: increment count
+    const newCount=(curCount||1)+1;
+    album[id]={state:'repeat',count:newCount};
+  }
+  userProfile.album=album;
+  renderAlbum();
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveAlbum(album),1500);
+}
+
+async function deleteSticker(id){
+  if(!currentUser||!userProfile)return;
+  const album=userProfile.album||{};
+  const cur=album[id];
+  if(!cur||cur.state==='missing')return;
+  const count=cur.count||1;
+  
+  if(count<=1){
+    // Confirm deletion of last copy
+    if(!confirm(`¿Eliminar ${id} de tu álbum?`))return;
+    album[id]={state:'missing'};
+  } else {
+    // Just decrease count
+    const newCount=count-1;
+    album[id]=newCount===1?{state:'have',count:1}:{state:'repeat',count:newCount};
+  }
+  userProfile.album=album;
+  renderAlbum();
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveAlbum(album),1500);
+}
+
+const SEC_DESCS={'fwc':'Portada, presentación y láminas especiales del torneo','mex':'Selección de México · CONCACAF · Sede anfitriona','rsa':'Selección de Arabia Saudita · AFC','kor':'Selección de Corea del Sur · AFC','cze':'Selección de República Checa · UEFA','can':'Selección de Canadá · CONCACAF · Sede anfitriona','bih':'Selección de Bosnia y Herzegovina · UEFA','qat':'Selección de Qatar · AFC','sui':'Selección de Suiza · UEFA','bra':'Selección de Brasil · CONMEBOL · 5 veces campeón mundial','mar':'Selección de Marruecos · CAF · Semifinalista Qatar 2022','hai':'Selección de Haití · CONCACAF','sco':'Selección de Escocia · UEFA','usa':'Selección de Estados Unidos · CONCACAF · Sede anfitriona','par':'Selección de Paraguay · CONMEBOL','aus':'Selección de Australia · AFC/OFC','tur':'Selección de Turquía · UEFA','ger':'Selección de Alemania · UEFA · 4 veces campeón mundial','cuw':'Selección de Curazao · CONCACAF','civ':'Selección de Costa de Marfil · CAF','ecu':'Selección de Ecuador · CONMEBOL','ned':'Selección de Países Bajos · UEFA','jpn':'Selección de Japón · AFC','swe':'Selección de Suecia · UEFA','tun':'Selección de Túnez · CAF','bel':'Selección de Bélgica · UEFA','egy':'Selección de Egipto · CAF','irn':'Selección de Irán · AFC','nzl':'Selección de Nueva Zelanda · OFC','esp':'Selección de España · UEFA · 1 vez campeón mundial','cpv':'Selección de Cabo Verde · CAF','ksa':'Selección de Arabia Saudita · AFC','uru':'Selección de Uruguay · CONMEBOL · 2 veces campeón mundial','fra':'Selección de Francia · UEFA · 2 veces campeón mundial','sen':'Selección de Senegal · CAF · Campeón Copa África 2022','irq':'Selección de Irak · AFC','nor':'Selección de Noruega · UEFA','arg':'Selección de Argentina · CONMEBOL · 3 veces campeón mundial','alg':'Selección de Argelia · CAF','aut':'Selección de Austria · UEFA','jor':'Selección de Jordania · AFC','por':'Selección de Portugal · UEFA','cod':'Selección de Rep. Dem. del Congo · CAF','uzb':'Selección de Uzbekistán · AFC','col':'Selección de Colombia · CONMEBOL','eng':'Selección de Inglaterra · UEFA','cro':'Selección de Croacia · UEFA · Subcampeón Rusia 2018','gha':'Selección de Ghana · CAF','pan':'Selección de Panamá · CONCACAF','cc':'Láminas especiales · Copa de Campeones y ceremonia final'};
+function renderAlbum(){
+  const album=userProfile?.album||{};
+  const stats=getAlbumStats(album);
+  const pct=Math.round(stats.have/TOTAL_STICKERS*100);
+  const tab=document.getElementById('tab-album');
+  let h=`<div class="album-hdr">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+      <span style="font-family:'Anton',sans-serif;font-size:22px;color:#fff;letter-spacing:1px">${pct}% COMPLETADO</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.75)">${stats.have} de ${TOTAL_STICKERS} ${getTermPlural()}</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    <div style="display:flex;gap:14px;margin-top:10px">
+      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:#fff">${stats.have}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Tengo</div></div>
+      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:var(--gold)">${stats.doubles}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Repetidas</div></div>
+      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:#ff9999">${stats.missing}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Faltan</div></div>
+    </div>
+  </div>
+  <div class="filter-row">
+    <button class="chip ${albumFilter==='all'?'act':''}" onclick="setAlbumFilter('all')">Todas</button>
+    <button class="chip ${albumFilter==='missing'?'act':''}" onclick="setAlbumFilter('missing')">Solo faltan</button>
+    <button class="chip ${albumFilter==='repeat'?'act':''}" onclick="setAlbumFilter('repeat')">Repetidas</button>
+    <button class="chip ${albumFilter==='have'?'act':''}" onclick="setAlbumFilter('have')">Tengo</button>
+  </div>
+  <div class="search-box">
+    <span>🔍</span>
+    <input id="album-search" placeholder="Buscar por equipo o código (ej: ARG)..." value="${albumSearch}" oninput="setAlbumSearch(this.value)">
+    ${albumSearch?'<button onclick="setAlbumSearch(String())" style="background:none;border:none;cursor:pointer;color:var(--gray);font-size:16px">×</button>':''}
+  </div>`;
+
+  SECTIONS.forEach(sec=>{
+    let stickers=[];
+    for(let i=1;i<=sec.count;i++){
+      const id=sec.prefix+i;
+      const st=album[id];const state=st?st.state:'missing';
+      if(albumFilter==='have'&&state==='missing')continue;
+      if(albumFilter==='double'&&state!=='repeat')continue;
+      if(albumFilter==='missing'&&state!=='missing')continue;
+      if(albumSearch&&!id.toLowerCase().includes(albumSearch.toLowerCase())&&!sec.name.toLowerCase().includes(albumSearch.toLowerCase()))continue;
+      stickers.push({id,state,count:st?.count||0});
+    }
+    if(!stickers.length&&(albumFilter!=='all'||albumSearch))return;
+    const haveC=Array.from({length:sec.count},(_,i)=>sec.prefix+(i+1)).filter(id=>album[id]&&album[id].state!=='missing').length;
+    const isOpen=openSections[sec.id]||false;
+    const secDesc=SEC_DESCS[sec.id]||'';
+    const descHtml=secDesc?('<div style="font-size:9px;opacity:.65;font-weight:400;margin-top:1px">'+secDesc+'</div>'):'';
+    h+='<div style="margin-bottom:6px">'
+      +'<div class="sec-hdr" data-secid="'+sec.id+'" onclick="toggleSection(this.dataset.secid)">'
+      +'<span style="font-size:18px">'+sec.flag+'</span>'
+      +'<div style="flex:1;min-width:0">'
+      +'<div class="sec-name">'+sec.name+'</div>'
+      +descHtml
+      +'</div>'
+      +'<span style="font-size:10px;opacity:.8;font-weight:600;flex-shrink:0;margin-left:6px">'+haveC+'/'+sec.count+'</span>'
+      +'<span class="sec-chev '+(isOpen?'open':'')+'">▼</span>'
+      +'</div>';
+    if(isOpen&&stickers.length){
+      h+='<div class="sticker-grid">';
+      stickers.forEach(function(s){
+        const sid=s.id,sst=s.state,scnt=s.count||1;
+        let si='<span style="font-family:Anton,sans-serif;font-size:9px">'+sid+'</span>';
+        if(sst==='have')si+='<span style="font-size:10px">✓</span>';
+        if(sst==='repeat')si+='<span style="font-family:Anton,sans-serif;font-size:9px;color:#b8860b">×'+scnt+'</span>';
+        h+='<div class="stk '+sst+'" data-sid="'+sid+'"'
+          +' onclick="stickerClick(this.dataset.sid,this)"'
+          +' oncontextmenu="event.preventDefault();deleteSticker(this.dataset.sid)"'
+          +' ontouchstart="stkLongStart(this.dataset.sid)" ontouchend="stkLongEnd()" ontouchmove="stkLongEnd()">'
+          +si+'</div>';
+      });
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+  // Add hint if album is empty
+  const hasAny=Object.values(userProfile?.album||{}).some(v=>v&&(v.state==='have'||v.state==='repeat'));
+  if(!hasAny&&albumFilter==='all'&&!albumSearch){
+      h+='<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">'
+        +'<div style="font-size:32px;margin-bottom:8px">📖</div>'
+        +'<div style="font-family:Anton,sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:6px">TU ÁLBUM ESTÁ VACÍO</div>'
+        +'<div style="font-size:12px;opacity:.85;margin-bottom:14px;line-height:1.6">Tocá las secciones para marcar las láminas que tenés, o usá el asistente de carga.</div>'
+        +'<button onclick="startOnboarding()" style="background:var(--gold);color:var(--green-d);border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;width:100%">📖 Cargar mi álbum</button>'
+        +'</div>';
+    }
+  tab.innerHTML=h;
+}
+
+window.stickerClick=function(id,el){
+  el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);
+  const album=userProfile?.album||{};
+  const cur=album[id];
+  if(cur?.state==='repeat'){
+    // Already double - show counter modal
+    showCounterModal(id);
+    return;
+  }
+  toggleSticker(id);
+};
+
+
+
+
+window.toggleSection=function(id){openSections[id]=!openSections[id];renderAlbum();};
+window.setAlbumFilter=function(f){albumFilter=f;renderAlbum();};
+window.setAlbumSearch=function(v){albumSearch=v;renderAlbum();};
+
+// ============================================================
+// TABLÓN
+// ============================================================
+async function renderTablon(){
+  await loadPosts();
+  if(!allUsers.length)await loadAllUsers();
+  const tab=document.getElementById('tab-tablon');
+  const cities=['all',...new Set(allUsers.map(u=>u.city))];
+  let h=`<div class="filter-row">${cities.map(c=>`<button class="chip ${cityFilter===c?'act':''}" onclick="setCityFilter('${c}')">${c==='all'?'🌎 Todas':c}</button>`).join('')}</div>`;
+  const filtered=posts.filter(p=>cityFilter==='all'||(allUsers.find(u=>u.id===p.userId)?.city===cityFilter));
+  if(!filtered.length)h+=`<div class="empty">
+    <div class="ei">📋</div>
+    <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">El tablón está vacío</p>
+    <p style="margin-bottom:16px">Acá los coleccionistas publican qué ${getTermPlural()} <strong>ofrecen</strong> (sus repetidas) y cuáles <strong>buscan</strong> (sus faltantes).<br><br>¡Sé el primero en publicar!</p>
+    <button onclick="openCreatePost()" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📋 Publicar mis ${getTermPlural()}</button>
+  </div>`;
+  filtered.forEach(post=>{
+    const u=allUsers.find(x=>x.id===post.userId)||userProfile;
+    if(!u)return;
+    const rating=getUserRating(u);
+    const isOwn=post.userId===currentUser?.uid;
+    h+=`<div class="post-card">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px">
+        ${avHtml(u)}
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:13px">${u.alias}</div>
+          <div style="font-size:10px;color:var(--muted);display:flex;gap:7px;align-items:center">
+            <span>📍 ${u.city}</span>${starsHtml(rating,u.ratings?.length)}
+          </div>
+        </div>
+        <span style="font-size:10px;color:var(--muted)">${timeAgo(post.createdAt)}</span>
+      </div>
+      ${post.offers?.length?`<div style="margin-bottom:9px"><div class="plabel">🟢 Ofrece (${post.offers.length})</div>${pillsHtml(post.offers,'off')}</div>`:''}
+      ${post.wants?.length?`<div style="margin-bottom:9px"><div class="plabel">🟡 Busca (${post.wants.length})</div>${pillsHtml(post.wants,'wnt')}</div>`:''}
+      <div style="display:flex;gap:7px;margin-top:7px">
+        ${!isOwn?`<button class="btn btn-primary btn-sm" style="flex:1" onclick="openChatWith('${u.id}')">💬 Me interesa</button>`:
+        `<button class="btn btn-danger btn-sm" onclick="deletePost('${post.id}')">🗑 Eliminar</button>`}
+      </div>
+    </div>`;
+  });
+  h+=`<div style="height:80px"></div>`;
+  tab.innerHTML=h;
+  if(currentUser)tab.innerHTML+=`<button class="fab" onclick="openCreatePost()">+</button>`;
+}
+
+window.setCityFilter=function(c){cityFilter=c;renderTablon();};
+window.deletePost=async function(id){
+  // eliminar de Firestore
+  const {deleteDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  await deleteDoc(doc(db,'posts',id));
+  toast('🗑 Publicación eliminada');renderTablon();
+};
+
+window.openCreatePost=function(){
+  const album=userProfile?.album||{};
+  const doubles=getDoublesList(album);
+  const missing=getMissingList(album);
+  const body=`<div style="margin-bottom:14px">
+    <div class="plabel" style="margin-bottom:7px">Láminas que ofrezco (repetidas)</div>
+    ${doubles.length===0?'<p style="font-size:12px;color:var(--muted)">No tenés repetidas registrados</p>':
+    `<div class="pills" id="cp-offers">${doubles.slice(0,60).map(n=>`<span class="pill" style="cursor:pointer" data-n="${n}" onclick="this.classList.toggle('off')">#${n}</span>`).join('')}</div>`}
+  </div>
+  <div>
+    <div class="plabel" style="margin-bottom:7px">Láminas que busco</div>
+    <div class="pills" id="cp-wants">${missing.slice(0,60).map(n=>`<span class="pill" style="cursor:pointer" data-n="${n}" onclick="this.classList.toggle('wnt')">#${n}</span>`).join('')}</div>
+  </div>`;
+  showModal('Nueva Publicación',body,async()=>{
+    const offs=[...document.querySelectorAll('#cp-offers .pill.off')].map(el=>+el.dataset.n);
+    const wnts=[...document.querySelectorAll('#cp-wants .pill.wnt')].map(el=>+el.dataset.n);
+    if(!offs.length&&!wnts.length){toast('Seleccioná al menos una lámina');return;}
+    await addDoc(collection(db,'posts'),{userId:currentUser.uid,offers:offs,wants:wnts,createdAt:serverTimestamp()});
+    toast('✅ Publicación creada');closeModal();renderTablon();
+  },'Publicar');
+};
+
+// ============================================================
+// MATCHES
+// ============================================================
+let matchProximity='all';
+async function renderMatches(){
+  if(!allUsers.length)await loadAllUsers();
+  const tab=document.getElementById('tab-matches');
+  const myAlbum=userProfile?.album||{};
+  const myCity=userProfile?.city||'';
+  const myDoubles=getDoublesList(myAlbum);
+  const myMissing=getMissingList(myAlbum);
+
+  let filtered=allUsers.filter(u=>u.id!==currentUser?.uid);
+  if(matchProximity==='city')filtered=filtered.filter(u=>u.city===myCity);
+  else if(matchProximity==='country'){
+    // match by country prefix from city name (simple heuristic using known cities)
+    const myCountry=getCityCountry(myCity);
+    filtered=filtered.filter(u=>getCityCountry(u.city)===myCountry);
+  }
+
+  const matches=filtered.map(other=>{
+    const oa=other.album||{};
+    const od=getDoublesList(oa);const om=getMissingList(oa);
+    const canGive=myDoubles.filter(n=>om.includes(n)).length;
+    const canReceive=od.filter(n=>myMissing.includes(n)).length;
+    const score=Math.min(canGive,canReceive);
+    const oLoc=getLocationParts(other.city||'');
+    const sameCity=other.city===myCity;
+    const sameRegion=oLoc.region===myRegion&&oLoc.country===myCountry;
+    const sameCountry=oLoc.country===myCountry;
+    return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1,sameCity,sameRegion,sameCountry};
+  }).filter(m=>m.score>0).sort((a,b)=>{
+    // Sort: same city → same region → same country → score
+    if(a.sameCity&&!b.sameCity)return -1;
+    if(!a.sameCity&&b.sameCity)return 1;
+    if(a.sameRegion&&!b.sameRegion)return -1;
+    if(!a.sameRegion&&b.sameRegion)return 1;
+    if(a.sameCountry&&!b.sameCountry)return -1;
+    if(!a.sameCountry&&b.sameCountry)return 1;
+    return b.score-a.score;
+  });
+
+  const term=getTermPlural();
+  const myRegionLabel=COMMUNE_REGION[userProfile?.city||'']||'Mi región';
+  const myCountryLabel=getCityCountry(userProfile?.city||'')==='CL'?'Chile':getCityCountry(userProfile?.city||'')==='AR'?'Argentina':getCityCountry(userProfile?.city||'')==='MX'?'México':getCityCountry(userProfile?.city||'')==='ES'?'España':'Mi país';
+  let h=`<div style="background:var(--green);padding:13px;color:#fff">
+    <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">MIS MATCHES</div>
+    <div style="font-size:11px;opacity:.8;margin-top:2px">${matches.length} coleccionistas compatibles</div>
+  </div>
+  <div class="filter-row">
+    <button class="chip ${matchProximity==='all'?'act':''}" onclick="setMatchProx('all')">🌎 Todos</button>
+    <button class="chip ${matchProximity==='country'?'act':''}" onclick="setMatchProx('country')">🗺️ ${myCountryLabel}</button>
+    ${myRegionLabel?`<button class="chip ${matchProximity==='region'?'act':''}" onclick="setMatchProx('region')">🏙️ ${myRegionLabel}</button>`:''}
+    <button class="chip ${matchProximity==='city'?'act':''}" onclick="setMatchProx('city')">📍 ${getCityDisplay(userProfile?.city||'')}</button>
+  </div>`;
+
+  if(!matches.length){
+    const emptyMsg=matchProximity!=='all'?'en tu zona. Probá ampliar el filtro.':'aún.';
+    tab.innerHTML=h+`<div class="empty">
+      <div class="ei">🎯</div>
+      <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">No hay matches ${emptyMsg}</p>
+      <p style="margin-bottom:16px">El motor de matches cruza tu álbum con el de otros coleccionistas y encuentra intercambios donde <strong>ambos se benefician</strong>.<br><br>Para ver matches necesitás tener ${getTermPlural()} marcadas como <strong>repetidas</strong> o <strong>faltantes</strong>.</p>
+      <button onclick="setTab('album')" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📖 Ir a mi álbum</button>
+    </div>`;
+    return;
+  }
+  matches.forEach(({user:other,canGive,canReceive,perfect,sameCity,sameCountry})=>{
+    const rating=getUserRating(other);
+    let proxBadge='';
+    if(sameCity)proxBadge=`<span style="background:#e8f5ee;color:var(--green-d);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">📍 Tu ciudad</span>`;
+    else if(sameRegion)proxBadge=`<span style="background:#e8f5ee;color:var(--green-d);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">🏙️ Tu región</span>`;
+    else if(sameCountry)proxBadge=`<span style="background:#e8f0ff;color:#3346a0;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">🗺️ Tu país</span>`;
+    h+=`<div class="match-card ${perfect?'perf':''}">
+      <div style="display:flex;gap:6px;margin-bottom:7px;flex-wrap:wrap">
+        ${perfect?`<div class="m-badge">✦ Match Perfecto</div>`:''}
+        ${proxBadge}
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+        ${avHtml(other)}<div>
+          <div style="font-weight:700;font-size:14px">${other.alias}</div>
+          <div style="font-size:11px;color:var(--muted);display:flex;gap:8px"><span>📍 ${other.city}</span>${starsHtml(rating)}</div>
+        </div>
+      </div>
+      <div class="m-nums">
+        <div class="m-box"><div class="m-num g">${canGive}</div><div style="font-size:9px;color:var(--muted);font-weight:600">Puedo darle</div></div>
+        <div style="display:flex;align-items:center;color:var(--muted);font-size:18px">⇄</div>
+        <div class="m-box"><div class="m-num au">${canReceive}</div><div style="font-size:9px;color:var(--muted);font-weight:600">Me puede dar</div></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="openChatWith('${other.id}')">💬 Iniciar intercambio</button>
+    </div>`;
+  });
+  tab.innerHTML=h;
+}
+window.setMatchProx=function(p){matchProximity=p;renderMatches();};
+let matchTempCity=null;
+window.openTempLoc=function(){
+  const baseLoc=getLocationParts(matchTempCity||userProfile?.city||'');
+  let tC=baseLoc.country||'Chile',tR=baseLoc.region||'',tCity=matchTempCity||userProfile?.city||'';
+  function buildTL(){
+    const regs=getRegions(tC),cities=getCities(tC,tR);
+    showModal('📍 Buscar matches en...',`
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Cambiá temporalmente tu zona de búsqueda sin modificar tu perfil.</p>
+      <div class="form-group">
+        <label class="form-label">País</label>
+        <select class="form-input" id="tl-c" onchange="tlPickC(this.value)">
+          ${getCountries().map(c=>`<option value="${c}" ${c===tC?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:8px">
+        <label class="form-label">Región</label>
+        <select class="form-input" id="tl-r" onchange="tlPickR(this.value)" ${!regs.length?'disabled':''}>
+          <option value="">Seleccioná región</option>
+          ${regs.map(r=>`<option value="${r}" ${r===tR?'selected':''}>${getRegionDisplay(r)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:8px">
+        <label class="form-label">Ciudad / Comuna</label>
+        <select class="form-input" id="tl-ci" ${!cities.length?'disabled':''}>
+          <option value="">Seleccioná ciudad</option>
+          ${cities.map(c=>`<option value="${c}" ${c===tCity?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      ${matchTempCity?`<button onclick="resetTempLoc()" style="background:#fde8e8;color:var(--red);border:none;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;width:100%;margin-top:8px">🔄 Volver a mi ubicación real</button>`:''}
+    `,()=>{
+      const city=document.getElementById('tl-ci')?.value;
+      if(!city){toast('Seleccioná una ciudad');return;}
+      matchTempCity=city;matchProximity='city';closeModal();renderMatches();
+    },'Buscar aquí');
+    window.tlPickC=function(c){tC=c;tR='';tCity='';closeModal();openTempLoc();};
+    window.tlPickR=function(r){tR=r;tCity='';closeModal();openTempLoc();};
+    window.resetTempLoc=function(){matchTempCity=null;matchProximity='city';closeModal();renderMatches();};
+  }
+  buildTL();
+};
+
+// Country detection from city name
+;
 // ============================================================
 // CONSTANTS
 // ============================================================
@@ -1036,569 +1595,6 @@ window.obFinish=async function(){
   renderAlbum();
 };
 
-const LOCATION_DATA={
-  "Chile":{
-    "Arica y Parinacota":["Arica","Camarones","Putre","General Lagos"],
-    "Tarapacá":["Iquique","Alto Hospicio","Pozo Almonte","Camiña","Colchane","Huara","Pica"],
-    "Antofagasta":["Antofagasta","Mejillones","Sierra Gorda","Taltal","Calama","Ollagüe","San Pedro de Atacama","Tocopilla","María Elena"],
-    "Atacama":["Copiapó","Caldera","Tierra Amarilla","Chañaral","Diego de Almagro","Vallenar","Alto del Carmen","Freirina","Huasco"],
-    "Coquimbo":["La Serena","Coquimbo","Andacollo","La Higuera","Vicuña","Illapel","Canela","Los Vilos","Salamanca","Ovalle","Combarbalá","Monte Patria","Punitaqui","Río Hurtado"],
-    "Valparaíso":["Valparaíso","Casablanca","Concón","Viña del Mar","Quilpué","Villa Alemana","San Antonio","Los Andes","San Felipe","Quillota","Quintero","Limache","Olmué","Isla de Pascua"],
-    "Metropolitana":["Santiago","Cerrillos","Cerro Navia","Conchalí","El Bosque","Estación Central","Huechuraba","Independencia","La Cisterna","La Florida","La Granja","La Pintana","La Reina","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul","Maipú","Ñuñoa","Pedro Aguirre Cerda","Peñalolén","Providencia","Pudahuel","Quilicura","Quinta Normal","Recoleta","Renca","San Joaquín","San Miguel","San Ramón","Vitacura","Puente Alto","Pirque","San José de Maipo","Colina","Lampa","Tiltil","San Bernardo","Buin","Calera de Tango","Paine","Melipilla","Talagante","El Monte","Isla de Maipo","Padre Hurtado","Peñaflor"],
-    "OHiggins":["Rancagua","Codegua","Coinco","Coltauco","Doñihue","Graneros","Las Cabras","Machalí","Malloa","Mostazal","Olivar","Peumo","Pichidegua","Quinta de Tilcoco","Rengo","Requínoa","San Vicente","Pichilemu","La Estrella","Litueche","Marchihue","Navidad","Paredones","San Fernando","Chépica","Chimbarongo","Lolol","Nancagua","Palmilla","Peralillo","Placilla","Pumanque","Santa Cruz"],
-    "Maule":["Talca","Constitución","Curepto","Empedrado","Maule","Pelarco","Pencahue","Río Claro","San Clemente","San Rafael","Cauquenes","Chanco","Pelluhue","Curicó","Hualañé","Licantén","Molina","Rauco","Romeral","Sagrada Familia","Teno","Vichuquén","Linares","Colbún","Longaví","Parral","Retiro","San Javier","Villa Alegre","Yerbas Buenas"],
-    "Ñuble":["Chillán","Bulnes","Chillán Viejo","El Carmen","Pemuco","Pinto","Quillón","San Ignacio","Yungay","Coihueco","Ñiquén","San Carlos","San Fabián","San Nicolás","Cobquecura","Coelemu","Ninhue","Portezuelo","Quirihue","Ránquil","Treguaco"],
-    "Biobío":["Concepción","Coronel","Chiguayante","Florida","Hualqui","Lota","Penco","San Pedro de la Paz","Santa Juana","Talcahuano","Tomé","Hualpén","Lebu","Arauco","Cañete","Contulmo","Curanilahue","Los Álamos","Tirúa","Los Ángeles","Antuco","Cabrero","Laja","Mulchén","Nacimiento","Negrete","Quilaco","Quilleco","San Rosendo","Santa Bárbara","Tucapel","Yumbel","Alto Biobío"],
-    "La Araucanía":["Temuco","Carahue","Cunco","Curarrehue","Freire","Galvarino","Gorbea","Lautaro","Loncoche","Melipeuco","Nueva Imperial","Padre Las Casas","Perquenco","Pitrufquén","Pucón","Saavedra","Teodoro Schmidt","Toltén","Vilcún","Villarrica","Cholchol","Angol","Collipulli","Curacautín","Ercilla","Lonquimay","Los Sauces","Lumaco","Purén","Renaico","Traiguén","Victoria"],
-    "Los Ríos":["Valdivia","Corral","Futrono","La Unión","Lago Ranco","Lanco","Los Lagos","Máfil","Mariquina","Paillaco","Panguipulli","Río Bueno"],
-    "Los Lagos":["Puerto Montt","Calbuco","Cochamó","Fresia","Frutillar","Los Muermos","Llanquihue","Maullín","Puerto Varas","Castro","Ancud","Chonchi","Curaco de Vélez","Dalcahue","Puqueldón","Queilén","Quellón","Quemchi","Quinchao","Osorno","Puerto Octay","Purranque","Puyehue","Río Negro","San Juan de la Costa","San Pablo","Chaitén","Futaleufú","Hualaihué","Palena"],
-    "Aysén":["Coyhaique","Lago Verde","Puerto Aysén","Cisnes","Guaitecas","Cochrane","Tortel","Chile Chico","Río Ibáñez"],
-    "Magallanes":["Punta Arenas","Laguna Blanca","Río Verde","San Gregorio","Cabo de Hornos","Puerto Williams","Porvenir","Primavera","Timaukel","Puerto Natales","Torres del Paine"],
-  },
-  "Argentina":{
-    "Ciudad de Buenos Aires":["Palermo","Belgrano","Recoleta","San Telmo","La Boca","Caballito","Almagro","Villa Crespo","Flores","Floresta","Villa del Parque","Devoto","Saavedra","Núñez","Colegiales","Chacarita","Villa Urquiza","Liniers","Mataderos","Pompeya","Barracas","Boedo","Paternal","Monte Castro","Puerto Madero","Balvanera","San Cristóbal"],
-    "GBA Norte":["San Isidro","Vicente López","San Martín","Tres de Febrero","Tigre","San Fernando","Escobar","Pilar","Malvinas Argentinas","José C. Paz","San Miguel","Moreno","General Rodríguez"],
-    "GBA Sur":["Avellaneda","Quilmes","Lanús","Lomas de Zamora","Almirante Brown","Esteban Echeverría","Ezeiza","Florencio Varela","Berazategui","La Matanza","Merlo","Morón","Hurlingham","Ituzaingó"],
-    "GBA Oeste":["La Plata","Berisso","Ensenada","Brandsen","Campana","Zárate","San Pedro","Mar del Plata"],
-    "Córdoba":["Córdoba","Villa Carlos Paz","Río Cuarto","San Francisco","Villa María","Cosquín","Alta Gracia"],
-    "Rosario y Santa Fe":["Rosario","Santa Fe","Rafaela","Venado Tuerto"],
-    "Mendoza":["Mendoza","Godoy Cruz","Las Heras","Luján de Cuyo","Guaymallén","San Rafael","Maipú"],
-    "Tucumán":["San Miguel de Tucumán","Tafí Viejo","Banda del Río Salí","Yerba Buena","Concepción"],
-    "Salta y Jujuy":["Salta","San Ramón de la Nueva Orán","Tartagal","San Salvador de Jujuy","Palpalá"],
-    "Otras provincias":["Neuquén","Bariloche","Resistencia","Corrientes","Posadas","San Juan","San Luis","La Rioja","Catamarca","Santiago del Estero","Formosa","Rawson","Viedma","Santa Rosa","Río Gallegos","Ushuaia"],
-  },
-  "México":{
-    "CDMX":["Álvaro Obregón","Azcapotzalco","Benito Juárez","Coyoacán","Cuajimalpa","Cuauhtémoc","Gustavo A. Madero","Iztacalco","Iztapalapa","Magdalena Contreras","Miguel Hidalgo","Milpa Alta","Tláhuac","Tlalpan","Venustiano Carranza","Xochimilco"],
-    "Estado de México":["Ecatepec","Nezahualcóyotl","Naucalpan","Toluca","Tlalnepantla","Chimalhuacán","Tultitlán","Atizapán","Nicolás Romero","Texcoco","Cuautitlán Izcalli","Ixtapaluca","Valle de Chalco"],
-    "Jalisco":["Guadalajara","Zapopan","Tlaquepaque","Tonalá","Tlajomulco","Puerto Vallarta","Lagos de Moreno"],
-    "Nuevo León":["Monterrey","San Nicolás","Guadalupe","Apodaca","General Escobedo","Santa Catarina","San Pedro Garza García"],
-    "Puebla":["Puebla","Tehuacán","San Martín Texmelucan","Atlixco","Cholula"],
-    "Baja California":["Tijuana","Mexicali","Ensenada","Tecate","Rosarito"],
-    "Otras":["León","Mérida","San Luis Potosí","Aguascalientes","Hermosillo","Cancún","Culiacán","Acapulco","Querétaro","Chihuahua","Morelia","Veracruz","Torreón","Saltillo","Villahermosa","Oaxaca","Tuxtla Gutiérrez","Durango"],
-  },
-  "España":{
-    "Comunidad de Madrid":["Centro","Arganzuela","Retiro","Salamanca","Chamartín","Tetuán","Chamberí","Fuencarral","Moncloa","Latina","Carabanchel","Usera","Puente de Vallecas","Moratalaz","Ciudad Lineal","Hortaleza","Villaverde","Vicálvaro","San Blas","Barajas","Alcalá de Henares","Getafe","Leganés","Fuenlabrada","Móstoles","Alcorcón","Torrejón de Ardoz","Pozuelo de Alarcón"],
-    "Cataluña":["Eixample","Gràcia","Sarrià-Sant Gervasi","Les Corts","Sants-Montjuïc","Nou Barris","Sant Andreu","Sant Martí","Horta-Guinardó","Ciutat Vella","Badalona","Hospitalet de Llobregat","Sabadell","Terrassa","Mataró","Santa Coloma","Girona","Lleida","Tarragona"],
-    "Andalucía":["Sevilla","Málaga","Granada","Córdoba","Almería","Huelva","Cádiz","Jaén"],
-    "País Vasco":["Bilbao","San Sebastián","Vitoria","Barakaldo","Getxo","Irún"],
-    "Comunitat Valenciana":["Valencia","Alicante","Elche","Castellón","Torrent","Gandia"],
-    "Otras comunidades":["Zaragoza","Palma","Las Palmas","Santa Cruz de Tenerife","Valladolid","Vigo","Gijón","La Coruña","Oviedo","Pamplona","Santander","Burgos","Logroño","Murcia","Albacete","Toledo","Badajoz","Salamanca"],
-  },
-  "Colombia":{
-    "Bogotá D.C.":["Usaquén","Chapinero","Santa Fe","San Cristóbal","Usme","Tunjuelito","Bosa","Kennedy","Fontibón","Engativá","Suba","Barrios Unidos","Teusaquillo","Mártires","Antonio Nariño","Puente Aranda","Candelaria","Rafael Uribe","Ciudad Bolívar"],
-    "Antioquia":["Medellín","Bello","Itagüí","Envigado","Apartadó","Turbo"],
-    "Valle del Cauca":["Cali","Buenaventura","Palmira","Tuluá","Buga","Cartago"],
-    "Atlántico":["Barranquilla","Soledad","Malambo","Sabanalarga"],
-    "Bolívar":["Cartagena","Magangué","El Carmen de Bolívar"],
-    "Otras ciudades":["Cúcuta","Bucaramanga","Pereira","Santa Marta","Ibagué","Manizales","Pasto","Villavicencio","Armenia","Montería","Sincelejo","Valledupar","Neiva","Popayán"],
-  },
-  "Uruguay":{
-    "Montevideo":["Centro","Pocitos","Punta Carretas","Carrasco","Malvín","Buceo","Cordón","Palermo","Ciudad Vieja","Prado","Belvedere","Sayago"],
-    "Interior":["Salto","Paysandú","Las Piedras","Rivera","Maldonado","Punta del Este","Melo","Minas","Trinidad","Durazno","Florida","San José","Canelones"],
-  },
-  "Perú":{
-    "Lima Metropolitana":["Miraflores","San Isidro","Barranco","Surco","La Molina","San Borja","Jesús María","Lince","Magdalena","Pueblo Libre","Breña","Rímac","San Martín de Porres","Los Olivos","Comas","Independencia","El Agustino","Ate","Santa Anita","Surquillo","San Luis","Chorrillos","Villa El Salvador","Villa María del Triunfo","San Juan de Miraflores","Callao"],
-    "Otras regiones":["Arequipa","Trujillo","Chiclayo","Iquitos","Piura","Cusco","Huancayo","Tacna","Pucallpa","Cajamarca","Chimbote","Ica"],
-  },
-  "Venezuela":{
-    "Caracas":["Libertador","Chacao","Baruta","El Hatillo","Sucre"],
-    "Miranda":["Los Teques","Guarenas","Guatire","Petare","Ocumare del Tuy"],
-    "Otras ciudades":["Maracaibo","Valencia","Barquisimeto","Maracay","Ciudad Guayana","Barcelona","Maturín","San Cristóbal","Cumaná","Barinas"],
-  },
-  "Ecuador":{
-    "Pichincha":["Quito","Cayambe","Mejía","Rumiñahui","Pedro Moncayo"],
-    "Guayas":["Guayaquil","Durán","Milagro","Samborondón","Daule"],
-    "Otras provincias":["Cuenca","Machala","Manta","Portoviejo","Loja","Ambato","Esmeraldas","Santo Domingo","Ibarra"],
-  },
-  "Paraguay":{
-    "Central y Asunción":["Asunción","San Lorenzo","Luque","Capiatá","Lambaré","Fernando de la Mora","Limpio","Ñemby","Villa Elisa","Mariano Roque Alonso"],
-    "Otras ciudades":["Ciudad del Este","Encarnación","Pedro Juan Caballero","Concepción","Villarrica","Coronel Oviedo"],
-  },
-  "Bolivia":{
-    "La Paz y El Alto":["La Paz","El Alto","Viacha","Achocalla","Mecapaca"],
-    "Cochabamba":["Cochabamba","Quillacollo","Sacaba","Colcapirhua","Tiquipaya"],
-    "Otras ciudades":["Santa Cruz de la Sierra","Oruro","Potosí","Sucre","Tarija","Trinidad","Cobija"],
-  },
-  "Otro país":{
-    "Mi ciudad":["Mi ciudad"],
-  },
-};
-const REGION_DISPLAY={"OHiggins":"O'Higgins"};
-function getRegionDisplay(r){return REGION_DISPLAY[r]||r;}
-function getCountries(){return Object.keys(LOCATION_DATA);}
-function getRegions(country){return country&&LOCATION_DATA[country]?Object.keys(LOCATION_DATA[country]):[];}
-function getCities(country,region){return country&&region&&LOCATION_DATA[country]&&LOCATION_DATA[country][region]?LOCATION_DATA[country][region]:[];}
-function getLocationParts(city){
-  if(!city)return{country:'',region:'',city:''};
-  for(const [country,regions] of Object.entries(LOCATION_DATA)){
-    for(const [region,cities] of Object.entries(regions)){
-      if(cities.includes(city))return{country,region,city};
-    }
-  }
-  return{country:'Otro país',region:'Mi ciudad',city};
-}
-
-
-const PAYPAL_URL='https://paypal.me/intercambiaapp';
-let donateTimer=null;
-let donateShown=0;
-
-function scheduleDonationBanner(){
-  // First appearance: 3 minutes after login
-  // Subsequent: every 20 minutes
-  const delay=donateShown===0 ? 3*60*1000 : 20*60*1000;
-  clearTimeout(donateTimer);
-  donateTimer=setTimeout(()=>{
-    showDonateBanner();
-  },delay);
-}
-
-function showDonateBanner(){
-  // Don't show while chat is open or modal is open
-  const chatOpen=document.getElementById('chat-overlay').style.display!=='none';
-  const modalOpen=document.getElementById('modal-ov').style.display!=='none';
-  if(chatOpen||modalOpen){scheduleDonationBanner();return;}
-  donateShown++;
-  const banner=document.getElementById('donate-banner');
-  if(banner){
-    // Vary the message
-    const msgs=[
-      {title:'¡Esta app es gratuita!',sub:'Si te es útil, podés invitarme un café ☕'},
-      {title:'¿Encontraste tus '+getTermPlural()+'?',sub:'Apoyá el proyecto con una donación voluntaria'},
-      {title:'Sin publicidad, sin costos',sub:'Si querés mantener esto vivo, podés colaborar 💙'},
-      {title:'Gracias por usar la app 🏆',sub:'Una pequeña donación ayuda mucho a seguir mejorándola'},
-    ];
-    const m=msgs[(donateShown-1)%msgs.length];
-    const titleEl=banner.querySelector('.d-title');
-    const subEl=banner.querySelector('.d-sub');
-    if(titleEl)titleEl.textContent=m.title;
-    if(subEl)subEl.textContent=m.sub;
-    banner.style.display='flex';
-    // Auto-hide after 12 seconds
-    setTimeout(()=>closeDonate(),12000);
-  }
-  scheduleDonationBanner();
-}
-
-window.openDonate=function(){
-  window.open(PAYPAL_URL,'_blank');
-  closeDonate();
-};
-window.closeDonate=function(){
-  const banner=document.getElementById('donate-banner');
-  if(banner)banner.style.display='none';
-};
-
-function updateHeader(){
-  const u=userProfile;
-  const info=document.getElementById('hdr-user');
-  const pico=document.getElementById('nav-pico');
-  if(u){
-    // Always show avatar emoji + alias, NOT Google photo/name
-    const displayAlias=u.alias||u.name||'Coleccionista';
-    info.innerHTML=`<span style="font-size:18px">${u.avatar||'⚽'}</span><span style="font-size:12px;font-weight:700">${displayAlias}</span>`;
-    if(pico)pico.textContent=u.avatar||'👤';
-  }
-}
-
-// Long press for sticker delete
-let stkLongTimer=null;
-window.stkTouchStart=function(id,el){
-  stkLongTimer=setTimeout(()=>{
-    stkLongTimer=null;
-    deleteSticker(id);
-  },600);
-};
-window.stkTouchEnd=function(){
-  if(stkLongTimer){clearTimeout(stkLongTimer);stkLongTimer=null;}
-};
-
-window.setTab=function(tab){
-  currentTab=tab;
-  ['album','tablon','matches','messages','profile','groups','faq'].forEach(t=>{
-    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
-    const n=document.getElementById('nav-'+t);if(n)n.classList.toggle('act',t===tab);
-  });
-  document.getElementById('content').scrollTop=0;
-  closeChatOverlay();closeModal();
-  const gov=document.getElementById('group-overlay');if(gov)gov.style.display='none';
-  if(tab==='album')renderAlbum();
-  else if(tab==='tablon')renderTablon();
-  else if(tab==='matches')renderMatches();
-  else if(tab==='messages')renderMessages();
-  else if(tab==='profile')renderProfile();
-  else if(tab==='groups')renderGroups();
-  else if(tab==='faq')renderFaq();
-};
-
-// ============================================================
-// ALBUM
-// ============================================================
-let saveTimer=null;
-async function toggleSticker(id){
-  if(!currentUser||!userProfile)return;
-  const album=userProfile.album||{};
-  const cur=album[id];
-  const curCount=cur?.count||1;
-  const curState=cur?.state||'missing';
-
-  if(!cur||curState==='missing'){
-    // First tap: mark as have x1
-    album[id]={state:'have',count:1};
-  } else {
-    // Subsequent taps: increment count
-    const newCount=(curCount||1)+1;
-    album[id]={state:'repeat',count:newCount};
-  }
-  userProfile.album=album;
-  renderAlbum();
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>saveAlbum(album),1500);
-}
-
-async function deleteSticker(id){
-  if(!currentUser||!userProfile)return;
-  const album=userProfile.album||{};
-  const cur=album[id];
-  if(!cur||cur.state==='missing')return;
-  const count=cur.count||1;
-  
-  if(count<=1){
-    // Confirm deletion of last copy
-    if(!confirm(`¿Eliminar ${id} de tu álbum?`))return;
-    album[id]={state:'missing'};
-  } else {
-    // Just decrease count
-    const newCount=count-1;
-    album[id]=newCount===1?{state:'have',count:1}:{state:'repeat',count:newCount};
-  }
-  userProfile.album=album;
-  renderAlbum();
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>saveAlbum(album),1500);
-}
-
-const SEC_DESCS={'fwc':'Portada, presentación y láminas especiales del torneo','mex':'Selección de México · CONCACAF · Sede anfitriona','rsa':'Selección de Arabia Saudita · AFC','kor':'Selección de Corea del Sur · AFC','cze':'Selección de República Checa · UEFA','can':'Selección de Canadá · CONCACAF · Sede anfitriona','bih':'Selección de Bosnia y Herzegovina · UEFA','qat':'Selección de Qatar · AFC','sui':'Selección de Suiza · UEFA','bra':'Selección de Brasil · CONMEBOL · 5 veces campeón mundial','mar':'Selección de Marruecos · CAF · Semifinalista Qatar 2022','hai':'Selección de Haití · CONCACAF','sco':'Selección de Escocia · UEFA','usa':'Selección de Estados Unidos · CONCACAF · Sede anfitriona','par':'Selección de Paraguay · CONMEBOL','aus':'Selección de Australia · AFC/OFC','tur':'Selección de Turquía · UEFA','ger':'Selección de Alemania · UEFA · 4 veces campeón mundial','cuw':'Selección de Curazao · CONCACAF','civ':'Selección de Costa de Marfil · CAF','ecu':'Selección de Ecuador · CONMEBOL','ned':'Selección de Países Bajos · UEFA','jpn':'Selección de Japón · AFC','swe':'Selección de Suecia · UEFA','tun':'Selección de Túnez · CAF','bel':'Selección de Bélgica · UEFA','egy':'Selección de Egipto · CAF','irn':'Selección de Irán · AFC','nzl':'Selección de Nueva Zelanda · OFC','esp':'Selección de España · UEFA · 1 vez campeón mundial','cpv':'Selección de Cabo Verde · CAF','ksa':'Selección de Arabia Saudita · AFC','uru':'Selección de Uruguay · CONMEBOL · 2 veces campeón mundial','fra':'Selección de Francia · UEFA · 2 veces campeón mundial','sen':'Selección de Senegal · CAF · Campeón Copa África 2022','irq':'Selección de Irak · AFC','nor':'Selección de Noruega · UEFA','arg':'Selección de Argentina · CONMEBOL · 3 veces campeón mundial','alg':'Selección de Argelia · CAF','aut':'Selección de Austria · UEFA','jor':'Selección de Jordania · AFC','por':'Selección de Portugal · UEFA','cod':'Selección de Rep. Dem. del Congo · CAF','uzb':'Selección de Uzbekistán · AFC','col':'Selección de Colombia · CONMEBOL','eng':'Selección de Inglaterra · UEFA','cro':'Selección de Croacia · UEFA · Subcampeón Rusia 2018','gha':'Selección de Ghana · CAF','pan':'Selección de Panamá · CONCACAF','cc':'Láminas especiales · Copa de Campeones y ceremonia final'};
-function renderAlbum(){
-  try{
-  const album=userProfile?.album||{};
-  const stats=getAlbumStats(album);
-  const pct=Math.round(stats.have/TOTAL_STICKERS*100);
-  const tab=document.getElementById('tab-album');
-  let h=`<div class="album-hdr">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
-      <span style="font-family:'Anton',sans-serif;font-size:22px;color:#fff;letter-spacing:1px">${pct}% COMPLETADO</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.75)">${stats.have} de ${TOTAL_STICKERS} ${getTermPlural()}</span>
-    </div>
-    <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
-    <div style="display:flex;gap:14px;margin-top:10px">
-      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:#fff">${stats.have}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Tengo</div></div>
-      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:var(--gold)">${stats.doubles}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Repetidas</div></div>
-      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:#ff9999">${stats.missing}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Faltan</div></div>
-    </div>
-  </div>
-  <div class="filter-row">
-    <button class="chip ${albumFilter==='all'?'act':''}" onclick="setAlbumFilter('all')">Todas</button>
-    <button class="chip ${albumFilter==='missing'?'act':''}" onclick="setAlbumFilter('missing')">Solo faltan</button>
-    <button class="chip ${albumFilter==='repeat'?'act':''}" onclick="setAlbumFilter('repeat')">Repetidas</button>
-    <button class="chip ${albumFilter==='have'?'act':''}" onclick="setAlbumFilter('have')">Tengo</button>
-  </div>
-  <div class="search-box">
-    <span>🔍</span>
-    <input id="album-search" placeholder="Buscar por equipo o código (ej: ARG)..." value="${albumSearch}" oninput="setAlbumSearch(this.value)">
-    ${albumSearch?'<button onclick="setAlbumSearch(String())" style="background:none;border:none;cursor:pointer;color:var(--gray);font-size:16px">×</button>':''}
-  </div>`;
-
-  SECTIONS.forEach(sec=>{
-    let stickers=[];
-    for(let i=1;i<=sec.count;i++){
-      const id=sec.prefix+i;
-      const st=album[id];const state=st?st.state:'missing';
-      if(albumFilter==='have'&&state==='missing')continue;
-      if(albumFilter==='double'&&state!=='repeat')continue;
-      if(albumFilter==='missing'&&state!=='missing')continue;
-      if(albumSearch&&!id.toLowerCase().includes(albumSearch.toLowerCase())&&!sec.name.toLowerCase().includes(albumSearch.toLowerCase()))continue;
-      stickers.push({id,state,count:st?.count||0});
-    }
-    if(!stickers.length&&(albumFilter!=='all'||albumSearch))return;
-    const haveC=Array.from({length:sec.count},(_,i)=>sec.prefix+(i+1)).filter(id=>album[id]&&album[id].state!=='missing').length;
-    const isOpen=openSections[sec.id]||false;
-    const secDesc=SEC_DESCS[sec.id]||'';
-    const descHtml=secDesc?('<div style="font-size:9px;opacity:.65;font-weight:400;margin-top:1px">'+secDesc+'</div>'):'';
-    h+='<div style="margin-bottom:6px">'
-      +'<div class="sec-hdr" data-secid="'+sec.id+'" onclick="toggleSection(this.dataset.secid)">'
-      +'<span style="font-size:18px">'+sec.flag+'</span>'
-      +'<div style="flex:1;min-width:0">'
-      +'<div class="sec-name">'+sec.name+'</div>'
-      +descHtml
-      +'</div>'
-      +'<span style="font-size:10px;opacity:.8;font-weight:600;flex-shrink:0;margin-left:6px">'+haveC+'/'+sec.count+'</span>'
-      +'<span class="sec-chev '+(isOpen?'open':'')+'">▼</span>'
-      +'</div>';
-    if(isOpen&&stickers.length){
-      h+='<div class="sticker-grid">';
-      stickers.forEach(function(s){
-        const sid=s.id,sst=s.state,scnt=s.count||1;
-        let si='<span style="font-family:Anton,sans-serif;font-size:9px">'+sid+'</span>';
-        if(sst==='have')si+='<span style="font-size:10px">✓</span>';
-        if(sst==='repeat')si+='<span style="font-family:Anton,sans-serif;font-size:9px;color:#b8860b">×'+scnt+'</span>';
-        h+='<div class="stk '+sst+'" data-sid="'+sid+'"'
-          +' onclick="stickerClick(this.dataset.sid,this)"'
-          +' oncontextmenu="event.preventDefault();deleteSticker(this.dataset.sid)"'
-          +' ontouchstart="stkLongStart(this.dataset.sid)" ontouchend="stkLongEnd()" ontouchmove="stkLongEnd()">'
-          +si+'</div>';
-      });
-      h+='</div>';
-    }
-    h+='</div>';
-  });
-  // Add hint if album is empty
-  try{
-    const hasAny=Object.values(userProfile?.album||{}).some(v=>v&&(v.state==='have'||v.state==='repeat'));
-    if(!hasAny&&albumFilter==='all'&&!albumSearch){
-      h+='<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">'
-        +'<div style="font-size:32px;margin-bottom:8px">📖</div>'
-        +'<div style="font-family:Anton,sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:6px">TU ÁLBUM ESTÁ VACÍO</div>'
-        +'<div style="font-size:12px;opacity:.85;margin-bottom:14px;line-height:1.6">Tocá las secciones para marcar las láminas que tenés, o usá el asistente de carga.</div>'
-        +'<button onclick="startOnboarding()" style="background:var(--gold);color:var(--green-d);border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;width:100%">📖 Cargar mi álbum</button>'
-        +'</div>';
-    }
-  }catch(e){}
-  tab.innerHTML=h;
-  }catch(err){console.error('renderAlbum error:',err);}
-}
-
-window.stickerClick=function(id,el){
-  el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);
-  const album=userProfile?.album||{};
-  const cur=album[id];
-  if(cur?.state==='repeat'){
-    // Already double - show counter modal
-    showCounterModal(id);
-    return;
-  }
-  toggleSticker(id);
-};
-
-
-
-
-window.toggleSection=function(id){openSections[id]=!openSections[id];renderAlbum();};
-window.setAlbumFilter=function(f){albumFilter=f;renderAlbum();};
-window.setAlbumSearch=function(v){albumSearch=v;renderAlbum();};
-
-// ============================================================
-// TABLÓN
-// ============================================================
-async function renderTablon(){
-  await loadPosts();
-  if(!allUsers.length)await loadAllUsers();
-  const tab=document.getElementById('tab-tablon');
-  const cities=['all',...new Set(allUsers.map(u=>u.city))];
-  let h=`<div class="filter-row">${cities.map(c=>`<button class="chip ${cityFilter===c?'act':''}" onclick="setCityFilter('${c}')">${c==='all'?'🌎 Todas':c}</button>`).join('')}</div>`;
-  const filtered=posts.filter(p=>cityFilter==='all'||(allUsers.find(u=>u.id===p.userId)?.city===cityFilter));
-  if(!filtered.length)h+=`<div class="empty">
-    <div class="ei">📋</div>
-    <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">El tablón está vacío</p>
-    <p style="margin-bottom:16px">Acá los coleccionistas publican qué ${getTermPlural()} <strong>ofrecen</strong> (sus repetidas) y cuáles <strong>buscan</strong> (sus faltantes).<br><br>¡Sé el primero en publicar!</p>
-    <button onclick="openCreatePost()" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📋 Publicar mis ${getTermPlural()}</button>
-  </div>`;
-  filtered.forEach(post=>{
-    const u=allUsers.find(x=>x.id===post.userId)||userProfile;
-    if(!u)return;
-    const rating=getUserRating(u);
-    const isOwn=post.userId===currentUser?.uid;
-    h+=`<div class="post-card">
-      <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px">
-        ${avHtml(u)}
-        <div style="flex:1">
-          <div style="font-weight:700;font-size:13px">${u.alias}</div>
-          <div style="font-size:10px;color:var(--muted);display:flex;gap:7px;align-items:center">
-            <span>📍 ${u.city}</span>${starsHtml(rating,u.ratings?.length)}
-          </div>
-        </div>
-        <span style="font-size:10px;color:var(--muted)">${timeAgo(post.createdAt)}</span>
-      </div>
-      ${post.offers?.length?`<div style="margin-bottom:9px"><div class="plabel">🟢 Ofrece (${post.offers.length})</div>${pillsHtml(post.offers,'off')}</div>`:''}
-      ${post.wants?.length?`<div style="margin-bottom:9px"><div class="plabel">🟡 Busca (${post.wants.length})</div>${pillsHtml(post.wants,'wnt')}</div>`:''}
-      <div style="display:flex;gap:7px;margin-top:7px">
-        ${!isOwn?`<button class="btn btn-primary btn-sm" style="flex:1" onclick="openChatWith('${u.id}')">💬 Me interesa</button>`:
-        `<button class="btn btn-danger btn-sm" onclick="deletePost('${post.id}')">🗑 Eliminar</button>`}
-      </div>
-    </div>`;
-  });
-  h+=`<div style="height:80px"></div>`;
-  tab.innerHTML=h;
-  if(currentUser)tab.innerHTML+=`<button class="fab" onclick="openCreatePost()">+</button>`;
-}
-
-window.setCityFilter=function(c){cityFilter=c;renderTablon();};
-window.deletePost=async function(id){
-  // eliminar de Firestore
-  const {deleteDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  await deleteDoc(doc(db,'posts',id));
-  toast('🗑 Publicación eliminada');renderTablon();
-};
-
-window.openCreatePost=function(){
-  const album=userProfile?.album||{};
-  const doubles=getDoublesList(album);
-  const missing=getMissingList(album);
-  const body=`<div style="margin-bottom:14px">
-    <div class="plabel" style="margin-bottom:7px">Láminas que ofrezco (repetidas)</div>
-    ${doubles.length===0?'<p style="font-size:12px;color:var(--muted)">No tenés repetidas registrados</p>':
-    `<div class="pills" id="cp-offers">${doubles.slice(0,60).map(n=>`<span class="pill" style="cursor:pointer" data-n="${n}" onclick="this.classList.toggle('off')">#${n}</span>`).join('')}</div>`}
-  </div>
-  <div>
-    <div class="plabel" style="margin-bottom:7px">Láminas que busco</div>
-    <div class="pills" id="cp-wants">${missing.slice(0,60).map(n=>`<span class="pill" style="cursor:pointer" data-n="${n}" onclick="this.classList.toggle('wnt')">#${n}</span>`).join('')}</div>
-  </div>`;
-  showModal('Nueva Publicación',body,async()=>{
-    const offs=[...document.querySelectorAll('#cp-offers .pill.off')].map(el=>+el.dataset.n);
-    const wnts=[...document.querySelectorAll('#cp-wants .pill.wnt')].map(el=>+el.dataset.n);
-    if(!offs.length&&!wnts.length){toast('Seleccioná al menos una lámina');return;}
-    await addDoc(collection(db,'posts'),{userId:currentUser.uid,offers:offs,wants:wnts,createdAt:serverTimestamp()});
-    toast('✅ Publicación creada');closeModal();renderTablon();
-  },'Publicar');
-};
-
-// ============================================================
-// MATCHES
-// ============================================================
-let matchProximity='all';
-async function renderMatches(){
-  if(!allUsers.length)await loadAllUsers();
-  const tab=document.getElementById('tab-matches');
-  const myAlbum=userProfile?.album||{};
-  const myCity=userProfile?.city||'';
-  const myDoubles=getDoublesList(myAlbum);
-  const myMissing=getMissingList(myAlbum);
-
-  let filtered=allUsers.filter(u=>u.id!==currentUser?.uid);
-  if(matchProximity==='city')filtered=filtered.filter(u=>u.city===myCity);
-  else if(matchProximity==='country'){
-    // match by country prefix from city name (simple heuristic using known cities)
-    const myCountry=getCityCountry(myCity);
-    filtered=filtered.filter(u=>getCityCountry(u.city)===myCountry);
-  }
-
-  const matches=filtered.map(other=>{
-    const oa=other.album||{};
-    const od=getDoublesList(oa);const om=getMissingList(oa);
-    const canGive=myDoubles.filter(n=>om.includes(n)).length;
-    const canReceive=od.filter(n=>myMissing.includes(n)).length;
-    const score=Math.min(canGive,canReceive);
-    const oLoc=getLocationParts(other.city||'');
-    const sameCity=other.city===myCity;
-    const sameRegion=oLoc.region===myRegion&&oLoc.country===myCountry;
-    const sameCountry=oLoc.country===myCountry;
-    return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1,sameCity,sameRegion,sameCountry};
-  }).filter(m=>m.score>0).sort((a,b)=>{
-    // Sort: same city → same region → same country → score
-    if(a.sameCity&&!b.sameCity)return -1;
-    if(!a.sameCity&&b.sameCity)return 1;
-    if(a.sameRegion&&!b.sameRegion)return -1;
-    if(!a.sameRegion&&b.sameRegion)return 1;
-    if(a.sameCountry&&!b.sameCountry)return -1;
-    if(!a.sameCountry&&b.sameCountry)return 1;
-    return b.score-a.score;
-  });
-
-  const term=getTermPlural();
-  const myRegionLabel=COMMUNE_REGION[userProfile?.city||'']||'Mi región';
-  const myCountryLabel=getCityCountry(userProfile?.city||'')==='CL'?'Chile':getCityCountry(userProfile?.city||'')==='AR'?'Argentina':getCityCountry(userProfile?.city||'')==='MX'?'México':getCityCountry(userProfile?.city||'')==='ES'?'España':'Mi país';
-  let h=`<div style="background:var(--green);padding:13px;color:#fff">
-    <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">MIS MATCHES</div>
-    <div style="font-size:11px;opacity:.8;margin-top:2px">${matches.length} coleccionistas compatibles</div>
-  </div>
-  <div class="filter-row">
-    <button class="chip ${matchProximity==='all'?'act':''}" onclick="setMatchProx('all')">🌎 Todos</button>
-    <button class="chip ${matchProximity==='country'?'act':''}" onclick="setMatchProx('country')">🗺️ ${myCountryLabel}</button>
-    ${myRegionLabel?`<button class="chip ${matchProximity==='region'?'act':''}" onclick="setMatchProx('region')">🏙️ ${myRegionLabel}</button>`:''}
-    <button class="chip ${matchProximity==='city'?'act':''}" onclick="setMatchProx('city')">📍 ${getCityDisplay(userProfile?.city||'')}</button>
-  </div>`;
-
-  if(!matches.length){
-    const emptyMsg=matchProximity!=='all'?'en tu zona. Probá ampliar el filtro.':'aún.';
-    tab.innerHTML=h+`<div class="empty">
-      <div class="ei">🎯</div>
-      <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">No hay matches ${emptyMsg}</p>
-      <p style="margin-bottom:16px">El motor de matches cruza tu álbum con el de otros coleccionistas y encuentra intercambios donde <strong>ambos se benefician</strong>.<br><br>Para ver matches necesitás tener ${getTermPlural()} marcadas como <strong>repetidas</strong> o <strong>faltantes</strong>.</p>
-      <button onclick="setTab('album')" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📖 Ir a mi álbum</button>
-    </div>`;
-    return;
-  }
-  matches.forEach(({user:other,canGive,canReceive,perfect,sameCity,sameCountry})=>{
-    const rating=getUserRating(other);
-    let proxBadge='';
-    if(sameCity)proxBadge=`<span style="background:#e8f5ee;color:var(--green-d);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">📍 Tu ciudad</span>`;
-    else if(sameRegion)proxBadge=`<span style="background:#e8f5ee;color:var(--green-d);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">🏙️ Tu región</span>`;
-    else if(sameCountry)proxBadge=`<span style="background:#e8f0ff;color:#3346a0;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">🗺️ Tu país</span>`;
-    h+=`<div class="match-card ${perfect?'perf':''}">
-      <div style="display:flex;gap:6px;margin-bottom:7px;flex-wrap:wrap">
-        ${perfect?`<div class="m-badge">✦ Match Perfecto</div>`:''}
-        ${proxBadge}
-      </div>
-      <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
-        ${avHtml(other)}<div>
-          <div style="font-weight:700;font-size:14px">${other.alias}</div>
-          <div style="font-size:11px;color:var(--muted);display:flex;gap:8px"><span>📍 ${other.city}</span>${starsHtml(rating)}</div>
-        </div>
-      </div>
-      <div class="m-nums">
-        <div class="m-box"><div class="m-num g">${canGive}</div><div style="font-size:9px;color:var(--muted);font-weight:600">Puedo darle</div></div>
-        <div style="display:flex;align-items:center;color:var(--muted);font-size:18px">⇄</div>
-        <div class="m-box"><div class="m-num au">${canReceive}</div><div style="font-size:9px;color:var(--muted);font-weight:600">Me puede dar</div></div>
-      </div>
-      <button class="btn btn-primary" style="width:100%" onclick="openChatWith('${other.id}')">💬 Iniciar intercambio</button>
-    </div>`;
-  });
-  tab.innerHTML=h;
-}
-window.setMatchProx=function(p){matchProximity=p;renderMatches();};
-let matchTempCity=null;
-window.openTempLoc=function(){
-  const baseLoc=getLocationParts(matchTempCity||userProfile?.city||'');
-  let tC=baseLoc.country||'Chile',tR=baseLoc.region||'',tCity=matchTempCity||userProfile?.city||'';
-  function buildTL(){
-    const regs=getRegions(tC),cities=getCities(tC,tR);
-    showModal('📍 Buscar matches en...',`
-      <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Cambiá temporalmente tu zona de búsqueda sin modificar tu perfil.</p>
-      <div class="form-group">
-        <label class="form-label">País</label>
-        <select class="form-input" id="tl-c" onchange="tlPickC(this.value)">
-          ${getCountries().map(c=>`<option value="${c}" ${c===tC?'selected':''}>${c}</option>`).join('')}
-        </select>
-      </div>
-      <div class="form-group" style="margin-top:8px">
-        <label class="form-label">Región</label>
-        <select class="form-input" id="tl-r" onchange="tlPickR(this.value)" ${!regs.length?'disabled':''}>
-          <option value="">Seleccioná región</option>
-          ${regs.map(r=>`<option value="${r}" ${r===tR?'selected':''}>${getRegionDisplay(r)}</option>`).join('')}
-        </select>
-      </div>
-      <div class="form-group" style="margin-top:8px">
-        <label class="form-label">Ciudad / Comuna</label>
-        <select class="form-input" id="tl-ci" ${!cities.length?'disabled':''}>
-          <option value="">Seleccioná ciudad</option>
-          ${cities.map(c=>`<option value="${c}" ${c===tCity?'selected':''}>${c}</option>`).join('')}
-        </select>
-      </div>
-      ${matchTempCity?`<button onclick="resetTempLoc()" style="background:#fde8e8;color:var(--red);border:none;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;width:100%;margin-top:8px">🔄 Volver a mi ubicación real</button>`:''}
-    `,()=>{
-      const city=document.getElementById('tl-ci')?.value;
-      if(!city){toast('Seleccioná una ciudad');return;}
-      matchTempCity=city;matchProximity='city';closeModal();renderMatches();
-    },'Buscar aquí');
-    window.tlPickC=function(c){tC=c;tR='';tCity='';closeModal();openTempLoc();};
-    window.tlPickR=function(r){tR=r;tCity='';closeModal();openTempLoc();};
-    window.resetTempLoc=function(){matchTempCity=null;matchProximity='city';closeModal();renderMatches();};
-  }
-  buildTL();
-};
-
-// Country detection from city name
-;
 function getCityCountry(city){return CITY_COUNTRY[city]||'XX';}
 
 // ============================================================
