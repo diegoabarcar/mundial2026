@@ -832,10 +832,6 @@ async function loadConversations(){
 // AUTH
 // ============================================================
 onAuthStateChanged(auth,async user=>{
-  // Show loading while checking auth
-  const loading=document.getElementById('scr-loading');
-  if(loading)loading.style.display='flex';
-  hide('scr-loading');
   if(user){
     currentUser=user;
     const ref=doc(db,'users',user.uid);
@@ -850,6 +846,7 @@ onAuthStateChanged(auth,async user=>{
     }
   } else {
     currentUser=null;userProfile=null;
+    hide('scr-loading');
     show('scr-login');
     document.getElementById('scr-login').style.flexDirection='column';
   }
@@ -918,7 +915,7 @@ document.getElementById('setup-av-picker').addEventListener('click',e=>{
 });
 
 function showSetup(){
-  hide('scr-login');hide('scr-app');
+  hide('scr-loading');hide('scr-login');hide('scr-app');
   const el=document.getElementById('scr-setup');
   el.style.display='flex';el.style.flexDirection='column';
 }
@@ -948,7 +945,7 @@ window.saveProfile=async function(){
 // APP
 // ============================================================
 function showApp(){
-  hide('scr-login');
+  hide('scr-loading');hide('scr-login');
   const el=document.getElementById('scr-app');
   el.style.display='flex';el.style.flexDirection='column';
   updateHeader();
@@ -1849,8 +1846,14 @@ window.setRateStar=function(n){
 // ============================================================
 // PROFILE
 // ============================================================
-const COMMUNE_REGION={'Arica':'Arica y Parinacota','Camarones':'Arica y Parinacota','Putre':'Arica y Parinacota','General Lagos':'Arica y Parinacota','Iquique':'Tarapacá','Alto Hospicio':'Tarapacá','Pozo Almonte':'Tarapacá','Camiña':'Tarapacá','Colchane':'Tarapacá','Huara':'Tarapacá','Pica':'Tarapacá','Antofagasta':'Antofagasta','Mejillones':'Antofagasta','Sierra Gorda':'Antofagasta','Taltal':'Antofagasta','Calama':'Antofagasta','Ollagüe':'Antofagasta','San Pedro de Atacama':'Antofagasta','Tocopilla':'Antofagasta','María Elena':'Antofagasta','Copiapó':'Atacama','Caldera':'Atacama','Tierra Amarilla':'Atacama','Chañaral':'Atacama','Diego de Almagro':'Atacama','Vallenar':'Atacama','Alto del Carmen':'Atacama','Freirina':'Atacama','Huasco':'Atacama','La Serena':'Coquimbo','Coquimbo':'Coquimbo','Andacollo':'Coquimbo','La Higuera':'Coquimbo','Paiguano':'Coquimbo','Vicuña':'Coquimbo','Illapel':'Coquimbo','Canela':'Coquimbo','Los Vilos':'Coquimbo','Salamanca':'Coquimbo','Ovalle':'Coquimbo','Combarbalá':'Coquimbo','Monte Patria':'Coquimbo','Punitaqui':'Coquimbo','Río Hurtado':'Coquimbo','Valparaíso':'Valparaíso','Casablanca':'Valparaíso','Concón':'Valparaíso','Viña del Mar':'Valparaíso','Quilpué':'Valparaíso','Villa Alemana':'Valparaíso','San Antonio':'Valparaíso','Los Andes':'Valparaíso','San Felipe':'Valparaíso','Quillota':'Valparaíso','Santiago':'Metropolitana','Cerrillos':'Metropolitana','Cerro Navia':'Metropolitana','Conchalí':'Metropolitana','El Bosque':'Metropolitana','Estación Central':'Metropolitana','Huechuraba':'Metropolitana','Independencia':'Metropolitana','La Cisterna':'Metropolitana','La Florida':'Metropolitana','La Granja':'Metropolitana','La Pintana':'Metropolitana','La Reina':'Metropolitana','Las Condes':'Metropolitana','Lo Barnechea':'Metropolitana','Lo Espejo':'Metropolitana','Lo Prado':'Metropolitana','Macul':'Metropolitana','Maipú':'Metropolitana','Ñuñoa':'Metropolitana','Pedro Aguirre Cerda':'Metropolitana','Peñalolén':'Metropolitana','Providencia':'Metropolitana','Pudahuel':'Metropolitana','Quilicura':'Metropolitana','Quinta Normal':'Metropolitana','Recoleta':'Metropolitana','Renca':'Metropolitana','San Joaquín':'Metropolitana','San Miguel':'Metropolitana','San Ramón':'Metropolitana','Vitacura':'Metropolitana','Puente Alto':'Metropolitana','Pirque':'Metropolitana','San José de Maipo':'Metropolitana','Colina':'Metropolitana','Lampa':'Metropolitana','Tiltil':'Metropolitana','San Bernardo':'Metropolitana','Buin':'Metropolitana','Calera de Tango':'Metropolitana','Paine':'Metropolitana','Melipilla':'Metropolitana','Talagante':'Metropolitana','El Monte':'Metropolitana','Isla de Maipo':'Metropolitana','Padre Hurtado':'Metropolitana','Peñaflor':'Metropolitana','Rancagua':'O'Higgins','Machalí':'O'Higgins','Rengo':'O'Higgins','San Fernando':'O'Higgins','Santa Cruz':'O'Higgins','Pichilemu':'O'Higgins','Talca':'Maule','Curicó':'Maule','Linares':'Maule','Constitución':'Maule','Cauquenes':'Maule','San Javier':'Maule','Parral':'Maule','Chillán':'Ñuble','San Carlos':'Ñuble','Bulnes':'Ñuble','Concepción':'Biobío','Talcahuano':'Biobío','San Pedro de la Paz':'Biobío','Coronel':'Biobío','Lota':'Biobío','Los Ángeles':'Biobío','Lebu':'Biobío','Temuco':'La Araucanía','Padre Las Casas':'La Araucanía','Pucón':'La Araucanía','Villarrica':'La Araucanía','Lautaro':'La Araucanía','Angol':'La Araucanía','Valdivia':'Los Ríos','La Unión':'Los Ríos','Panguipulli':'Los Ríos','Puerto Montt':'Los Lagos','Puerto Varas':'Los Lagos','Castro':'Los Lagos','Ancud':'Los Lagos','Osorno':'Los Lagos','Calbuco':'Los Lagos','Frutillar':'Los Lagos','Coyhaique':'Aysén','Punta Arenas':'Magallanes','Puerto Natales':'Magallanes'};
-function getCityDisplay(city){const r=COMMUNE_REGION[city];return r?`${r} · ${city}`:city;}
+const COMMUNE_REGION={"Arica":"Arica y Parinacota","Camarones":"Arica y Parinacota","Putre":"Arica y Parinacota","General Lagos":"Arica y Parinacota","Iquique":"Tarapacá","Alto Hospicio":"Tarapacá","Pozo Almonte":"Tarapacá","Camiña":"Tarapacá","Colchane":"Tarapacá","Huara":"Tarapacá","Pica":"Tarapacá","Antofagasta":"Antofagasta","Mejillones":"Antofagasta","Sierra Gorda":"Antofagasta","Taltal":"Antofagasta","Calama":"Antofagasta","Ollagüe":"Antofagasta","San Pedro de Atacama":"Antofagasta","Tocopilla":"Antofagasta","María Elena":"Antofagasta","Copiapó":"Atacama","Caldera":"Atacama","Tierra Amarilla":"Atacama","Chañaral":"Atacama","Diego de Almagro":"Atacama","Vallenar":"Atacama","Alto del Carmen":"Atacama","Freirina":"Atacama","Huasco":"Atacama","La Serena":"Coquimbo","Coquimbo":"Coquimbo","Andacollo":"Coquimbo","La Higuera":"Coquimbo","Paiguano":"Coquimbo","Vicuña":"Coquimbo","Illapel":"Coquimbo","Canela":"Coquimbo","Los Vilos":"Coquimbo","Salamanca":"Coquimbo","Ovalle":"Coquimbo","Combarbalá":"Coquimbo","Monte Patria":"Coquimbo","Punitaqui":"Coquimbo","Río Hurtado":"Coquimbo","Valparaíso":"Valparaíso","Casablanca":"Valparaíso","Concón":"Valparaíso","Viña del Mar":"Valparaíso","Quilpué":"Valparaíso","Villa Alemana":"Valparaíso","San Antonio":"Valparaíso","Los Andes":"Valparaíso","San Felipe":"Valparaíso","Quillota":"Valparaíso","Quintero":"Valparaíso","Limache":"Valparaíso","Olmué":"Valparaíso","Santiago":"Metropolitana","Cerrillos":"Metropolitana","Cerro Navia":"Metropolitana","Conchalí":"Metropolitana","El Bosque":"Metropolitana","Estación Central":"Metropolitana","Huechuraba":"Metropolitana","Independencia":"Metropolitana","La Cisterna":"Metropolitana","La Florida":"Metropolitana","La Granja":"Metropolitana","La Pintana":"Metropolitana","La Reina":"Metropolitana","Las Condes":"Metropolitana","Lo Barnechea":"Metropolitana","Lo Espejo":"Metropolitana","Lo Prado":"Metropolitana","Macul":"Metropolitana","Maipú":"Metropolitana","Ñuñoa":"Metropolitana","Pedro Aguirre Cerda":"Metropolitana","Peñalolén":"Metropolitana","Providencia":"Metropolitana","Pudahuel":"Metropolitana","Quilicura":"Metropolitana","Quinta Normal":"Metropolitana","Recoleta":"Metropolitana","Renca":"Metropolitana","San Joaquín":"Metropolitana","San Miguel":"Metropolitana","San Ramón":"Metropolitana","Vitacura":"Metropolitana","Puente Alto":"Metropolitana","Pirque":"Metropolitana","San José de Maipo":"Metropolitana","Colina":"Metropolitana","Lampa":"Metropolitana","Tiltil":"Metropolitana","San Bernardo":"Metropolitana","Buin":"Metropolitana","Calera de Tango":"Metropolitana","Paine":"Metropolitana","Melipilla":"Metropolitana","Talagante":"Metropolitana","El Monte":"Metropolitana","Isla de Maipo":"Metropolitana","Padre Hurtado":"Metropolitana","Peñaflor":"Metropolitana","Rancagua":"OHiggins","Machalí":"OHiggins","Rengo":"OHiggins","San Fernando":"OHiggins","Santa Cruz":"OHiggins","Pichilemu":"OHiggins","Codegua":"OHiggins","Graneros":"OHiggins","Talca":"Maule","Curicó":"Maule","Linares":"Maule","Constitución":"Maule","Cauquenes":"Maule","San Javier":"Maule","Parral":"Maule","Molina":"Maule","Chillán":"Ñuble","San Carlos":"Ñuble","Bulnes":"Ñuble","Chillán Viejo":"Ñuble","Concepción":"Biobío","Talcahuano":"Biobío","San Pedro de la Paz":"Biobío","Coronel":"Biobío","Lota":"Biobío","Los Ángeles":"Biobío","Lebu":"Biobío","Chiguayante":"Biobío","Tomé":"Biobío","Penco":"Biobío","Hualpén":"Biobío","Temuco":"La Araucanía","Padre Las Casas":"La Araucanía","Pucón":"La Araucanía","Villarrica":"La Araucanía","Lautaro":"La Araucanía","Angol":"La Araucanía","Victoria":"La Araucanía","Carahue":"La Araucanía","Freire":"La Araucanía","Valdivia":"Los Ríos","La Unión":"Los Ríos","Panguipulli":"Los Ríos","Futrono":"Los Ríos","Puerto Montt":"Los Lagos","Puerto Varas":"Los Lagos","Castro":"Los Lagos","Ancud":"Los Lagos","Osorno":"Los Lagos","Calbuco":"Los Lagos","Frutillar":"Los Lagos","Llanquihue":"Los Lagos","Coyhaique":"Aysén","Puerto Aysén":"Aysén","Cochrane":"Aysén","Punta Arenas":"Magallanes","Puerto Natales":"Magallanes"}
+function getCityDisplay(city){
+  const r=COMMUNE_REGION[city];
+  if(!r)return city;
+  const display={'OHiggins':"O'Higgins",'OHiggins':"O'Higgins"};
+  const rName=display[r]||r;
+  return `${rName} · ${city}`;
+}
 async function renderProfile(){
   const tab=document.getElementById('tab-profile');
   const u=userProfile;
