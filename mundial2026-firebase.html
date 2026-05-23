@@ -24,20 +24,22 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   .navbar {
-    position: absolute;
+    position: fixed;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
     height: calc(64px + env(safe-area-inset-bottom, 0px));
     padding-bottom: env(safe-area-inset-bottom, 0px);
     background: #fff;
     border-top: 1px solid #e8ede9;
     display: flex;
     box-shadow: 0 -3px 16px rgba(0,0,0,.07);
-    z-index: 10;
+    z-index: 1000;
   }
   .content {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 20px);
   }
   .hdr {
     padding-top: calc(14px + env(safe-area-inset-top, 0px));
@@ -47,10 +49,17 @@
     padding-top: 0;
   }
   .fab {
+    position: fixed;
     bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 14px);
+    right: max(14px, calc((100vw - 480px) / 2 + 14px));
+    z-index: 999;
   }
   .donate-banner {
+    position: fixed;
     bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px);
+    left: max(12px, calc((100vw - 480px) / 2 + 12px));
+    right: max(12px, calc((100vw - 480px) / 2 + 12px));
+    z-index: 998;
   }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -214,7 +223,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 .prop-btn{background:var(--gold);color:var(--green-d);border:none;border-radius:9px;padding:7px 12px;font-family:inherit;font-weight:700;font-size:11px;cursor:pointer}
 
 /* MODAL */
-.modal-ov{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:flex-end}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;max-width:480px;left:50%;transform:translateX(-50%)}
 .modal{background:#fff;border-radius:18px 18px 0 0;width:100%;max-height:85%;display:flex;flex-direction:column;animation:slideUp .3s ease;padding-bottom:env(safe-area-inset-bottom,0px)}
 .modal-handle{width:36px;height:4px;background:var(--gray-l);border-radius:100px;margin:10px auto 0}
 .modal-hdr{padding:14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gray-l)}
@@ -230,7 +239,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 .badge.earned{background:linear-gradient(135deg,#fff8e0,#ffeaa0);color:var(--green-d)}
 
 /* TOAST */
-.toast-c{position:absolute;top:75px;left:50%;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;gap:6px;pointer-events:none;width:88%;max-width:420px}
+.toast-c{position:fixed;top:calc(75px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;gap:6px;pointer-events:none;width:88%;max-width:420px}
 .toast{background:var(--green-d);color:#fff;border-radius:9px;padding:10px 14px;font-size:12px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.2);animation:toastIn .3s ease}
 @keyframes toastIn{from{transform:translateY(-16px);opacity:0}to{transform:translateY(0);opacity:1}}
 .toast.gold{background:var(--gold);color:var(--green-d)}
@@ -361,7 +370,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
   </div>
 
   <!-- EMAIL FORM OVERLAY -->
-  <div id="email-form-overlay" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:200">
+  <div id="email-form-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;max-width:480px;left:50%;transform:translateX(-50%)">
     <div class="email-form" id="email-form">
       <button onclick="hideEmailForm()" style="position:absolute;top:14px;right:14px;background:var(--gray-l);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:16px">×</button>
       <div class="email-form-title" id="email-form-title">Iniciar sesión</div>
@@ -603,8 +612,8 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
       <div id="tab-profile" style="display:none"></div>
       <div id="tab-groups" style="display:none"></div>
       <div id="tab-faq" style="display:none"></div>
-      <div id="group-overlay" style="display:none;position:absolute;inset:0;z-index:50"></div>
-  <div id="onboarding-overlay" style="display:none;position:absolute;inset:0;z-index:150"></div>
+      <div id="group-overlay" style="display:none;position:fixed;inset:0;z-index:50;max-width:480px;left:50%;transform:translateX(-50%)"></div>
+  <div id="onboarding-overlay" style="display:none;position:fixed;inset:0;z-index:150;max-width:480px;left:50%;transform:translateX(-50%)"></div>
     </div>
     <nav class="navbar">
       <button class="ni act" id="nav-album" onclick="setTab('album')"><span class="ico">📖</span><span class="lbl">Álbum</span></button>
@@ -614,7 +623,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
       <button class="ni" id="nav-groups" onclick="setTab('groups')"><span class="ico">👥</span><span class="lbl">Grupos</span></button>
       <button class="ni" id="nav-profile" onclick="setTab('profile')"><span class="ico" id="nav-pico">👤</span><span class="lbl">Perfil</span></button>
     </nav>
-    <div id="chat-overlay" style="display:none;position:absolute;inset:0;z-index:50;background:var(--bg)"></div>
+    <div id="chat-overlay" style="display:none;position:fixed;inset:0;z-index:50;background:var(--bg);max-width:480px;left:50%;transform:translateX(-50%)"></div>
     <div class="modal-ov" id="modal-ov"></div>
   </div>
 </div>
@@ -728,14 +737,16 @@ function genId(){return Math.random().toString(36).slice(2,10);}
 function nowTs(){return Date.now();}
 function formatJoinDate(joinedAt){
   try{
-    // Handle Firestore Timestamp, number, or Date
     let d;
-    if(joinedAt?.toDate)d=joinedAt.toDate();
-    else if(typeof joinedAt==='number')d=new Date(joinedAt);
-    else if(joinedAt?.seconds)d=new Date(joinedAt.seconds*1000);
+    if(!joinedAt)return'hoy';
+    if(typeof joinedAt.toDate==='function')d=joinedAt.toDate();
+    else if(joinedAt.seconds&&joinedAt.nanoseconds!==undefined)d=new Date(joinedAt.seconds*1000);
+    else if(typeof joinedAt==='number'&&joinedAt>1000000000000)d=new Date(joinedAt);
+    else if(typeof joinedAt==='number'&&joinedAt>1000000000)d=new Date(joinedAt*1000);
     else d=new Date(joinedAt);
-    if(isNaN(d.getTime()))return'hoy';
-    return d.toLocaleDateString('es',{month:'long',year:'numeric'});
+    if(!d||isNaN(d.getTime()))return'hoy';
+    const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    return`${months[d.getMonth()]} ${d.getFullYear()}`;
   }catch(e){return'hoy';}
 }
 function getTerm(cap=false){
@@ -1194,7 +1205,8 @@ function updateHeader(){
   const pico=document.getElementById('nav-pico');
   if(u){
     // Always show avatar emoji + alias, NOT Google photo/name
-    info.innerHTML=`<span style="font-size:18px">${u.avatar||'⚽'}</span><span style="font-size:12px;font-weight:700">${u.alias}</span>`;
+    const displayAlias=u.alias||u.name||'Coleccionista';
+    info.innerHTML=`<span style="font-size:18px">${u.avatar||'⚽'}</span><span style="font-size:12px;font-weight:700">${displayAlias}</span>`;
     if(pico)pico.textContent=u.avatar||'👤';
   }
 }
@@ -1859,7 +1871,7 @@ async function renderProfile(){
         <div style="font-family:'Anton',sans-serif;font-size:26px;letter-spacing:2px">${u.alias}</div>
         <button onclick="openEditProfile()" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✏️</button>
       </div>
-      <div style="font-size:12px;opacity:.8">👤 ${u.name||currentUser?.displayName||''}</div>
+      ${(u.name&&u.name!==u.alias)?`<div style="font-size:12px;opacity:.8">👤 ${u.name}</div>`:''}
       <div style="font-size:11px;opacity:.65;margin-top:2px">🗓 Miembro desde ${u.joinedAt?formatJoinDate(u.joinedAt):'hoy'}</div>
       <div style="font-size:12px;opacity:.75;margin-top:3px">📍 ${getCityDisplay(u.city)}</div>
       ${u.contact?`<div style="font-size:11px;opacity:.65;margin-top:3px">💬 ${u.contact}</div>`:''}
@@ -1901,7 +1913,7 @@ window.openEditProfile=function(){
   const body=`
     <div class="form-group">
       <label class="form-label">Alias de coleccionista</label>
-      <input class="form-input" id="ep-alias" value="${u.alias||''}" placeholder="Tu alias">
+      <input class="form-input" id="ep-alias" value="${u.alias||u.name||''}" placeholder="Tu alias" autocomplete="off">
     </div>
     <div class="form-group">
       <label class="form-label">Avatar</label>
