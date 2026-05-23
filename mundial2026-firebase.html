@@ -40,7 +40,11 @@
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
   .hdr {
-    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    min-height: calc(56px + env(safe-area-inset-top, 0px));
+  }
+  #app {
+    padding-top: 0;
   }
   .fab {
     bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 14px);
@@ -133,7 +137,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 .ni.act{color:var(--green)}
 .ni .ico{font-size:20px;transition:transform .2s}
 .ni.act .ico{transform:scale(1.15)}
-.ni .lbl{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.ni .lbl{font-size:8px;font-weight:700;letter-spacing:0px;text-transform:uppercase;white-space:nowrap}
 
 /* ALBUM */
 .album-hdr{background:var(--green);padding:14px}
@@ -722,6 +726,18 @@ let emailMode   = 'login';   // 'login' | 'register'
 function genCode(){return 'COL-'+Math.floor(1000+Math.random()*9000);}
 function genId(){return Math.random().toString(36).slice(2,10);}
 function nowTs(){return Date.now();}
+function formatJoinDate(joinedAt){
+  try{
+    // Handle Firestore Timestamp, number, or Date
+    let d;
+    if(joinedAt?.toDate)d=joinedAt.toDate();
+    else if(typeof joinedAt==='number')d=new Date(joinedAt);
+    else if(joinedAt?.seconds)d=new Date(joinedAt.seconds*1000);
+    else d=new Date(joinedAt);
+    if(isNaN(d.getTime()))return'hoy';
+    return d.toLocaleDateString('es',{month:'long',year:'numeric'});
+  }catch(e){return'hoy';}
+}
 function getTerm(cap=false){
   const t=userProfile?.term||'lámina';
   return cap?t.charAt(0).toUpperCase()+t.slice(1):t;
@@ -1219,6 +1235,7 @@ async function toggleSticker(id){
   saveTimer=setTimeout(()=>saveAlbum(album),1500);
 }
 
+const SEC_DESCS={'fwc':'Portada, presentación y láminas especiales del torneo','mex':'Selección de México · CONCACAF · Sede anfitriona','rsa':'Selección de Arabia Saudita · AFC','kor':'Selección de Corea del Sur · AFC','cze':'Selección de República Checa · UEFA','can':'Selección de Canadá · CONCACAF · Sede anfitriona','bih':'Selección de Bosnia y Herzegovina · UEFA','qat':'Selección de Qatar · AFC','sui':'Selección de Suiza · UEFA','bra':'Selección de Brasil · CONMEBOL · 5 veces campeón mundial','mar':'Selección de Marruecos · CAF · Semifinalista Qatar 2022','hai':'Selección de Haití · CONCACAF','sco':'Selección de Escocia · UEFA','usa':'Selección de Estados Unidos · CONCACAF · Sede anfitriona','par':'Selección de Paraguay · CONMEBOL','aus':'Selección de Australia · AFC/OFC','tur':'Selección de Turquía · UEFA','ger':'Selección de Alemania · UEFA · 4 veces campeón mundial','cuw':'Selección de Curazao · CONCACAF','civ':'Selección de Costa de Marfil · CAF','ecu':'Selección de Ecuador · CONMEBOL','ned':'Selección de Países Bajos · UEFA','jpn':'Selección de Japón · AFC','swe':'Selección de Suecia · UEFA','tun':'Selección de Túnez · CAF','bel':'Selección de Bélgica · UEFA','egy':'Selección de Egipto · CAF','irn':'Selección de Irán · AFC','nzl':'Selección de Nueva Zelanda · OFC','esp':'Selección de España · UEFA · 1 vez campeón mundial','cpv':'Selección de Cabo Verde · CAF','ksa':'Selección de Arabia Saudita · AFC','uru':'Selección de Uruguay · CONMEBOL · 2 veces campeón mundial','fra':'Selección de Francia · UEFA · 2 veces campeón mundial','sen':'Selección de Senegal · CAF · Campeón Copa África 2022','irq':'Selección de Irak · AFC','nor':'Selección de Noruega · UEFA','arg':'Selección de Argentina · CONMEBOL · 3 veces campeón mundial','alg':'Selección de Argelia · CAF','aut':'Selección de Austria · UEFA','jor':'Selección de Jordania · AFC','por':'Selección de Portugal · UEFA','cod':'Selección de Rep. Dem. del Congo · CAF','uzb':'Selección de Uzbekistán · AFC','col':'Selección de Colombia · CONMEBOL','eng':'Selección de Inglaterra · UEFA','cro':'Selección de Croacia · UEFA · Subcampeón Rusia 2018','gha':'Selección de Ghana · CAF','pan':'Selección de Panamá · CONCACAF','cc':'Láminas especiales · Copa de Campeones y ceremonia final'};
 function renderAlbum(){
   const album=userProfile?.album||{};
   const stats=getAlbumStats(album);
@@ -1262,11 +1279,15 @@ function renderAlbum(){
     if(!stickers.length&&(albumFilter!=='all'||albumSearch))return;
     const haveC=Array.from({length:sec.count},(_,i)=>sec.prefix+(i+1)).filter(id=>album[id]&&album[id].state!=='missing').length;
     const isOpen=openSections[sec.id]||false;
+    const secDesc=SEC_DESCS[sec.id]||'';
     h+=`<div style="margin-bottom:6px">
       <div class="sec-hdr" onclick="toggleSection('${sec.id}')">
         <span style="font-size:18px">${sec.flag}</span>
-        <span class="sec-name">${sec.name}</span>
-        <span style="font-size:10px;opacity:.8;font-weight:600">${haveC}/${sec.count}</span>
+        <div style="flex:1;min-width:0">
+          <div class="sec-name">${sec.name}</div>
+          ${secDesc?`<div style="font-size:9px;opacity:.65;font-weight:400;margin-top:1px;font-family:'Barlow',sans-serif">${secDesc}</div>`:''}
+        </div>
+        <span style="font-size:10px;opacity:.8;font-weight:600;flex-shrink:0;margin-left:6px">${haveC}/${sec.count}</span>
         <span class="sec-chev ${isOpen?'open':''}">▼</span>
       </div>`;
     if(isOpen&&stickers.length){
@@ -1283,21 +1304,70 @@ function renderAlbum(){
     h+=`</div>`;
   });
   // Add hint if album is empty
-  const hasAny=Object.values(userProfile?.album||{}).some(v=>v.state==='have'||v.state==='double');
-  if(!hasAny&&albumFilter==='all'&&!albumSearch){
-    h+=`<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">
-      <div style="font-size:32px;margin-bottom:8px">📖</div>
-      <div style="font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:6px">TU ÁLBUM ESTÁ VACÍO</div>
-      <div style="font-size:12px;opacity:.85;margin-bottom:14px;line-height:1.6">Tocá las secciones de arriba para marcar las láminas que tenés, o usá el asistente de carga.</div>
-      <button onclick="startOnboarding()" style="background:var(--gold);color:var(--green-d);border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;width:100%">📖 Cargar mi álbum</button>
-    </div>`;
-  }
+  try{
+    const hasAny=Object.values(userProfile?.album||{}).some(v=>v&&(v.state==='have'||v.state==='double'));
+    if(!hasAny&&albumFilter==='all'&&!albumSearch){
+      h+=`<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">
+        <div style="font-size:32px;margin-bottom:8px">📖</div>
+        <div style="font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:6px">TU ÁLBUM ESTÁ VACÍO</div>
+        <div style="font-size:12px;opacity:.85;margin-bottom:14px;line-height:1.6">Tocá las secciones de arriba para marcar las láminas que tenés, o usá el asistente de carga.</div>
+        <button onclick="startOnboarding()" style="background:var(--gold);color:var(--green-d);border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;width:100%">📖 Cargar mi álbum</button>
+      </div>`;
+    }
+  }catch(e){}
   tab.innerHTML=h;
 }
 
 window.stickerClick=function(id,el){
   el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);
+  const album=userProfile?.album||{};
+  const cur=album[id];
+  if(cur?.state==='double'){
+    // Already double - show counter modal
+    showCounterModal(id);
+    return;
+  }
   toggleSticker(id);
+};
+
+window.showCounterModal=function(id){
+  const album=userProfile?.album||{};
+  const cur=album[id]||{state:'have',count:1};
+  const count=cur.count||1;
+  showModal(`Lámina ${id}`,`
+    <div style="text-align:center;padding:10px 0">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px">¿Cuántas tenés en total?</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:20px">
+        <button onclick="adjCount('${id}',-1)" style="width:48px;height:48px;border-radius:50%;background:var(--gray-l);border:none;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
+        <div id="count-display" style="font-family:'Anton',sans-serif;font-size:52px;color:var(--green);min-width:60px;text-align:center">${count}</div>
+        <button onclick="adjCount('${id}',+1)" style="width:48px;height:48px;border-radius:50%;background:var(--green);border:none;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted)">1 = solo una · 2 = una repetida · 3 = dos repetidas</div>
+    </div>
+  `,()=>{closeModal();renderAlbum();},'Listo');
+};
+
+window.adjCount=async function(id,delta){
+  const album=userProfile?.album||{};
+  const cur=album[id]||{state:'have',count:1};
+  const newCount=Math.max(0,(cur.count||1)+delta);
+  const display=document.getElementById('count-display');
+  if(newCount===0){
+    album[id]={state:'missing'};
+    if(display)display.textContent='0';
+    if(display)display.style.color='var(--red)';
+  } else if(newCount===1){
+    album[id]={state:'have',count:1};
+    if(display)display.textContent='1';
+    if(display)display.style.color='var(--green)';
+  } else {
+    album[id]={state:'double',count:newCount};
+    if(display)display.textContent=String(newCount);
+    if(display)display.style.color='var(--gold-d)';
+  }
+  userProfile.album=album;
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveAlbum(album),800);
 };
 window.toggleSection=function(id){openSections[id]=!openSections[id];renderAlbum();};
 window.setAlbumFilter=function(f){albumFilter=f;renderAlbum();};
@@ -1767,6 +1837,8 @@ window.setRateStar=function(n){
 // ============================================================
 // PROFILE
 // ============================================================
+const COMMUNE_REGION={'Arica':'Arica y Parinacota','Camarones':'Arica y Parinacota','Putre':'Arica y Parinacota','General Lagos':'Arica y Parinacota','Iquique':'Tarapacá','Alto Hospicio':'Tarapacá','Pozo Almonte':'Tarapacá','Camiña':'Tarapacá','Colchane':'Tarapacá','Huara':'Tarapacá','Pica':'Tarapacá','Antofagasta':'Antofagasta','Mejillones':'Antofagasta','Sierra Gorda':'Antofagasta','Taltal':'Antofagasta','Calama':'Antofagasta','Ollagüe':'Antofagasta','San Pedro de Atacama':'Antofagasta','Tocopilla':'Antofagasta','María Elena':'Antofagasta','Copiapó':'Atacama','Caldera':'Atacama','Tierra Amarilla':'Atacama','Chañaral':'Atacama','Diego de Almagro':'Atacama','Vallenar':'Atacama','Alto del Carmen':'Atacama','Freirina':'Atacama','Huasco':'Atacama','La Serena':'Coquimbo','Coquimbo':'Coquimbo','Andacollo':'Coquimbo','La Higuera':'Coquimbo','Paiguano':'Coquimbo','Vicuña':'Coquimbo','Illapel':'Coquimbo','Canela':'Coquimbo','Los Vilos':'Coquimbo','Salamanca':'Coquimbo','Ovalle':'Coquimbo','Combarbalá':'Coquimbo','Monte Patria':'Coquimbo','Punitaqui':'Coquimbo','Río Hurtado':'Coquimbo','Valparaíso':'Valparaíso','Casablanca':'Valparaíso','Concón':'Valparaíso','Viña del Mar':'Valparaíso','Quilpué':'Valparaíso','Villa Alemana':'Valparaíso','San Antonio':'Valparaíso','Los Andes':'Valparaíso','San Felipe':'Valparaíso','Quillota':'Valparaíso','Santiago':'Metropolitana','Cerrillos':'Metropolitana','Cerro Navia':'Metropolitana','Conchalí':'Metropolitana','El Bosque':'Metropolitana','Estación Central':'Metropolitana','Huechuraba':'Metropolitana','Independencia':'Metropolitana','La Cisterna':'Metropolitana','La Florida':'Metropolitana','La Granja':'Metropolitana','La Pintana':'Metropolitana','La Reina':'Metropolitana','Las Condes':'Metropolitana','Lo Barnechea':'Metropolitana','Lo Espejo':'Metropolitana','Lo Prado':'Metropolitana','Macul':'Metropolitana','Maipú':'Metropolitana','Ñuñoa':'Metropolitana','Pedro Aguirre Cerda':'Metropolitana','Peñalolén':'Metropolitana','Providencia':'Metropolitana','Pudahuel':'Metropolitana','Quilicura':'Metropolitana','Quinta Normal':'Metropolitana','Recoleta':'Metropolitana','Renca':'Metropolitana','San Joaquín':'Metropolitana','San Miguel':'Metropolitana','San Ramón':'Metropolitana','Vitacura':'Metropolitana','Puente Alto':'Metropolitana','Pirque':'Metropolitana','San José de Maipo':'Metropolitana','Colina':'Metropolitana','Lampa':'Metropolitana','Tiltil':'Metropolitana','San Bernardo':'Metropolitana','Buin':'Metropolitana','Calera de Tango':'Metropolitana','Paine':'Metropolitana','Melipilla':'Metropolitana','Talagante':'Metropolitana','El Monte':'Metropolitana','Isla de Maipo':'Metropolitana','Padre Hurtado':'Metropolitana','Peñaflor':'Metropolitana','Rancagua':'O'Higgins','Machalí':'O'Higgins','Rengo':'O'Higgins','San Fernando':'O'Higgins','Santa Cruz':'O'Higgins','Pichilemu':'O'Higgins','Talca':'Maule','Curicó':'Maule','Linares':'Maule','Constitución':'Maule','Cauquenes':'Maule','San Javier':'Maule','Parral':'Maule','Chillán':'Ñuble','San Carlos':'Ñuble','Bulnes':'Ñuble','Concepción':'Biobío','Talcahuano':'Biobío','San Pedro de la Paz':'Biobío','Coronel':'Biobío','Lota':'Biobío','Los Ángeles':'Biobío','Lebu':'Biobío','Temuco':'La Araucanía','Padre Las Casas':'La Araucanía','Pucón':'La Araucanía','Villarrica':'La Araucanía','Lautaro':'La Araucanía','Angol':'La Araucanía','Valdivia':'Los Ríos','La Unión':'Los Ríos','Panguipulli':'Los Ríos','Puerto Montt':'Los Lagos','Puerto Varas':'Los Lagos','Castro':'Los Lagos','Ancud':'Los Lagos','Osorno':'Los Lagos','Calbuco':'Los Lagos','Frutillar':'Los Lagos','Coyhaique':'Aysén','Punta Arenas':'Magallanes','Puerto Natales':'Magallanes'};
+function getCityDisplay(city){const r=COMMUNE_REGION[city];return r?`${r} · ${city}`:city;}
 async function renderProfile(){
   const tab=document.getElementById('tab-profile');
   const u=userProfile;
@@ -1788,8 +1860,8 @@ async function renderProfile(){
         <button onclick="openEditProfile()" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✏️</button>
       </div>
       <div style="font-size:12px;opacity:.8">👤 ${u.name||currentUser?.displayName||''}</div>
-      <div style="font-size:11px;opacity:.65;margin-top:2px">🗓 Miembro desde ${u.joinedAt?new Date(u.joinedAt).toLocaleDateString('es',{month:'long',year:'numeric'}):'hoy'}</div>
-      <div style="font-size:12px;opacity:.75;margin-top:3px">📍 ${u.city}</div>
+      <div style="font-size:11px;opacity:.65;margin-top:2px">🗓 Miembro desde ${u.joinedAt?formatJoinDate(u.joinedAt):'hoy'}</div>
+      <div style="font-size:12px;opacity:.75;margin-top:3px">📍 ${getCityDisplay(u.city)}</div>
       ${u.contact?`<div style="font-size:11px;opacity:.65;margin-top:3px">💬 ${u.contact}</div>`:''}
       <div onclick="copyCode('${u.code}')" style="background:rgba(255,255,255,.15);border-radius:9px;padding:7px 14px;display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-family:'Anton',sans-serif;font-size:16px;cursor:pointer;border:1.5px dashed rgba(255,255,255,.4)">${u.code} 📋</div>
       <div style="margin-top:10px">${starsHtml(rating,(u.ratings||[]).length)}</div>
