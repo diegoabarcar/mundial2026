@@ -1324,31 +1324,33 @@ function renderAlbum(){
     const haveC=Array.from({length:sec.count},(_,i)=>sec.prefix+(i+1)).filter(id=>album[id]&&album[id].state!=='missing').length;
     const isOpen=openSections[sec.id]||false;
     const secDesc=SEC_DESCS[sec.id]||'';
-    h+=`<div style="margin-bottom:6px">
-      <div class="sec-hdr" onclick="toggleSection('${sec.id}')">
-        <span style="font-size:18px">${sec.flag}</span>
-        <div style="flex:1;min-width:0">
-          <div class="sec-name">${sec.name}</div>
-          ${secDesc?`<div style="font-size:9px;opacity:.65;font-weight:400;margin-top:1px;font-family:'Barlow',sans-serif">${secDesc}</div>`:''}
-        </div>
-        <span style="font-size:10px;opacity:.8;font-weight:600;flex-shrink:0;margin-left:6px">${haveC}/${sec.count}</span>
-        <span class="sec-chev ${isOpen?'open':''}">▼</span>
-      </div>`;
+    const descHtml=secDesc?('<div style="font-size:9px;opacity:.65;font-weight:400;margin-top:1px">'+secDesc+'</div>'):'';
+    h+='<div style="margin-bottom:6px">'
+      +'<div class="sec-hdr" data-secid="'+sec.id+'" onclick="toggleSection(this.dataset.secid)">'
+      +'<span style="font-size:18px">'+sec.flag+'</span>'
+      +'<div style="flex:1;min-width:0">'
+      +'<div class="sec-name">'+sec.name+'</div>'
+      +descHtml
+      +'</div>'
+      +'<span style="font-size:10px;opacity:.8;font-weight:600;flex-shrink:0;margin-left:6px">'+haveC+'/'+sec.count+'</span>'
+      +'<span class="sec-chev '+(isOpen?'open':'')+'">▼</span>'
+      +'</div>';
     if(isOpen&&stickers.length){
-      h+=`<div class="sticker-grid">`;
-      stickers.forEach(({id,state,count})=>{
-        h+=`<div class="stk ${state}" data-sid="${id}"
-            onclick="stickerClick(this.dataset.sid,this)"
-            oncontextmenu="event.preventDefault();deleteSticker('${id}')"
-            ontouchstart="stkLongStart('${id}')" ontouchend="stkLongEnd()" ontouchmove="stkLongEnd()">
-            <span style="font-family:'Anton',sans-serif;font-size:9px;letter-spacing:.3px">${id}</span>
-            ${state==='have'?'<span style="font-size:10px">✓</span>':''}
-            ${state==='repeat'?`<span style="font-family:'Anton',sans-serif;font-size:9px;color:var(--gold-d)">×${count||2}</span>`:''}
-          </div>`;
+      h+='<div class="sticker-grid">';
+      stickers.forEach(function(s){
+        const sid=s.id,sst=s.state,scnt=s.count||1;
+        let si='<span style="font-family:Anton,sans-serif;font-size:9px">'+sid+'</span>';
+        if(sst==='have')si+='<span style="font-size:10px">✓</span>';
+        if(sst==='repeat')si+='<span style="font-family:Anton,sans-serif;font-size:9px;color:#b8860b">×'+scnt+'</span>';
+        h+='<div class="stk '+sst+'" data-sid="'+sid+'"'
+          +' onclick="stickerClick(this.dataset.sid,this)"'
+          +' oncontextmenu="event.preventDefault();deleteSticker(this.dataset.sid)"'
+          +' ontouchstart="stkLongStart(this.dataset.sid)" ontouchend="stkLongEnd()" ontouchmove="stkLongEnd()">'
+          +si+'</div>';
       });
-      h+=`</div>`;
+      h+='</div>';
     }
-    h+=`</div>`;
+    h+='</div>';
   });
   // Add hint if album is empty
   try{
