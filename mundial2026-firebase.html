@@ -224,7 +224,17 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
 
 /* MODAL */
 .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;max-width:480px;left:50%;transform:translateX(-50%)}
-.modal{background:#fff;border-radius:18px 18px 0 0;width:100%;max-height:85%;display:flex;flex-direction:column;animation:slideUp .3s ease;padding-bottom:env(safe-area-inset-bottom,0px)}
+.modal{background:#fff;border-radius:18px 18px 0 0;width:100%;max-height:92%;display:flex;flex-direction:column;animation:slideUp .3s ease;padding-bottom:env(safe-area-inset-bottom,0px)}
+.fs-overlay{position:fixed;inset:0;background:#fff;z-index:300;display:none;flex-direction:column;max-width:480px;left:50%;transform:translateX(-50%)}
+.fs-hdr{background:var(--green);padding:calc(14px + env(safe-area-inset-top,0px)) 16px 14px;color:#fff;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.fs-body{flex:1;overflow-y:auto;padding:16px}
+.fs-footer{padding:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--gray-l);background:#fff;flex-shrink:0}
+.cas-sel{width:100%;border:1.5px solid var(--gray-l);border-radius:10px;padding:11px 12px;font-size:15px;font-family:inherit;background:var(--bg);appearance:none;-webkit-appearance:none;outline:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9a8e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-color:var(--bg)}
+.cas-sel:focus{border-color:var(--green);background-color:#fff}
+.cas-sel:disabled{opacity:.4;cursor:not-allowed}
+.em-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:4px}
+.em-opt{font-size:22px;cursor:pointer;padding:3px;border-radius:7px;border:2px solid transparent;text-align:center;transition:border-color .15s}
+.em-opt.sel{border-color:var(--green);background:#e8f5ee}
 .modal-handle{width:36px;height:4px;background:var(--gray-l);border-radius:100px;margin:10px auto 0}
 .modal-hdr{padding:14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gray-l)}
 .modal-title{font-family:'Anton',sans-serif;font-size:17px;color:var(--green)}
@@ -402,168 +412,17 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
         <input class="form-input" id="s-alias" placeholder="¿Cómo te conocen?">
       </div>
       <div class="form-group">
-        <label class="form-label">Ciudad / Región</label>
-        <select class="form-input" id="s-city">
-          <optgroup label="🇦🇷 Argentina — CABA">
-            <option>Palermo</option><option>Belgrano</option><option>Recoleta</option><option>San Telmo</option><option>La Boca</option><option>Caballito</option><option>Almagro</option><option>Villa Crespo</option><option>Flores</option><option>Floresta</option><option>Villa del Parque</option><option>Devoto</option><option>Saavedra</option><option>Núñez</option><option>Colegiales</option><option>Chacarita</option><option>Villa Urquiza</option><option>Liniers</option><option>Mataderos</option><option>Pompeya</option><option>Barracas</option><option>Boedo</option><option>Paternal</option><option>Monte Castro</option><option>Puerto Madero</option>
-          </optgroup>
-          <optgroup label="🇦🇷 Argentina — GBA Norte">
-            <option>San Isidro</option><option>Vicente López</option><option>San Martín</option><option>Tres de Febrero</option><option>Tigre</option><option>San Fernando</option><option>Escobar</option><option>Pilar</option><option>Malvinas Argentinas</option><option>José C. Paz</option><option>San Miguel</option><option>Moreno</option>
-          </optgroup>
-          <optgroup label="🇦🇷 Argentina — GBA Sur">
-            <option>Avellaneda</option><option>Quilmes</option><option>Lanús</option><option>Lomas de Zamora</option><option>Almirante Brown</option><option>Esteban Echeverría</option><option>Ezeiza</option><option>Florencio Varela</option><option>Berazategui</option><option>La Matanza</option><option>Merlo</option><option>Morón</option><option>Hurlingham</option><option>Ituzaingó</option>
-          </optgroup>
-          <optgroup label="🇦🇷 Argentina — GBA Oeste">
-            <option>La Plata</option><option>Berisso</option><option>Ensenada</option><option>Brandsen</option><option>Campana</option><option>Zárate</option>
-          </optgroup>
-          <optgroup label="🇦🇷 Argentina — Interior">
-            <option>Córdoba</option><option>Rosario</option><option>Mendoza</option><option>Tucumán</option><option>Mar del Plata</option><option>Salta</option><option>Santa Fe</option><option>San Juan</option><option>Resistencia</option><option>Neuquén</option><option>Posadas</option><option>San Luis</option><option>Santiago del Estero</option><option>Corrientes</option><option>Bahía Blanca</option><option>Paraná</option><option>Formosa</option><option>Catamarca</option><option>La Rioja</option><option>San Salvador de Jujuy</option><option>Río Gallegos</option><option>Rawson</option><option>Viedma</option><option>Santa Rosa</option><option>Ushuaia</option>
-          </optgroup>
-          <optgroup label="🇧🇴 Bolivia">
-            <option>La Paz</option><option>Santa Cruz de la Sierra</option><option>Cochabamba</option>
-            <option>Oruro</option><option>Potosí</option><option>Sucre</option>
-            <option>Tarija</option><option>Trinidad</option>
-          </optgroup>
-          <optgroup label="🇧🇷 Brasil">
-            <option>São Paulo</option><option>Río de Janeiro</option><option>Brasilia</option>
-            <option>Salvador</option><option>Fortaleza</option><option>Belo Horizonte</option>
-            <option>Manaus</option><option>Curitiba</option><option>Recife</option>
-            <option>Porto Alegre</option><option>Belém</option><option>Goiânia</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Arica y Parinacota">
-            <option>Arica</option><option>Camarones</option><option>Putre</option><option>General Lagos</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Tarapacá">
-            <option>Iquique</option><option>Alto Hospicio</option><option>Pozo Almonte</option><option>Camiña</option><option>Colchane</option><option>Huara</option><option>Pica</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Antofagasta">
-            <option>Antofagasta</option><option>Mejillones</option><option>Sierra Gorda</option><option>Taltal</option><option>Calama</option><option>Ollagüe</option><option>San Pedro de Atacama</option><option>Tocopilla</option><option>María Elena</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Atacama">
-            <option>Copiapó</option><option>Caldera</option><option>Tierra Amarilla</option><option>Chañaral</option><option>Diego de Almagro</option><option>Vallenar</option><option>Alto del Carmen</option><option>Freirina</option><option>Huasco</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Coquimbo">
-            <option>La Serena</option><option>Coquimbo</option><option>Andacollo</option><option>La Higuera</option><option>Paiguano</option><option>Vicuña</option><option>Illapel</option><option>Canela</option><option>Los Vilos</option><option>Salamanca</option><option>Ovalle</option><option>Combarbalá</option><option>Monte Patria</option><option>Punitaqui</option><option>Río Hurtado</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Valparaíso">
-            <option>Valparaíso</option><option>Casablanca</option><option>Concón</option><option>Juan Fernández</option><option>Puchuncaví</option><option>Quintero</option><option>Viña del Mar</option><option>Isla de Pascua</option><option>Los Andes</option><option>Calle Larga</option><option>Rinconada</option><option>San Esteban</option><option>La Ligua</option><option>Cabildo</option><option>Papudo</option><option>Petorca</option><option>Zapallar</option><option>Quillota</option><option>Calera</option><option>Hijuelas</option><option>La Cruz</option><option>Nogales</option><option>San Antonio</option><option>Algarrobo</option><option>Cartagena</option><option>El Quisco</option><option>El Tabo</option><option>Santo Domingo</option><option>San Felipe</option><option>Catemu</option><option>Llaillay</option><option>Panquehue</option><option>Putaendo</option><option>Santa María</option><option>Quilpué</option><option>Limache</option><option>Olmué</option><option>Villa Alemana</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Metropolitana">
-            <option>Santiago</option><option>Cerrillos</option><option>Cerro Navia</option><option>Conchalí</option><option>El Bosque</option><option>Estación Central</option><option>Huechuraba</option><option>Independencia</option><option>La Cisterna</option><option>La Florida</option><option>La Granja</option><option>La Pintana</option><option>La Reina</option><option>Las Condes</option><option>Lo Barnechea</option><option>Lo Espejo</option><option>Lo Prado</option><option>Macul</option><option>Maipú</option><option>Ñuñoa</option><option>Pedro Aguirre Cerda</option><option>Peñalolén</option><option>Providencia</option><option>Pudahuel</option><option>Quilicura</option><option>Quinta Normal</option><option>Recoleta</option><option>Renca</option><option>San Joaquín</option><option>San Miguel</option><option>San Ramón</option><option>Vitacura</option><option>Puente Alto</option><option>Pirque</option><option>San José de Maipo</option><option>Colina</option><option>Lampa</option><option>Tiltil</option><option>San Bernardo</option><option>Buin</option><option>Calera de Tango</option><option>Paine</option><option>Melipilla</option><option>Alhué</option><option>Curacaví</option><option>María Pinto</option><option>San Pedro</option><option>Talagante</option><option>El Monte</option><option>Isla de Maipo</option><option>Padre Hurtado</option><option>Peñaflor</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — O'Higgins">
-            <option>Rancagua</option><option>Codegua</option><option>Coinco</option><option>Coltauco</option><option>Doñihue</option><option>Graneros</option><option>Las Cabras</option><option>Machalí</option><option>Malloa</option><option>Mostazal</option><option>Olivar</option><option>Peumo</option><option>Pichidegua</option><option>Quinta de Tilcoco</option><option>Rengo</option><option>Requínoa</option><option>San Vicente</option><option>Pichilemu</option><option>La Estrella</option><option>Litueche</option><option>Marchihue</option><option>Navidad</option><option>Paredones</option><option>San Fernando</option><option>Chépica</option><option>Chimbarongo</option><option>Lolol</option><option>Nancagua</option><option>Palmilla</option><option>Peralillo</option><option>Placilla</option><option>Pumanque</option><option>Santa Cruz</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Maule">
-            <option>Talca</option><option>Constitución</option><option>Curepto</option><option>Empedrado</option><option>Maule</option><option>Pelarco</option><option>Pencahue</option><option>Río Claro</option><option>San Clemente</option><option>San Rafael</option><option>Cauquenes</option><option>Chanco</option><option>Pelluhue</option><option>Curicó</option><option>Hualañé</option><option>Licantén</option><option>Molina</option><option>Rauco</option><option>Romeral</option><option>Sagrada Familia</option><option>Teno</option><option>Vichuquén</option><option>Linares</option><option>Colbún</option><option>Longaví</option><option>Parral</option><option>Retiro</option><option>San Javier</option><option>Villa Alegre</option><option>Yerbas Buenas</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Ñuble">
-            <option>Chillán</option><option>Bulnes</option><option>Chillán Viejo</option><option>El Carmen</option><option>Pemuco</option><option>Pinto</option><option>Quillón</option><option>San Ignacio</option><option>Yungay</option><option>Coihueco</option><option>Ñiquén</option><option>San Carlos</option><option>San Fabián</option><option>San Nicolás</option><option>Cobquecura</option><option>Coelemu</option><option>Ninhue</option><option>Portezuelo</option><option>Quirihue</option><option>Ránquil</option><option>Treguaco</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Biobío">
-            <option>Concepción</option><option>Coronel</option><option>Chiguayante</option><option>Florida</option><option>Hualqui</option><option>Lota</option><option>Penco</option><option>San Pedro de la Paz</option><option>Santa Juana</option><option>Talcahuano</option><option>Tomé</option><option>Hualpén</option><option>Lebu</option><option>Arauco</option><option>Cañete</option><option>Contulmo</option><option>Curanilahue</option><option>Los Álamos</option><option>Tirúa</option><option>Los Ángeles</option><option>Antuco</option><option>Cabrero</option><option>Laja</option><option>Mulchén</option><option>Nacimiento</option><option>Negrete</option><option>Quilaco</option><option>Quilleco</option><option>San Rosendo</option><option>Santa Bárbara</option><option>Tucapel</option><option>Yumbel</option><option>Alto Biobío</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — La Araucanía">
-            <option>Temuco</option><option>Carahue</option><option>Cunco</option><option>Curarrehue</option><option>Freire</option><option>Galvarino</option><option>Gorbea</option><option>Lautaro</option><option>Loncoche</option><option>Melipeuco</option><option>Nueva Imperial</option><option>Padre Las Casas</option><option>Perquenco</option><option>Pitrufquén</option><option>Pucón</option><option>Saavedra</option><option>Teodoro Schmidt</option><option>Toltén</option><option>Vilcún</option><option>Villarrica</option><option>Cholchol</option><option>Angol</option><option>Collipulli</option><option>Curacautín</option><option>Ercilla</option><option>Lonquimay</option><option>Los Sauces</option><option>Lumaco</option><option>Purén</option><option>Renaico</option><option>Traiguén</option><option>Victoria</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Los Ríos">
-            <option>Valdivia</option><option>Corral</option><option>Futrono</option><option>La Unión</option><option>Lago Ranco</option><option>Lanco</option><option>Los Lagos</option><option>Máfil</option><option>Mariquina</option><option>Paillaco</option><option>Panguipulli</option><option>Río Bueno</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Los Lagos">
-            <option>Puerto Montt</option><option>Calbuco</option><option>Cochamó</option><option>Fresia</option><option>Frutillar</option><option>Los Muermos</option><option>Llanquihue</option><option>Maullín</option><option>Puerto Varas</option><option>Castro</option><option>Ancud</option><option>Chonchi</option><option>Curaco de Vélez</option><option>Dalcahue</option><option>Puqueldón</option><option>Queilén</option><option>Quellón</option><option>Quemchi</option><option>Quinchao</option><option>Osorno</option><option>Puerto Octay</option><option>Purranque</option><option>Puyehue</option><option>Río Negro</option><option>San Juan de la Costa</option><option>San Pablo</option><option>Chaitén</option><option>Futaleufú</option><option>Hualaihué</option><option>Palena</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Aysén">
-            <option>Coyhaique</option><option>Lago Verde</option><option>Aysén</option><option>Cisnes</option><option>Guaitecas</option><option>Cochrane</option><option>O'Higgins</option><option>Tortel</option><option>Chile Chico</option><option>Río Ibáñez</option>
-          </optgroup>
-          <optgroup label="🇨🇱 Chile — Magallanes">
-            <option>Punta Arenas</option><option>Laguna Blanca</option><option>Río Verde</option><option>San Gregorio</option><option>Cabo de Hornos</option><option>Antártica</option><option>Porvenir</option><option>Primavera</option><option>Timaukel</option><option>Natales</option><option>Torres del Paine</option>
-          </optgroup>
-          <optgroup label="🇨🇴 Colombia">
-            <option>Bogotá</option><option>Medellín</option><option>Cali</option>
-            <option>Barranquilla</option><option>Cartagena</option><option>Cúcuta</option>
-            <option>Bucaramanga</option><option>Pereira</option><option>Santa Marta</option>
-            <option>Ibagué</option><option>Manizales</option><option>Pasto</option>
-          </optgroup>
-          <optgroup label="🇨🇷 Costa Rica">
-            <option>San José</option><option>Alajuela</option><option>Cartago</option>
-            <option>Heredia</option><option>Liberia</option>
-          </optgroup>
-          <optgroup label="🇨🇺 Cuba">
-            <option>La Habana</option><option>Santiago de Cuba</option><option>Camagüey</option>
-            <option>Holguín</option><option>Guantánamo</option>
-          </optgroup>
-          <optgroup label="🇩🇴 República Dominicana">
-            <option>Santo Domingo</option><option>Santiago de los Caballeros</option>
-            <option>La Romana</option><option>San Pedro de Macorís</option>
-          </optgroup>
-          <optgroup label="🇪🇨 Ecuador">
-            <option>Quito</option><option>Guayaquil</option><option>Cuenca</option>
-            <option>Machala</option><option>Durán</option><option>Manta</option>
-            <option>Portoviejo</option><option>Loja</option><option>Ambato</option>
-          </optgroup>
-          <optgroup label="🇸🇻 El Salvador">
-            <option>San Salvador</option><option>Soyapango</option><option>Santa Ana</option>
-            <option>San Miguel</option><option>Mejicanos</option>
-          </optgroup>
-          <optgroup label="🇬🇹 Guatemala">
-            <option>Ciudad de Guatemala</option><option>Mixco</option><option>Villa Nueva</option>
-            <option>Quetzaltenango</option><option>Escuintla</option>
-          </optgroup>
-          <optgroup label="🇭🇳 Honduras">
-            <option>Tegucigalpa</option><option>San Pedro Sula</option><option>Choloma</option>
-            <option>La Ceiba</option><option>El Progreso</option>
-          </optgroup>
-          <optgroup label="🇲🇽 México — CDMX">
-            <option>Álvaro Obregón</option><option>Azcapotzalco</option><option>Benito Juárez</option><option>Coyoacán</option><option>Cuajimalpa</option><option>Cuauhtémoc</option><option>Gustavo A. Madero</option><option>Iztacalco</option><option>Iztapalapa</option><option>Magdalena Contreras</option><option>Miguel Hidalgo</option><option>Milpa Alta</option><option>Tláhuac</option><option>Tlalpan</option><option>Venustiano Carranza</option><option>Xochimilco</option>
-          </optgroup>
-          <optgroup label="🇲🇽 México — Estado de México">
-            <option>Ecatepec</option><option>Nezahualcóyotl</option><option>Naucalpan</option><option>Toluca</option><option>Tlalnepantla</option><option>Chimalhuacán</option><option>Tultitlán</option><option>Atizapán</option><option>Nicolás Romero</option><option>Texcoco</option><option>Cuautitlán Izcalli</option>
-          </optgroup>
-          <optgroup label="🇲🇽 México — Interior">
-            <option>Guadalajara</option><option>Zapopan</option><option>Tlaquepaque</option><option>Tonalá</option><option>Monterrey</option><option>San Nicolás</option><option>Guadalupe</option><option>Apodaca</option><option>Puebla</option><option>Tijuana</option><option>León</option><option>Juárez</option><option>Mérida</option><option>San Luis Potosí</option><option>Aguascalientes</option><option>Hermosillo</option><option>Mexicali</option><option>Cancún</option><option>Culiacán</option><option>Acapulco</option><option>Querétaro</option><option>Chihuahua</option><option>Morelia</option><option>Veracruz</option><option>Torreón</option><option>Saltillo</option><option>Villahermosa</option><option>Oaxaca</option><option>Xalapa</option><option>Tuxtla Gutiérrez</option><option>Durango</option><option>Tepic</option><option>Colima</option><option>Zacatecas</option><option>Campeche</option><option>Chetumal</option>
-          </optgroup>
-          <optgroup label="🇳🇮 Nicaragua">
-            <option>Managua</option><option>León</option><option>Masaya</option>
-            <option>Matagalpa</option><option>Chinandega</option>
-          </optgroup>
-          <optgroup label="🇵🇦 Panamá">
-            <option>Ciudad de Panamá</option><option>Colón</option><option>David</option>
-            <option>La Chorrera</option><option>Santiago</option>
-          </optgroup>
-          <optgroup label="🇵🇾 Paraguay">
-            <option>Asunción</option><option>Ciudad del Este</option><option>San Lorenzo</option>
-            <option>Luque</option><option>Capiatá</option><option>Encarnación</option>
-          </optgroup>
-          <optgroup label="🇵🇪 Perú">
-            <option>Lima</option><option>Arequipa</option><option>Trujillo</option>
-            <option>Chiclayo</option><option>Iquitos</option><option>Piura</option>
-            <option>Cusco</option><option>Huancayo</option><option>Tacna</option>
-          </optgroup>
-          <optgroup label="🇵🇷 Puerto Rico">
-            <option>San Juan</option><option>Bayamón</option><option>Carolina</option>
-            <option>Ponce</option><option>Caguas</option>
-          </optgroup>
-          <optgroup label="🇺🇾 Uruguay">
-            <option>Montevideo</option><option>Salto</option><option>Paysandú</option>
-            <option>Las Piedras</option><option>Rivera</option><option>Maldonado</option>
-          </optgroup>
-          <optgroup label="🇻🇪 Venezuela">
-            <option>Caracas</option><option>Maracaibo</option><option>Valencia</option>
-            <option>Barquisimeto</option><option>Maracay</option><option>Ciudad Guayana</option>
-            <option>Barcelona</option><option>Maturín</option><option>San Cristóbal</option>
-          </optgroup>
-          <optgroup label="🇪🇸 España — Madrid">
-            <option>Centro (Madrid)</option><option>Arganzuela</option><option>Retiro</option><option>Salamanca</option><option>Chamartín</option><option>Tetuán</option><option>Chamberí</option><option>Fuencarral</option><option>Moncloa</option><option>Latina</option><option>Carabanchel</option><option>Usera</option><option>Puente de Vallecas</option><option>Moratalaz</option><option>Ciudad Lineal</option><option>Hortaleza</option><option>Villaverde</option><option>Villa de Vallecas</option><option>Vicálvaro</option><option>San Blas</option><option>Barajas</option><option>Alcalá de Henares</option><option>Getafe</option><option>Leganés</option><option>Fuenlabrada</option><option>Móstoles</option><option>Alcorcón</option><option>Torrejón de Ardoz</option><option>Pozuelo de Alarcón</option>
-          </optgroup>
-          <optgroup label="🇪🇸 España — Barcelona">
-            <option>Eixample</option><option>Gràcia</option><option>Sarrià-Sant Gervasi</option><option>Les Corts</option><option>Sants-Montjuïc</option><option>Nou Barris</option><option>Sant Andreu</option><option>Sant Martí</option><option>Horta-Guinardó</option><option>Ciutat Vella</option><option>Badalona</option><option>Hospitalet de Llobregat</option><option>Sabadell</option><option>Terrassa</option><option>Mataró</option><option>Santa Coloma de Gramenet</option>
-          </optgroup>
-          <optgroup label="🇪🇸 España — Otras ciudades">
-            <option>Valencia</option><option>Sevilla</option><option>Zaragoza</option><option>Málaga</option><option>Murcia</option><option>Palma</option><option>Las Palmas</option><option>Bilbao</option><option>Alicante</option><option>Córdoba</option><option>Valladolid</option><option>Vigo</option><option>Gijón</option><option>Granada</option><option>Vitoria</option><option>La Coruña</option><option>Elche</option><option>Oviedo</option><option>Santa Cruz de Tenerife</option><option>Pamplona</option><option>Almería</option><option>San Sebastián</option><option>Burgos</option><option>Santander</option><option>Castellón</option><option>Albacete</option><option>Logroño</option><option>Badajoz</option><option>Salamanca</option><option>Huelva</option>
-          </optgroup>
-          <optgroup label="🌎 Otra">
-            <option>Otra ciudad</option>
-          </optgroup>
+        <label class="form-label">🌎 País</label>
+        <select class="form-input" id="s-country" onchange="scPickC(this.value)" style="margin-bottom:8px">
+          <option value="">Seleccioná tu país</option>
+        </select>
+        <label class="form-label" style="margin-top:6px">🗺️ Región / Estado</label>
+        <select class="form-input" id="s-region" onchange="scPickR(this.value)" disabled style="margin-bottom:8px">
+          <option value="">Primero elegí tu país</option>
+        </select>
+        <label class="form-label" style="margin-top:6px">📍 Ciudad / Comuna</label>
+        <select class="form-input" id="s-city" disabled>
+          <option value="">Primero elegí tu región</option>
         </select>
       </div>
       <div class="form-group">
@@ -613,6 +472,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
       <div id="tab-groups" style="display:none"></div>
       <div id="tab-faq" style="display:none"></div>
       <div id="group-overlay" style="display:none;position:fixed;inset:0;z-index:50;max-width:480px;left:50%;transform:translateX(-50%)"></div>
+  <div id="ep-overlay" class="fs-overlay"></div>
   <div id="onboarding-overlay" style="display:none;position:fixed;inset:0;z-index:150;max-width:480px;left:50%;transform:translateX(-50%)"></div>
     </div>
     <nav class="navbar">
@@ -772,7 +632,7 @@ function getAllStickers(){
 }
 function getAlbumStats(album={}){
   let have=0,doubles=0,missing=0;
-  getAllStickers().forEach(id=>{const s=album[id];if(!s||s.state==='missing')missing++;else if(s.state==='have')have++;else{have++;doubles++;}});
+  getAllStickers().forEach(id=>{const s=album[id];if(!s||s.state==='missing')missing++;else if(s.state==='have'){have++;}else if(s.state==='repeat'){have+=s.count||1;doubles+=(s.count||1)-1;}else{}});
   return{have,doubles,missing};
 }
 function getUserRating(u){if(!u?.ratings?.length)return 0;return u.ratings.reduce((a,b)=>a+b,0)/u.ratings.length;}
@@ -784,7 +644,7 @@ function starsHtml(rating,count){
   if(count!==undefined)h+=`<span style="font-size:10px;color:var(--muted);margin-left:2px">(${count})</span>`;
   return h;
 }
-function getDoublesList(album={}){return Object.entries(album).filter(([,v])=>v.state==='double').map(([k])=>k);}
+function getDoublesList(album={}){return Object.entries(album).filter(([,v])=>v.state==='repeat').map(([k])=>k);}
 function getMissingList(album={}){return getAllStickers().filter(id=>!album[id]||album[id].state==='missing');}
 function pillsHtml(ids=[],cls,max=14){
   if(!ids.length)return'<span style="font-size:11px;color:var(--muted)">—</span>';
@@ -917,6 +777,30 @@ window.submitEmail=async function(){
 // ============================================================
 // PROFILE SETUP
 // ============================================================
+// Init setup country dropdown
+(function(){
+  const sel=document.getElementById('s-country');
+  if(!sel)return;
+  getCountries().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+})();
+window.scPickC=function(c){
+  const rSel=document.getElementById('s-region');
+  const cSel=document.getElementById('s-city');
+  rSel.innerHTML='<option value="">Seleccioná una región</option>';
+  cSel.innerHTML='<option value="">Primero elegí tu región</option>';
+  cSel.disabled=true;
+  if(!c){rSel.disabled=true;return;}
+  getRegions(c).forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=getRegionDisplay(r);rSel.appendChild(o);});
+  rSel.disabled=false;
+};
+window.scPickR=function(r){
+  const c=document.getElementById('s-country').value;
+  const cSel=document.getElementById('s-city');
+  cSel.innerHTML='<option value="">Seleccioná tu ciudad</option>';
+  if(!r){cSel.disabled=true;return;}
+  getCities(c,r).forEach(ci=>{const o=document.createElement('option');o.value=ci;o.textContent=ci;cSel.appendChild(o);});
+  cSel.disabled=false;
+};
 document.getElementById('setup-av-picker').addEventListener('click',e=>{
   const opt=e.target.closest('.av-opt');if(!opt)return;
   document.querySelectorAll('#setup-av-picker .av-opt').forEach(el=>el.classList.remove('sel'));
@@ -976,12 +860,12 @@ let obOpenSecs = {};
 function shouldShowOnboarding(){
   // Show if user has no stickers marked at all
   const album = userProfile?.album || {};
-  const hasAny = Object.values(album).some(v=>v.state==='have'||v.state==='double');
+  const hasAny = Object.values(album).some(v=>v.state==='have'||v.state==='repeat');
   return !hasAny;
 }
 
 function startOnboarding(force=false){
-  const hasAlbum=Object.values(userProfile?.album||{}).some(v=>v.state==='have'||v.state==='double');
+  const hasAlbum=Object.values(userProfile?.album||{}).some(v=>v.state==='have'||v.state==='repeat');
   if(hasAlbum&&!force){
     if(!confirm('Ya tenés láminas marcadas. ¿Querés revisar y actualizar tu álbum?'))return;
   }
@@ -1089,7 +973,7 @@ function renderOnboardingSummary(){
         <div style="font-size:13px;color:var(--muted);margin-top:4px">completado</div>
         <div class="ob-num-row">
           <div class="ob-num-box"><div class="ob-num" style="color:var(--green)">${have}</div><div style="font-size:10px;color:var(--muted);font-weight:700">Tengo</div></div>
-          <div class="ob-num-box"><div class="ob-num" style="color:var(--gold-d)">${doubles}</div><div style="font-size:10px;color:var(--muted);font-weight:700">Dobles</div></div>
+          <div class="ob-num-box"><div class="ob-num" style="color:var(--gold-d)">${doubles}</div><div style="font-size:10px;color:var(--muted);font-weight:700">Repetidas</div></div>
           <div class="ob-num-box"><div class="ob-num" style="color:var(--red)">${missing}</div><div style="font-size:10px;color:var(--muted);font-weight:700">Faltan</div></div>
         </div>
       </div>
@@ -1113,7 +997,7 @@ window.obToggleStk=function(id){
 
 window.obSetCount=function(id,n){
   if(n===1){obAlbum[id]={state:'have',count:1};}
-  else{obAlbum[id]={state:'double',count:n};}
+  else{obAlbum[id]={state:'repeat',count:n};}
   renderOnboarding();
 };
 
@@ -1154,6 +1038,109 @@ window.obFinish=async function(){
   toast('🏆 ¡Álbum guardado!','gold');
   renderAlbum();
 };
+
+const LOCATION_DATA={
+  "Chile":{
+    "Arica y Parinacota":["Arica","Camarones","Putre","General Lagos"],
+    "Tarapacá":["Iquique","Alto Hospicio","Pozo Almonte","Camiña","Colchane","Huara","Pica"],
+    "Antofagasta":["Antofagasta","Mejillones","Sierra Gorda","Taltal","Calama","Ollagüe","San Pedro de Atacama","Tocopilla","María Elena"],
+    "Atacama":["Copiapó","Caldera","Tierra Amarilla","Chañaral","Diego de Almagro","Vallenar","Alto del Carmen","Freirina","Huasco"],
+    "Coquimbo":["La Serena","Coquimbo","Andacollo","La Higuera","Vicuña","Illapel","Canela","Los Vilos","Salamanca","Ovalle","Combarbalá","Monte Patria","Punitaqui","Río Hurtado"],
+    "Valparaíso":["Valparaíso","Casablanca","Concón","Viña del Mar","Quilpué","Villa Alemana","San Antonio","Los Andes","San Felipe","Quillota","Quintero","Limache","Olmué","Isla de Pascua"],
+    "Metropolitana":["Santiago","Cerrillos","Cerro Navia","Conchalí","El Bosque","Estación Central","Huechuraba","Independencia","La Cisterna","La Florida","La Granja","La Pintana","La Reina","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul","Maipú","Ñuñoa","Pedro Aguirre Cerda","Peñalolén","Providencia","Pudahuel","Quilicura","Quinta Normal","Recoleta","Renca","San Joaquín","San Miguel","San Ramón","Vitacura","Puente Alto","Pirque","San José de Maipo","Colina","Lampa","Tiltil","San Bernardo","Buin","Calera de Tango","Paine","Melipilla","Talagante","El Monte","Isla de Maipo","Padre Hurtado","Peñaflor"],
+    "OHiggins":["Rancagua","Codegua","Coinco","Coltauco","Doñihue","Graneros","Las Cabras","Machalí","Malloa","Mostazal","Olivar","Peumo","Pichidegua","Quinta de Tilcoco","Rengo","Requínoa","San Vicente","Pichilemu","La Estrella","Litueche","Marchihue","Navidad","Paredones","San Fernando","Chépica","Chimbarongo","Lolol","Nancagua","Palmilla","Peralillo","Placilla","Pumanque","Santa Cruz"],
+    "Maule":["Talca","Constitución","Curepto","Empedrado","Maule","Pelarco","Pencahue","Río Claro","San Clemente","San Rafael","Cauquenes","Chanco","Pelluhue","Curicó","Hualañé","Licantén","Molina","Rauco","Romeral","Sagrada Familia","Teno","Vichuquén","Linares","Colbún","Longaví","Parral","Retiro","San Javier","Villa Alegre","Yerbas Buenas"],
+    "Ñuble":["Chillán","Bulnes","Chillán Viejo","El Carmen","Pemuco","Pinto","Quillón","San Ignacio","Yungay","Coihueco","Ñiquén","San Carlos","San Fabián","San Nicolás","Cobquecura","Coelemu","Ninhue","Portezuelo","Quirihue","Ránquil","Treguaco"],
+    "Biobío":["Concepción","Coronel","Chiguayante","Florida","Hualqui","Lota","Penco","San Pedro de la Paz","Santa Juana","Talcahuano","Tomé","Hualpén","Lebu","Arauco","Cañete","Contulmo","Curanilahue","Los Álamos","Tirúa","Los Ángeles","Antuco","Cabrero","Laja","Mulchén","Nacimiento","Negrete","Quilaco","Quilleco","San Rosendo","Santa Bárbara","Tucapel","Yumbel","Alto Biobío"],
+    "La Araucanía":["Temuco","Carahue","Cunco","Curarrehue","Freire","Galvarino","Gorbea","Lautaro","Loncoche","Melipeuco","Nueva Imperial","Padre Las Casas","Perquenco","Pitrufquén","Pucón","Saavedra","Teodoro Schmidt","Toltén","Vilcún","Villarrica","Cholchol","Angol","Collipulli","Curacautín","Ercilla","Lonquimay","Los Sauces","Lumaco","Purén","Renaico","Traiguén","Victoria"],
+    "Los Ríos":["Valdivia","Corral","Futrono","La Unión","Lago Ranco","Lanco","Los Lagos","Máfil","Mariquina","Paillaco","Panguipulli","Río Bueno"],
+    "Los Lagos":["Puerto Montt","Calbuco","Cochamó","Fresia","Frutillar","Los Muermos","Llanquihue","Maullín","Puerto Varas","Castro","Ancud","Chonchi","Curaco de Vélez","Dalcahue","Puqueldón","Queilén","Quellón","Quemchi","Quinchao","Osorno","Puerto Octay","Purranque","Puyehue","Río Negro","San Juan de la Costa","San Pablo","Chaitén","Futaleufú","Hualaihué","Palena"],
+    "Aysén":["Coyhaique","Lago Verde","Puerto Aysén","Cisnes","Guaitecas","Cochrane","Tortel","Chile Chico","Río Ibáñez"],
+    "Magallanes":["Punta Arenas","Laguna Blanca","Río Verde","San Gregorio","Cabo de Hornos","Puerto Williams","Porvenir","Primavera","Timaukel","Puerto Natales","Torres del Paine"],
+  },
+  "Argentina":{
+    "Ciudad de Buenos Aires":["Palermo","Belgrano","Recoleta","San Telmo","La Boca","Caballito","Almagro","Villa Crespo","Flores","Floresta","Villa del Parque","Devoto","Saavedra","Núñez","Colegiales","Chacarita","Villa Urquiza","Liniers","Mataderos","Pompeya","Barracas","Boedo","Paternal","Monte Castro","Puerto Madero","Balvanera","San Cristóbal"],
+    "GBA Norte":["San Isidro","Vicente López","San Martín","Tres de Febrero","Tigre","San Fernando","Escobar","Pilar","Malvinas Argentinas","José C. Paz","San Miguel","Moreno","General Rodríguez"],
+    "GBA Sur":["Avellaneda","Quilmes","Lanús","Lomas de Zamora","Almirante Brown","Esteban Echeverría","Ezeiza","Florencio Varela","Berazategui","La Matanza","Merlo","Morón","Hurlingham","Ituzaingó"],
+    "GBA Oeste":["La Plata","Berisso","Ensenada","Brandsen","Campana","Zárate","San Pedro","Mar del Plata"],
+    "Córdoba":["Córdoba","Villa Carlos Paz","Río Cuarto","San Francisco","Villa María","Cosquín","Alta Gracia"],
+    "Rosario y Santa Fe":["Rosario","Santa Fe","Rafaela","Venado Tuerto"],
+    "Mendoza":["Mendoza","Godoy Cruz","Las Heras","Luján de Cuyo","Guaymallén","San Rafael","Maipú"],
+    "Tucumán":["San Miguel de Tucumán","Tafí Viejo","Banda del Río Salí","Yerba Buena","Concepción"],
+    "Salta y Jujuy":["Salta","San Ramón de la Nueva Orán","Tartagal","San Salvador de Jujuy","Palpalá"],
+    "Otras provincias":["Neuquén","Bariloche","Resistencia","Corrientes","Posadas","San Juan","San Luis","La Rioja","Catamarca","Santiago del Estero","Formosa","Rawson","Viedma","Santa Rosa","Río Gallegos","Ushuaia"],
+  },
+  "México":{
+    "CDMX":["Álvaro Obregón","Azcapotzalco","Benito Juárez","Coyoacán","Cuajimalpa","Cuauhtémoc","Gustavo A. Madero","Iztacalco","Iztapalapa","Magdalena Contreras","Miguel Hidalgo","Milpa Alta","Tláhuac","Tlalpan","Venustiano Carranza","Xochimilco"],
+    "Estado de México":["Ecatepec","Nezahualcóyotl","Naucalpan","Toluca","Tlalnepantla","Chimalhuacán","Tultitlán","Atizapán","Nicolás Romero","Texcoco","Cuautitlán Izcalli","Ixtapaluca","Valle de Chalco"],
+    "Jalisco":["Guadalajara","Zapopan","Tlaquepaque","Tonalá","Tlajomulco","Puerto Vallarta","Lagos de Moreno"],
+    "Nuevo León":["Monterrey","San Nicolás","Guadalupe","Apodaca","General Escobedo","Santa Catarina","San Pedro Garza García"],
+    "Puebla":["Puebla","Tehuacán","San Martín Texmelucan","Atlixco","Cholula"],
+    "Baja California":["Tijuana","Mexicali","Ensenada","Tecate","Rosarito"],
+    "Otras":["León","Mérida","San Luis Potosí","Aguascalientes","Hermosillo","Cancún","Culiacán","Acapulco","Querétaro","Chihuahua","Morelia","Veracruz","Torreón","Saltillo","Villahermosa","Oaxaca","Tuxtla Gutiérrez","Durango"],
+  },
+  "España":{
+    "Comunidad de Madrid":["Centro","Arganzuela","Retiro","Salamanca","Chamartín","Tetuán","Chamberí","Fuencarral","Moncloa","Latina","Carabanchel","Usera","Puente de Vallecas","Moratalaz","Ciudad Lineal","Hortaleza","Villaverde","Vicálvaro","San Blas","Barajas","Alcalá de Henares","Getafe","Leganés","Fuenlabrada","Móstoles","Alcorcón","Torrejón de Ardoz","Pozuelo de Alarcón"],
+    "Cataluña":["Eixample","Gràcia","Sarrià-Sant Gervasi","Les Corts","Sants-Montjuïc","Nou Barris","Sant Andreu","Sant Martí","Horta-Guinardó","Ciutat Vella","Badalona","Hospitalet de Llobregat","Sabadell","Terrassa","Mataró","Santa Coloma","Girona","Lleida","Tarragona"],
+    "Andalucía":["Sevilla","Málaga","Granada","Córdoba","Almería","Huelva","Cádiz","Jaén"],
+    "País Vasco":["Bilbao","San Sebastián","Vitoria","Barakaldo","Getxo","Irún"],
+    "Comunitat Valenciana":["Valencia","Alicante","Elche","Castellón","Torrent","Gandia"],
+    "Otras comunidades":["Zaragoza","Palma","Las Palmas","Santa Cruz de Tenerife","Valladolid","Vigo","Gijón","La Coruña","Oviedo","Pamplona","Santander","Burgos","Logroño","Murcia","Albacete","Toledo","Badajoz","Salamanca"],
+  },
+  "Colombia":{
+    "Bogotá D.C.":["Usaquén","Chapinero","Santa Fe","San Cristóbal","Usme","Tunjuelito","Bosa","Kennedy","Fontibón","Engativá","Suba","Barrios Unidos","Teusaquillo","Mártires","Antonio Nariño","Puente Aranda","Candelaria","Rafael Uribe","Ciudad Bolívar"],
+    "Antioquia":["Medellín","Bello","Itagüí","Envigado","Apartadó","Turbo"],
+    "Valle del Cauca":["Cali","Buenaventura","Palmira","Tuluá","Buga","Cartago"],
+    "Atlántico":["Barranquilla","Soledad","Malambo","Sabanalarga"],
+    "Bolívar":["Cartagena","Magangué","El Carmen de Bolívar"],
+    "Otras ciudades":["Cúcuta","Bucaramanga","Pereira","Santa Marta","Ibagué","Manizales","Pasto","Villavicencio","Armenia","Montería","Sincelejo","Valledupar","Neiva","Popayán"],
+  },
+  "Uruguay":{
+    "Montevideo":["Centro","Pocitos","Punta Carretas","Carrasco","Malvín","Buceo","Cordón","Palermo","Ciudad Vieja","Prado","Belvedere","Sayago"],
+    "Interior":["Salto","Paysandú","Las Piedras","Rivera","Maldonado","Punta del Este","Melo","Minas","Trinidad","Durazno","Florida","San José","Canelones"],
+  },
+  "Perú":{
+    "Lima Metropolitana":["Miraflores","San Isidro","Barranco","Surco","La Molina","San Borja","Jesús María","Lince","Magdalena","Pueblo Libre","Breña","Rímac","San Martín de Porres","Los Olivos","Comas","Independencia","El Agustino","Ate","Santa Anita","Surquillo","San Luis","Chorrillos","Villa El Salvador","Villa María del Triunfo","San Juan de Miraflores","Callao"],
+    "Otras regiones":["Arequipa","Trujillo","Chiclayo","Iquitos","Piura","Cusco","Huancayo","Tacna","Pucallpa","Cajamarca","Chimbote","Ica"],
+  },
+  "Venezuela":{
+    "Caracas":["Libertador","Chacao","Baruta","El Hatillo","Sucre"],
+    "Miranda":["Los Teques","Guarenas","Guatire","Petare","Ocumare del Tuy"],
+    "Otras ciudades":["Maracaibo","Valencia","Barquisimeto","Maracay","Ciudad Guayana","Barcelona","Maturín","San Cristóbal","Cumaná","Barinas"],
+  },
+  "Ecuador":{
+    "Pichincha":["Quito","Cayambe","Mejía","Rumiñahui","Pedro Moncayo"],
+    "Guayas":["Guayaquil","Durán","Milagro","Samborondón","Daule"],
+    "Otras provincias":["Cuenca","Machala","Manta","Portoviejo","Loja","Ambato","Esmeraldas","Santo Domingo","Ibarra"],
+  },
+  "Paraguay":{
+    "Central y Asunción":["Asunción","San Lorenzo","Luque","Capiatá","Lambaré","Fernando de la Mora","Limpio","Ñemby","Villa Elisa","Mariano Roque Alonso"],
+    "Otras ciudades":["Ciudad del Este","Encarnación","Pedro Juan Caballero","Concepción","Villarrica","Coronel Oviedo"],
+  },
+  "Bolivia":{
+    "La Paz y El Alto":["La Paz","El Alto","Viacha","Achocalla","Mecapaca"],
+    "Cochabamba":["Cochabamba","Quillacollo","Sacaba","Colcapirhua","Tiquipaya"],
+    "Otras ciudades":["Santa Cruz de la Sierra","Oruro","Potosí","Sucre","Tarija","Trinidad","Cobija"],
+  },
+  "Otro país":{
+    "Mi ciudad":["Mi ciudad"],
+  },
+};
+const REGION_DISPLAY={"OHiggins":"O'Higgins"};
+function getRegionDisplay(r){return REGION_DISPLAY[r]||r;}
+function getCountries(){return Object.keys(LOCATION_DATA);}
+function getRegions(country){return country&&LOCATION_DATA[country]?Object.keys(LOCATION_DATA[country]):[];}
+function getCities(country,region){return country&&region&&LOCATION_DATA[country]&&LOCATION_DATA[country][region]?LOCATION_DATA[country][region]:[];}
+function getLocationParts(city){
+  if(!city)return{country:'',region:'',city:''};
+  for(const [country,regions] of Object.entries(LOCATION_DATA)){
+    for(const [region,cities] of Object.entries(regions)){
+      if(cities.includes(city))return{country,region,city};
+    }
+  }
+  return{country:'Otro país',region:'Mi ciudad',city};
+}
+
 
 const PAYPAL_URL='https://paypal.me/intercambiaapp';
 let donateTimer=null;
@@ -1217,6 +1204,18 @@ function updateHeader(){
   }
 }
 
+// Long press for sticker delete
+let stkLongTimer=null;
+window.stkTouchStart=function(id,el){
+  stkLongTimer=setTimeout(()=>{
+    stkLongTimer=null;
+    deleteSticker(id);
+  },600);
+};
+window.stkTouchEnd=function(){
+  if(stkLongTimer){clearTimeout(stkLongTimer);stkLongTimer=null;}
+};
+
 window.setTab=function(tab){
   currentTab=tab;
   ['album','tablon','matches','messages','profile','groups','faq'].forEach(t=>{
@@ -1243,12 +1242,41 @@ async function toggleSticker(id){
   if(!currentUser||!userProfile)return;
   const album=userProfile.album||{};
   const cur=album[id];
-  if(!cur||cur.state==='missing')album[id]={state:'have'};
-  else if(cur.state==='have')album[id]={state:'double',count:2};
-  else album[id]={state:'missing'};
+  const curCount=cur?.count||1;
+  const curState=cur?.state||'missing';
+
+  if(!cur||curState==='missing'){
+    // First tap: mark as have x1
+    album[id]={state:'have',count:1};
+  } else {
+    // Subsequent taps: increment count
+    const newCount=(curCount||1)+1;
+    album[id]={state:'repeat',count:newCount};
+  }
   userProfile.album=album;
   renderAlbum();
-  // Debounce saves - only save after 1.5s of no tapping
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveAlbum(album),1500);
+}
+
+async function deleteSticker(id){
+  if(!currentUser||!userProfile)return;
+  const album=userProfile.album||{};
+  const cur=album[id];
+  if(!cur||cur.state==='missing')return;
+  const count=cur.count||1;
+  
+  if(count<=1){
+    // Confirm deletion of last copy
+    if(!confirm(`¿Eliminar ${id} de tu álbum?`))return;
+    album[id]={state:'missing'};
+  } else {
+    // Just decrease count
+    const newCount=count-1;
+    album[id]=newCount===1?{state:'have',count:1}:{state:'repeat',count:newCount};
+  }
+  userProfile.album=album;
+  renderAlbum();
   clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>saveAlbum(album),1500);
 }
@@ -1267,14 +1295,14 @@ function renderAlbum(){
     <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
     <div style="display:flex;gap:14px;margin-top:10px">
       <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:#fff">${stats.have}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Tengo</div></div>
-      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:var(--gold)">${stats.doubles}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Dobles</div></div>
+      <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:var(--gold)">${stats.doubles}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Repetidas</div></div>
       <div style="text-align:center"><div style="font-family:'Anton',sans-serif;font-size:20px;color:#ff9999">${stats.missing}</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Faltan</div></div>
     </div>
   </div>
   <div class="filter-row">
     <button class="chip ${albumFilter==='all'?'act':''}" onclick="setAlbumFilter('all')">Todas</button>
     <button class="chip ${albumFilter==='missing'?'act':''}" onclick="setAlbumFilter('missing')">Solo faltan</button>
-    <button class="chip ${albumFilter==='double'?'act':''}" onclick="setAlbumFilter('double')">Dobles</button>
+    <button class="chip ${albumFilter==='double'?'act':''}" onclick="setAlbumFilter('double')">Repetidas</button>
     <button class="chip ${albumFilter==='have'?'act':''}" onclick="setAlbumFilter('have')">Tengo</button>
   </div>
   <div class="search-box">
@@ -1314,7 +1342,7 @@ function renderAlbum(){
         h+=`<div class="stk ${state}" data-sid="${id}" onclick="stickerClick(this.dataset.sid,this)">
           <span class="stk-n" style="font-size:10px">${id}</span>
           ${state==='have'?'<span class="stk-ico">✓</span>':''}
-          ${state==='double'?`<span class="stk-ico">★</span>${count>1?`<span class="stk-c">×${count}</span>`:''}`:''} 
+          ${state==='repeat'?`<span class="stk-ico">★</span>${count>1?`<span class="stk-c">×${count}</span>`:''}`:''} 
         </div>`;
       });
       h+=`</div>`;
@@ -1323,7 +1351,7 @@ function renderAlbum(){
   });
   // Add hint if album is empty
   try{
-    const hasAny=Object.values(userProfile?.album||{}).some(v=>v&&(v.state==='have'||v.state==='double'));
+    const hasAny=Object.values(userProfile?.album||{}).some(v=>v&&(v.state==='have'||v.state==='repeat'));
     if(!hasAny&&albumFilter==='all'&&!albumSearch){
       h+=`<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">
         <div style="font-size:32px;margin-bottom:8px">📖</div>
@@ -1340,7 +1368,7 @@ window.stickerClick=function(id,el){
   el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);
   const album=userProfile?.album||{};
   const cur=album[id];
-  if(cur?.state==='double'){
+  if(cur?.state==='repeat'){
     // Already double - show counter modal
     showCounterModal(id);
     return;
@@ -1348,45 +1376,9 @@ window.stickerClick=function(id,el){
   toggleSticker(id);
 };
 
-window.showCounterModal=function(id){
-  const album=userProfile?.album||{};
-  const cur=album[id]||{state:'have',count:1};
-  const count=cur.count||1;
-  showModal(`Lámina ${id}`,`
-    <div style="text-align:center;padding:10px 0">
-      <div style="font-size:13px;color:var(--muted);margin-bottom:16px">¿Cuántas tenés en total?</div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:20px">
-        <button onclick="adjCount('${id}',-1)" style="width:48px;height:48px;border-radius:50%;background:var(--gray-l);border:none;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
-        <div id="count-display" style="font-family:'Anton',sans-serif;font-size:52px;color:var(--green);min-width:60px;text-align:center">${count}</div>
-        <button onclick="adjCount('${id}',+1)" style="width:48px;height:48px;border-radius:50%;background:var(--green);border:none;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
-      </div>
-      <div style="font-size:11px;color:var(--muted)">1 = solo una · 2 = una repetida · 3 = dos repetidas</div>
-    </div>
-  `,()=>{closeModal();renderAlbum();},'Listo');
-};
 
-window.adjCount=async function(id,delta){
-  const album=userProfile?.album||{};
-  const cur=album[id]||{state:'have',count:1};
-  const newCount=Math.max(0,(cur.count||1)+delta);
-  const display=document.getElementById('count-display');
-  if(newCount===0){
-    album[id]={state:'missing'};
-    if(display)display.textContent='0';
-    if(display)display.style.color='var(--red)';
-  } else if(newCount===1){
-    album[id]={state:'have',count:1};
-    if(display)display.textContent='1';
-    if(display)display.style.color='var(--green)';
-  } else {
-    album[id]={state:'double',count:newCount};
-    if(display)display.textContent=String(newCount);
-    if(display)display.style.color='var(--gold-d)';
-  }
-  userProfile.album=album;
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>saveAlbum(album),800);
-};
+
+
 window.toggleSection=function(id){openSections[id]=!openSections[id];renderAlbum();};
 window.setAlbumFilter=function(f){albumFilter=f;renderAlbum();};
 window.setAlbumSearch=function(v){albumSearch=v;renderAlbum();};
@@ -1404,7 +1396,7 @@ async function renderTablon(){
   if(!filtered.length)h+=`<div class="empty">
     <div class="ei">📋</div>
     <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">El tablón está vacío</p>
-    <p style="margin-bottom:16px">Acá los coleccionistas publican qué ${getTermPlural()} <strong>ofrecen</strong> (sus dobles) y cuáles <strong>buscan</strong> (sus faltantes).<br><br>¡Sé el primero en publicar!</p>
+    <p style="margin-bottom:16px">Acá los coleccionistas publican qué ${getTermPlural()} <strong>ofrecen</strong> (sus repetidas) y cuáles <strong>buscan</strong> (sus faltantes).<br><br>¡Sé el primero en publicar!</p>
     <button onclick="openCreatePost()" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📋 Publicar mis ${getTermPlural()}</button>
   </div>`;
   filtered.forEach(post=>{
@@ -1449,8 +1441,8 @@ window.openCreatePost=function(){
   const doubles=getDoublesList(album);
   const missing=getMissingList(album);
   const body=`<div style="margin-bottom:14px">
-    <div class="plabel" style="margin-bottom:7px">Láminas que ofrezco (dobles)</div>
-    ${doubles.length===0?'<p style="font-size:12px;color:var(--muted)">No tenés dobles registrados</p>':
+    <div class="plabel" style="margin-bottom:7px">Láminas que ofrezco (repetidas)</div>
+    ${doubles.length===0?'<p style="font-size:12px;color:var(--muted)">No tenés repetidas registrados</p>':
     `<div class="pills" id="cp-offers">${doubles.slice(0,60).map(n=>`<span class="pill" style="cursor:pointer" data-n="${n}" onclick="this.classList.toggle('off')">#${n}</span>`).join('')}</div>`}
   </div>
   <div>
@@ -1492,9 +1484,10 @@ async function renderMatches(){
     const canGive=myDoubles.filter(n=>om.includes(n)).length;
     const canReceive=od.filter(n=>myMissing.includes(n)).length;
     const score=Math.min(canGive,canReceive);
+    const oLoc=getLocationParts(other.city||'');
     const sameCity=other.city===myCity;
-    const sameRegion=(COMMUNE_REGION[other.city]||other.city)===(COMMUNE_REGION[myCity]||myCity)&&getCityCountry(other.city)===myCountry;
-    const sameCountry=getCityCountry(other.city)===myCountry;
+    const sameRegion=oLoc.region===myRegion&&oLoc.country===myCountry;
+    const sameCountry=oLoc.country===myCountry;
     return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1,sameCity,sameRegion,sameCountry};
   }).filter(m=>m.score>0).sort((a,b)=>{
     // Sort: same city → same region → same country → score
@@ -1526,7 +1519,7 @@ async function renderMatches(){
     tab.innerHTML=h+`<div class="empty">
       <div class="ei">🎯</div>
       <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">No hay matches ${emptyMsg}</p>
-      <p style="margin-bottom:16px">El motor de matches cruza tu álbum con el de otros coleccionistas y encuentra intercambios donde <strong>ambos se benefician</strong>.<br><br>Para ver matches necesitás tener ${getTermPlural()} marcadas como <strong>dobles</strong> o <strong>faltantes</strong>.</p>
+      <p style="margin-bottom:16px">El motor de matches cruza tu álbum con el de otros coleccionistas y encuentra intercambios donde <strong>ambos se benefician</strong>.<br><br>Para ver matches necesitás tener ${getTermPlural()} marcadas como <strong>repetidas</strong> o <strong>faltantes</strong>.</p>
       <button onclick="setTab('album')" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📖 Ir a mi álbum</button>
     </div>`;
     return;
@@ -1559,74 +1552,49 @@ async function renderMatches(){
   tab.innerHTML=h;
 }
 window.setMatchProx=function(p){matchProximity=p;renderMatches();};
+let matchTempCity=null;
+window.openTempLoc=function(){
+  const baseLoc=getLocationParts(matchTempCity||userProfile?.city||'');
+  let tC=baseLoc.country||'Chile',tR=baseLoc.region||'',tCity=matchTempCity||userProfile?.city||'';
+  function buildTL(){
+    const regs=getRegions(tC),cities=getCities(tC,tR);
+    showModal('📍 Buscar matches en...',`
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Cambiá temporalmente tu zona de búsqueda sin modificar tu perfil.</p>
+      <div class="form-group">
+        <label class="form-label">País</label>
+        <select class="form-input" id="tl-c" onchange="tlPickC(this.value)">
+          ${getCountries().map(c=>`<option value="${c}" ${c===tC?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:8px">
+        <label class="form-label">Región</label>
+        <select class="form-input" id="tl-r" onchange="tlPickR(this.value)" ${!regs.length?'disabled':''}>
+          <option value="">Seleccioná región</option>
+          ${regs.map(r=>`<option value="${r}" ${r===tR?'selected':''}>${getRegionDisplay(r)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:8px">
+        <label class="form-label">Ciudad / Comuna</label>
+        <select class="form-input" id="tl-ci" ${!cities.length?'disabled':''}>
+          <option value="">Seleccioná ciudad</option>
+          ${cities.map(c=>`<option value="${c}" ${c===tCity?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      ${matchTempCity?`<button onclick="resetTempLoc()" style="background:#fde8e8;color:var(--red);border:none;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;width:100%;margin-top:8px">🔄 Volver a mi ubicación real</button>`:''}
+    `,()=>{
+      const city=document.getElementById('tl-ci')?.value;
+      if(!city){toast('Seleccioná una ciudad');return;}
+      matchTempCity=city;matchProximity='city';closeModal();renderMatches();
+    },'Buscar aquí');
+    window.tlPickC=function(c){tC=c;tR='';tCity='';closeModal();openTempLoc();};
+    window.tlPickR=function(r){tR=r;tCity='';closeModal();openTempLoc();};
+    window.resetTempLoc=function(){matchTempCity=null;matchProximity='city';closeModal();renderMatches();};
+  }
+  buildTL();
+};
 
 // Country detection from city name
-const CITY_COUNTRY={
-  // Argentina CABA y GBA
-  'Palermo':'AR','Belgrano':'AR','Recoleta':'AR','San Telmo':'AR','La Boca':'AR','Caballito':'AR','Almagro':'AR','Villa Crespo':'AR','Flores':'AR','Floresta':'AR','Villa del Parque':'AR','Devoto':'AR','Saavedra':'AR','Núñez':'AR','Colegiales':'AR','Chacarita':'AR','Villa Urquiza':'AR','Liniers':'AR','Mataderos':'AR','Pompeya':'AR','Barracas':'AR','Boedo':'AR','Paternal':'AR','Monte Castro':'AR','Puerto Madero':'AR',
-  'San Isidro':'AR','Vicente López':'AR','San Martín':'AR','Tres de Febrero':'AR','Tigre':'AR','San Fernando':'AR','Escobar':'AR','Pilar':'AR','Malvinas Argentinas':'AR','José C. Paz':'AR','San Miguel':'AR','Moreno':'AR',
-  'Avellaneda':'AR','Quilmes':'AR','Lanús':'AR','Lomas de Zamora':'AR','Almirante Brown':'AR','Esteban Echeverría':'AR','Ezeiza':'AR','Florencio Varela':'AR','Berazategui':'AR','La Matanza':'AR','Merlo':'AR','Morón':'AR','Hurlingham':'AR','Ituzaingó':'AR',
-  'Ecatepec':'MX','Nezahualcóyotl':'MX','Naucalpan':'MX','Tlalnepantla':'MX','Chimalhuacán':'MX','Tultitlán':'MX','Atizapán':'MX','Nicolás Romero':'MX','Cuautitlán Izcalli':'MX','Álvaro Obregón':'MX','Azcapotzalco':'MX','Benito Juárez':'MX','Coyoacán':'MX','Cuauhtémoc':'MX','Gustavo A. Madero':'MX','Iztacalco':'MX','Iztapalapa':'MX','Miguel Hidalgo':'MX','Tlalpan':'MX','Xochimilco':'MX',
-  // Argentina
-  'Buenos Aires':'AR','Córdoba':'AR','Rosario':'AR','Mendoza':'AR','Tucumán':'AR','La Plata':'AR','Mar del Plata':'AR','Salta':'AR','Santa Fe':'AR','San Juan':'AR','Resistencia':'AR','Neuquén':'AR',
-  // Bolivia
-  'La Paz':'BO','Santa Cruz de la Sierra':'BO','Cochabamba':'BO','Oruro':'BO','Potosí':'BO','Sucre':'BO','Tarija':'BO','Trinidad':'BO',
-  // Brasil
-  'São Paulo':'BR','Río de Janeiro':'BR','Brasilia':'BR','Salvador':'BR','Fortaleza':'BR','Belo Horizonte':'BR','Manaus':'BR','Curitiba':'BR','Recife':'BR','Porto Alegre':'BR','Belém':'BR','Goiânia':'BR',
-  // Chile — todas las comunas
-  'Santiago':'CL','Cerrillos':'CL','Cerro Navia':'CL','Conchalí':'CL','El Bosque':'CL','Estación Central':'CL','Huechuraba':'CL','Independencia':'CL','La Cisterna':'CL','La Florida':'CL','La Granja':'CL','La Pintana':'CL','La Reina':'CL','Las Condes':'CL','Lo Barnechea':'CL','Lo Espejo':'CL','Lo Prado':'CL','Macul':'CL','Maipú':'CL','Ñuñoa':'CL','Pedro Aguirre Cerda':'CL','Peñalolén':'CL','Providencia':'CL','Pudahuel':'CL','Quilicura':'CL','Quinta Normal':'CL','Recoleta':'CL','Renca':'CL','San Joaquín':'CL','San Miguel':'CL','San Ramón':'CL','Vitacura':'CL','Puente Alto':'CL','Pirque':'CL','San José de Maipo':'CL','Colina':'CL','Lampa':'CL','Tiltil':'CL','San Bernardo':'CL','Buin':'CL','Calera de Tango':'CL','Paine':'CL','Melipilla':'CL','Talagante':'CL','El Monte':'CL','Isla de Maipo':'CL','Padre Hurtado':'CL','Peñaflor':'CL',
-  'Valparaíso':'CL','Viña del Mar':'CL','Quilpué':'CL','Villa Alemana':'CL','San Antonio':'CL','Los Andes':'CL','San Felipe':'CL','Quillota':'CL','Concón':'CL','Quintero':'CL','Casablanca':'CL',
-  'Concepción':'CL','Talcahuano':'CL','San Pedro de la Paz':'CL','Coronel':'CL','Lota':'CL','Chiguayante':'CL','Tomé':'CL','Penco':'CL','Hualpén':'CL',
-  'Antofagasta':'CL','Calama':'CL','Tocopilla':'CL','Mejillones':'CL',
-  'La Serena':'CL','Coquimbo':'CL','Ovalle':'CL','Illapel':'CL','Andacollo':'CL',
-  'Temuco':'CL','Padre Las Casas':'CL','Pucón':'CL','Villarrica':'CL','Lautaro':'CL','Angol':'CL','Victoria':'CL',
-  'Rancagua':'CL','Machalí':'CL','Rengo':'CL','San Fernando':'CL','Santa Cruz':'CL','Pichilemu':'CL',
-  'Talca':'CL','Curicó':'CL','Linares':'CL','Constitución':'CL','Cauquenes':'CL','San Javier':'CL','Parral':'CL',
-  'Chillán':'CL','San Carlos':'CL','Bulnes':'CL',
-  'Los Ángeles':'CL','Lebu':'CL','Arauco':'CL',
-  'Valdivia':'CL','La Unión':'CL','Panguipulli':'CL',
-  'Puerto Montt':'CL','Puerto Varas':'CL','Castro':'CL','Ancud':'CL','Osorno':'CL','Calbuco':'CL','Frutillar':'CL',
-  'Coyhaique':'CL','Puerto Aysén':'CL',
-  'Punta Arenas':'CL','Puerto Natales':'CL',
-  'Arica':'CL','Iquique':'CL','Alto Hospicio':'CL','Copiapó':'CL','Caldera':'CL','Vallenar':'CL',
-  // Colombia
-  'Bogotá':'CO','Medellín':'CO','Cali':'CO','Barranquilla':'CO','Cartagena':'CO','Cúcuta':'CO','Bucaramanga':'CO','Pereira':'CO','Santa Marta':'CO','Ibagué':'CO','Manizales':'CO','Pasto':'CO',
-  // Costa Rica
-  'San José':'CR','Alajuela':'CR','Cartago':'CR','Heredia':'CR','Liberia':'CR',
-  // Cuba
-  'La Habana':'CU','Santiago de Cuba':'CU','Camagüey':'CU','Holguín':'CU','Guantánamo':'CU',
-  // Rep. Dominicana
-  'Santo Domingo':'DO','Santiago de los Caballeros':'DO','La Romana':'DO','San Pedro de Macorís':'DO',
-  // Ecuador
-  'Quito':'EC','Guayaquil':'EC','Cuenca':'EC','Machala':'EC','Durán':'EC','Manta':'EC','Portoviejo':'EC','Loja':'EC','Ambato':'EC',
-  // El Salvador
-  'San Salvador':'SV','Soyapango':'SV','Santa Ana':'SV','San Miguel':'SV','Mejicanos':'SV',
-  // Guatemala
-  'Ciudad de Guatemala':'GT','Mixco':'GT','Villa Nueva':'GT','Quetzaltenango':'GT','Escuintla':'GT',
-  // Honduras
-  'Tegucigalpa':'HN','San Pedro Sula':'HN','Choloma':'HN','La Ceiba':'HN','El Progreso':'HN',
-  // México
-  'Ciudad de México':'MX','Guadalajara':'MX','Monterrey':'MX','Puebla':'MX','Tijuana':'MX','León':'MX','Juárez':'MX','Zapopan':'MX','Mérida':'MX','San Luis Potosí':'MX','Aguascalientes':'MX','Hermosillo':'MX','Mexicali':'MX','Cancún':'MX','Culiacán':'MX','Acapulco':'MX','Querétaro':'MX','Chihuahua':'MX',
-  // Nicaragua
-  'Managua':'NI','León':'NI','Masaya':'NI','Matagalpa':'NI','Chinandega':'NI',
-  // Panamá
-  'Ciudad de Panamá':'PA','Colón':'PA','David':'PA','La Chorrera':'PA',
-  // Paraguay
-  'Asunción':'PY','Ciudad del Este':'PY','San Lorenzo':'PY','Luque':'PY','Capiatá':'PY','Encarnación':'PY',
-  // Perú
-  'Lima':'PE','Arequipa':'PE','Trujillo':'PE','Chiclayo':'PE','Iquitos':'PE','Piura':'PE','Cusco':'PE','Huancayo':'PE','Tacna':'PE',
-  // Puerto Rico
-  'San Juan':'PR','Bayamón':'PR','Carolina':'PR','Ponce':'PR','Caguas':'PR',
-
-  // España
-  'Centro (Madrid)':'ES','Arganzuela':'ES','Retiro':'ES','Salamanca':'ES','Chamartín':'ES','Tetuán':'ES','Chamberí':'ES','Fuencarral':'ES','Moncloa':'ES','Latina':'ES','Carabanchel':'ES','Usera':'ES','Puente de Vallecas':'ES','Moratalaz':'ES','Ciudad Lineal':'ES','Hortaleza':'ES','Villaverde':'ES','Vicálvaro':'ES','San Blas':'ES','Barajas':'ES','Alcalá de Henares':'ES','Getafe':'ES','Leganés':'ES','Fuenlabrada':'ES','Móstoles':'ES','Alcorcón':'ES','Pozuelo de Alarcón':'ES',
-  'Eixample':'ES','Gràcia':'ES','Badalona':'ES','Hospitalet de Llobregat':'ES','Sabadell':'ES','Terrassa':'ES','Mataró':'ES',
-  'Valencia':'ES','Sevilla':'ES','Zaragoza':'ES','Málaga':'ES','Murcia':'ES','Palma':'ES','Las Palmas':'ES','Bilbao':'ES','Alicante':'ES','Córdoba':'ES','Valladolid':'ES','Vigo':'ES','Gijón':'ES','Granada':'ES','Vitoria':'ES','La Coruña':'ES','Oviedo':'ES','Pamplona':'ES','San Sebastián':'ES','Burgos':'ES','Santander':'ES','Badajoz':'ES','Huelva':'ES',
-  // Uruguay
-  'Montevideo':'UY','Salto':'UY','Paysandú':'UY','Las Piedras':'UY','Rivera':'UY','Maldonado':'UY',
-  // Venezuela
-  'Caracas':'VE','Maracaibo':'VE','Valencia':'VE','Barquisimeto':'VE','Maracay':'VE','Ciudad Guayana':'VE','Barcelona':'VE','Maturín':'VE','San Cristóbal':'VE',
-};
+;
 function getCityCountry(city){return CITY_COUNTRY[city]||'XX';}
 
 // ============================================================
@@ -1774,14 +1742,14 @@ window.proposalAction=async function(convId,msgId,action){
     const otherAlbum={...otherData.album||{}};
     (msg.give||[]).forEach(n=>{
       const s=myAlbum[n];
-      if(s?.state==='double'&&(s.count||2)>2)myAlbum[n]={...s,count:s.count-1};
-      else if(s?.state==='double')myAlbum[n]={state:'have'};
+      if(s?.state==='repeat'&&(s.count||2)>2)myAlbum[n]={...s,count:s.count-1};
+      else if(s?.state==='repeat')myAlbum[n]={state:'have'};
       otherAlbum[n]={state:'have'};
     });
     (msg.receive||[]).forEach(n=>{
       const s=otherAlbum[n];
-      if(s?.state==='double'&&(s.count||2)>2)otherAlbum[n]={...s,count:s.count-1};
-      else if(s?.state==='double')otherAlbum[n]={state:'have'};
+      if(s?.state==='repeat'&&(s.count||2)>2)otherAlbum[n]={...s,count:s.count-1};
+      else if(s?.state==='repeat')otherAlbum[n]={state:'have'};
       myAlbum[n]={state:'have'};
     });
     await updateDoc(doc(db,'users',currentUser.uid),{album:myAlbum});
@@ -1817,12 +1785,12 @@ window.openProposeModal=function(convId,otherId){
   const canReceive=getDoublesList(other.album||{}).filter(n=>getMissingList(myAlbum).includes(n));
   const body=`<div style="margin-bottom:14px">
     <div class="plabel" style="margin-bottom:6px">Yo le doy a ${other.alias}</div>
-    ${canGive.length===0?'<p style="font-size:11px;color:var(--muted)">No tenés dobles que le falten</p>':
+    ${canGive.length===0?'<p style="font-size:11px;color:var(--muted)">No tenés repetidas que le falten</p>':
     `<div class="pills" id="prop-give">${canGive.slice(0,30).map(n=>`<span class="pill" style="cursor:pointer" data-n="${n}" onclick="this.classList.toggle('off')">#${n}</span>`).join('')}</div>`}
   </div>
   <div>
     <div class="plabel" style="margin-bottom:6px">${other.alias} me da</div>
-    ${canReceive.length===0?'<p style="font-size:11px;color:var(--muted)">No tiene dobles que te falten</p>':
+    ${canReceive.length===0?'<p style="font-size:11px;color:var(--muted)">No tiene repetidas que te falten</p>':
     `<div class="pills" id="prop-receive">${canReceive.slice(0,30).map(n=>`<span class="pill" style="cursor:pointer" data-n="${n}" onclick="this.classList.toggle('wnt')">#${n}</span>`).join('')}</div>`}
   </div>`;
   showModal('Proponer Intercambio',body,async()=>{
@@ -1877,14 +1845,7 @@ window.setRateStar=function(n){
 // ============================================================
 // PROFILE
 // ============================================================
-const COMMUNE_REGION={"Arica":"Arica y Parinacota","Camarones":"Arica y Parinacota","Putre":"Arica y Parinacota","General Lagos":"Arica y Parinacota","Iquique":"Tarapacá","Alto Hospicio":"Tarapacá","Pozo Almonte":"Tarapacá","Camiña":"Tarapacá","Colchane":"Tarapacá","Huara":"Tarapacá","Pica":"Tarapacá","Antofagasta":"Antofagasta","Mejillones":"Antofagasta","Sierra Gorda":"Antofagasta","Taltal":"Antofagasta","Calama":"Antofagasta","Ollagüe":"Antofagasta","San Pedro de Atacama":"Antofagasta","Tocopilla":"Antofagasta","María Elena":"Antofagasta","Copiapó":"Atacama","Caldera":"Atacama","Tierra Amarilla":"Atacama","Chañaral":"Atacama","Diego de Almagro":"Atacama","Vallenar":"Atacama","Alto del Carmen":"Atacama","Freirina":"Atacama","Huasco":"Atacama","La Serena":"Coquimbo","Coquimbo":"Coquimbo","Andacollo":"Coquimbo","La Higuera":"Coquimbo","Paiguano":"Coquimbo","Vicuña":"Coquimbo","Illapel":"Coquimbo","Canela":"Coquimbo","Los Vilos":"Coquimbo","Salamanca":"Coquimbo","Ovalle":"Coquimbo","Combarbalá":"Coquimbo","Monte Patria":"Coquimbo","Punitaqui":"Coquimbo","Río Hurtado":"Coquimbo","Valparaíso":"Valparaíso","Casablanca":"Valparaíso","Concón":"Valparaíso","Viña del Mar":"Valparaíso","Quilpué":"Valparaíso","Villa Alemana":"Valparaíso","San Antonio":"Valparaíso","Los Andes":"Valparaíso","San Felipe":"Valparaíso","Quillota":"Valparaíso","Quintero":"Valparaíso","Limache":"Valparaíso","Olmué":"Valparaíso","Santiago":"Metropolitana","Cerrillos":"Metropolitana","Cerro Navia":"Metropolitana","Conchalí":"Metropolitana","El Bosque":"Metropolitana","Estación Central":"Metropolitana","Huechuraba":"Metropolitana","Independencia":"Metropolitana","La Cisterna":"Metropolitana","La Florida":"Metropolitana","La Granja":"Metropolitana","La Pintana":"Metropolitana","La Reina":"Metropolitana","Las Condes":"Metropolitana","Lo Barnechea":"Metropolitana","Lo Espejo":"Metropolitana","Lo Prado":"Metropolitana","Macul":"Metropolitana","Maipú":"Metropolitana","Ñuñoa":"Metropolitana","Pedro Aguirre Cerda":"Metropolitana","Peñalolén":"Metropolitana","Providencia":"Metropolitana","Pudahuel":"Metropolitana","Quilicura":"Metropolitana","Quinta Normal":"Metropolitana","Recoleta":"Metropolitana","Renca":"Metropolitana","San Joaquín":"Metropolitana","San Miguel":"Metropolitana","San Ramón":"Metropolitana","Vitacura":"Metropolitana","Puente Alto":"Metropolitana","Pirque":"Metropolitana","San José de Maipo":"Metropolitana","Colina":"Metropolitana","Lampa":"Metropolitana","Tiltil":"Metropolitana","San Bernardo":"Metropolitana","Buin":"Metropolitana","Calera de Tango":"Metropolitana","Paine":"Metropolitana","Melipilla":"Metropolitana","Talagante":"Metropolitana","El Monte":"Metropolitana","Isla de Maipo":"Metropolitana","Padre Hurtado":"Metropolitana","Peñaflor":"Metropolitana","Rancagua":"OHiggins","Machalí":"OHiggins","Rengo":"OHiggins","San Fernando":"OHiggins","Santa Cruz":"OHiggins","Pichilemu":"OHiggins","Codegua":"OHiggins","Graneros":"OHiggins","Talca":"Maule","Curicó":"Maule","Linares":"Maule","Constitución":"Maule","Cauquenes":"Maule","San Javier":"Maule","Parral":"Maule","Molina":"Maule","Chillán":"Ñuble","San Carlos":"Ñuble","Bulnes":"Ñuble","Chillán Viejo":"Ñuble","Concepción":"Biobío","Talcahuano":"Biobío","San Pedro de la Paz":"Biobío","Coronel":"Biobío","Lota":"Biobío","Los Ángeles":"Biobío","Lebu":"Biobío","Chiguayante":"Biobío","Tomé":"Biobío","Penco":"Biobío","Hualpén":"Biobío","Temuco":"La Araucanía","Padre Las Casas":"La Araucanía","Pucón":"La Araucanía","Villarrica":"La Araucanía","Lautaro":"La Araucanía","Angol":"La Araucanía","Victoria":"La Araucanía","Carahue":"La Araucanía","Freire":"La Araucanía","Valdivia":"Los Ríos","La Unión":"Los Ríos","Panguipulli":"Los Ríos","Futrono":"Los Ríos","Puerto Montt":"Los Lagos","Puerto Varas":"Los Lagos","Castro":"Los Lagos","Ancud":"Los Lagos","Osorno":"Los Lagos","Calbuco":"Los Lagos","Frutillar":"Los Lagos","Llanquihue":"Los Lagos","Coyhaique":"Aysén","Puerto Aysén":"Aysén","Cochrane":"Aysén","Punta Arenas":"Magallanes","Puerto Natales":"Magallanes"}
-function getCityDisplay(city){
-  const r=COMMUNE_REGION[city];
-  if(!r)return city;
-  const display={'OHiggins':"O'Higgins",'OHiggins':"O'Higgins"};
-  const rName=display[r]||r;
-  return `${rName} · ${city}`;
-}
+
 async function renderProfile(){
   const tab=document.getElementById('tab-profile');
   const u=userProfile;
@@ -1920,7 +1881,7 @@ async function renderProfile(){
       <div class="prog-bar" style="background:var(--gray-l)"><div class="prog-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--green),var(--green-l))"></div></div>
       <div style="display:flex;gap:14px;margin-top:9px">
         <div><span style="font-family:'Anton',sans-serif;font-size:17px;color:var(--green)">${stats.have}</span> <span style="font-size:11px;color:var(--muted)">Tengo</span></div>
-        <div><span style="font-family:'Anton',sans-serif;font-size:17px;color:var(--gold-d)">${stats.doubles}</span> <span style="font-size:11px;color:var(--muted)">Dobles</span></div>
+        <div><span style="font-family:'Anton',sans-serif;font-size:17px;color:var(--gold-d)">${stats.doubles}</span> <span style="font-size:11px;color:var(--muted)">Repetidas</span></div>
         <div><span style="font-family:'Anton',sans-serif;font-size:17px;color:var(--red)">${stats.missing}</span> <span style="font-size:11px;color:var(--muted)">Faltan</span></div>
       </div>
     </div>
@@ -1940,176 +1901,94 @@ window.copyCode=function(code){
 };
 
 window.openEditProfile=function(){
-  const u=userProfile;
-  if(!u)return;
-  const AVATARS=['⚽','🏆','⭐','🥇','🎯','🦁','🦅','🔥','💎','🌟','🐉','🦊','🐯','🦋','🦜','🐬','🦈','🦁','🐺','🦅','🦉','🦚','🎪','🎭','🎨','🎸','🎺','🎻','🥊','🏋️','🤸','⛷️','🏄','🚀','🛸','⚡','🌊','🌋','🌈','🍀','🌺','🌸','🏔️','🗺️','🧭','🔮','🪄','🎲','🃏','🧩','🪅'];
-  let editAvatar=u.avatar||'⚽';
-  const body=`
-    <div class="form-group">
-      <label class="form-label">Alias de coleccionista</label>
-      <input class="form-input" id="ep-alias" value="${u.alias||u.name||''}" placeholder="Tu alias" autocomplete="off">
+  const u=userProfile;if(!u)return;
+  const AVLIST=["⚽", "🏆", "⭐", "🥇", "🎯", "🦁", "🦅", "🔥", "💎", "🌟", "🐉", "🦊", "🐯", "🦋", "🦜", "🐬", "🦈", "🐺", "🦉", "🦚", "🎪", "🎭", "🎨", "🎸", "🎺", "🎻", "🥊", "🏋️", "🤸", "⛷️", "🏄", "🚀", "🛸", "⚡", "🌊", "🌋", "🌈", "🍀", "🌺", "🌸", "🏔️", "🗺️", "🧭", "🔮", "🪄", "🎲", "🃏", "🧩", "🪅"];
+  let epAv=u.avatar||'⚽';
+  const loc=getLocationParts(u.city||'');
+  let epC=loc.country||'Chile',epR=loc.region||'',epCity=u.city||'';
+
+  function buildEP(){
+    const ov=document.getElementById('ep-overlay');
+    ov.style.display='flex';
+    const regs=getRegions(epC);
+    const cities=getCities(epC,epR);
+    ov.innerHTML=`<div class="fs-hdr">
+      <button onclick="closeEP()" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;flex-shrink:0">←</button>
+      <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">EDITAR PERFIL</div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Avatar</label>
-      <div id="ep-av-picker" style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px">
-        ${AVATARS.map(av=>`<span style="font-size:24px;cursor:pointer;padding:4px;border-radius:8px;border:2px solid ${av===editAvatar?'var(--green)':'transparent'};background:${av===editAvatar?'#e8f5ee':'transparent'};text-align:center" onclick="selectEditAvatar('${av}',this)">${av}</span>`).join('')}
+    <div class="fs-body">
+      <input type="hidden" id="ep-av-val" value="${epAv}">
+      <div class="form-group">
+        <label class="form-label">Alias de coleccionista</label>
+        <input class="form-input" id="ep-alias" value="${u.alias||u.name||''}" placeholder="Tu alias" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Avatar</label>
+        <div class="em-grid">${AVLIST.map(av=>`<span class="em-opt ${av===epAv?'sel':''}" onclick="epPickAv('${av}',this)">${av}</span>`).join('')}</div>
+      </div>
+      <div style="height:1px;background:var(--gray-l);margin:16px 0"></div>
+      <div class="form-group">
+        <label class="form-label">🌎 País</label>
+        <select class="cas-sel" id="ep-c" onchange="epPickC(this.value)">
+          ${getCountries().map(c=>`<option value="${c}" ${c===epC?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:8px">
+        <label class="form-label">🗺️ Región / Estado / Departamento</label>
+        <select class="cas-sel" id="ep-r" onchange="epPickR(this.value)" ${regs.length===0?'disabled':''}>
+          <option value="">Seleccioná una región</option>
+          ${regs.map(r=>`<option value="${r}" ${r===epR?'selected':''}>${getRegionDisplay(r)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:8px">
+        <label class="form-label">📍 Ciudad / Comuna / Localidad</label>
+        <select class="cas-sel" id="ep-ci" ${cities.length===0?'disabled':''}>
+          <option value="">Seleccioná tu ciudad</option>
+          ${cities.map(c=>`<option value="${c}" ${c===epCity?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div style="height:1px;background:var(--gray-l);margin:16px 0"></div>
+      <div class="form-group">
+        <label class="form-label">¿Cómo llamás a las láminas?</label>
+        <select class="cas-sel" id="ep-term">
+          ${[['lámina','Lámina (Chile, México)'],['figurita','Figurita (Argentina, Uruguay)'],['cromo','Cromo (España)'],['estampa','Estampa (Colombia, Venezuela)'],['calcomania','Calcomanía (Ecuador, Perú)'],['pegatina','Pegatina (otros)']].map(([v,l])=>`<option value="${v}" ${v===(u.term||'lámina')?'selected':''}>${l}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:8px">
+        <label class="form-label">Contacto (opcional)</label>
+        <input class="form-input" id="ep-contact" value="${u.contact||''}" placeholder="@usuario en WhatsApp o Telegram">
       </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Ciudad / Región</label>
-      <select class="form-input" id="ep-city">
-        ${[
-          'Arica',
-          'Camarones',
-          'Putre',
-          'General Lagos',
-          'Iquique',
-          'Alto Hospicio',
-          'Pozo Almonte',
-          'Antofagasta',
-          'Calama',
-          'Tocopilla',
-          'Copiapó',
-          'Caldera',
-          'Vallenar',
-          'La Serena',
-          'Coquimbo',
-          'Ovalle',
-          'Illapel',
-          'Valparaíso',
-          'Viña del Mar',
-          'Quilpué',
-          'Villa Alemana',
-          'San Antonio',
-          'Los Andes',
-          'San Felipe',
-          'Quillota',
-          'Santiago',
-          'Cerrillos',
-          'Cerro Navia',
-          'Conchalí',
-          'El Bosque',
-          'Estación Central',
-          'Huechuraba',
-          'Independencia',
-          'La Cisterna',
-          'La Florida',
-          'La Granja',
-          'La Pintana',
-          'La Reina',
-          'Las Condes',
-          'Lo Barnechea',
-          'Lo Espejo',
-          'Lo Prado',
-          'Macul',
-          'Maipú',
-          'Ñuñoa',
-          'Pedro Aguirre Cerda',
-          'Peñalolén',
-          'Providencia',
-          'Pudahuel',
-          'Quilicura',
-          'Quinta Normal',
-          'Recoleta',
-          'Renca',
-          'San Joaquín',
-          'San Miguel',
-          'San Ramón',
-          'Vitacura',
-          'Puente Alto',
-          'Pirque',
-          'San José de Maipo',
-          'Colina',
-          'Lampa',
-          'Tiltil',
-          'San Bernardo',
-          'Buin',
-          'Calera de Tango',
-          'Paine',
-          'Melipilla',
-          'Talagante',
-          'El Monte',
-          'Isla de Maipo',
-          'Padre Hurtado',
-          'Peñaflor',
-          'Rancagua',
-          'Machalí',
-          'Rengo',
-          'San Fernando',
-          'Santa Cruz',
-          'Pichilemu',
-          'Talca',
-          'Curicó',
-          'Linares',
-          'Constitución',
-          'Cauquenes',
-          'San Javier',
-          'Parral',
-          'Chillán',
-          'San Carlos',
-          'Bulnes',
-          'Quirihue',
-          'Concepción',
-          'Talcahuano',
-          'San Pedro de la Paz',
-          'Coronel',
-          'Lota',
-          'Chiguayante',
-          'Tomé',
-          'Penco',
-          'Los Ángeles',
-          'Lebu',
-          'Arauco',
-          'Temuco',
-          'Padre Las Casas',
-          'Pucón',
-          'Villarrica',
-          'Lautaro',
-          'Angol',
-          'Victoria',
-          'Valdivia',
-          'La Unión',
-          'Panguipulli',
-          'Puerto Montt',
-          'Puerto Varas',
-          'Castro',
-          'Ancud',
-          'Osorno',
-          'Calbuco',
-          'Frutillar',
-          'Coyhaique',
-          'Puerto Aysén',
-          'Punta Arenas',
-          'Puerto Natales',
-          'Otra ciudad'
-        ].map(c=>`<option ${c===u.city?'selected':''}>${c}</option>`).join('')}
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">¿Cómo llamás a las láminas?</label>
-      <select class="form-input" id="ep-term">
-        ${[['lámina','Lámina (Chile, México)'],['figurita','Figurita (Argentina, Uruguay)'],['cromo','Cromo (España)'],['estampa','Estampa (Colombia, Venezuela)'],['calcomania','Calcomanía (Ecuador, Perú)'],['pegatina','Pegatina (otros)']].map(([v,l])=>`<option value="${v}" ${v===u.term?'selected':''}>${l}</option>`).join('')}
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Contacto (opcional)</label>
-      <input class="form-input" id="ep-contact" value="${u.contact||''}" placeholder="@usuario en WhatsApp o Telegram">
+    <div class="fs-footer">
+      <button class="btn btn-primary btn-full" onclick="saveEP()">✅ Guardar cambios</button>
     </div>`;
+  }
 
-  showModal('Editar perfil', body, async()=>{
+  window.epPickAv=function(av,el){
+    epAv=av;
+    document.querySelectorAll('.em-opt').forEach(e=>e.classList.remove('sel'));
+    el.classList.add('sel');
+    const hid=document.getElementById('ep-av-val');
+    if(hid)hid.value=av;
+  };
+  window.epPickC=function(c){epC=c;epR='';epCity='';buildEP();};
+  window.epPickR=function(r){epR=r;epCity='';buildEP();setTimeout(()=>{const rs=document.getElementById('ep-r');if(rs)rs.value=r;},10);};
+  window.closeEP=function(){document.getElementById('ep-overlay').style.display='none';};
+  window.saveEP=async function(){
     const alias=document.getElementById('ep-alias').value.trim();
-    const city=document.getElementById('ep-city').value;
+    const city=document.getElementById('ep-ci')?.value||epCity;
     const term=document.getElementById('ep-term').value;
     const contact=document.getElementById('ep-contact').value.trim();
+    const avatar=document.getElementById('ep-av-val')?.value||epAv;
     if(!alias){toast('El alias no puede estar vacío');return;}
-    const updates={alias, avatar:editAvatar, city, term, contact};
-    await updateDoc(doc(db,'users',currentUser.uid), updates);
-    userProfile={...userProfile,...updates};
-    updateHeader();
-    toast('✅ Perfil actualizado','gold');
-    closeModal();
-    renderProfile();
-  }, 'Guardar cambios');
+    if(!city){toast('Seleccioná tu ciudad');return;}
+    const upd={alias,avatar,city,term,contact};
+    await updateDoc(doc(db,'users',currentUser.uid),upd);
+    userProfile={...userProfile,...upd};
+    updateHeader();toast('✅ Perfil actualizado','gold');
+    closeEP();renderProfile();
+  };
+  buildEP();
 };
 
 window.selectEditAvatar=function(av, el){
@@ -2668,7 +2547,7 @@ function renderFaq(){
     },
     {
       q:`¿Cómo funciona el sistema de Matches?`,
-      a:`El motor de matching cruza automáticamente tu álbum con el de todos los demás usuarios. Calcula cuántas ${term} podés darle a cada persona (tus dobles que a ellos les faltan) y cuántas ellos pueden darte. Podés filtrar por ciudad o país para encontrar coleccionistas cercanos. Un "Match Perfecto ✦" aparece cuando el intercambio es equilibrado (ambos se dan cantidades similares).`
+      a:`El motor de matching cruza automáticamente tu álbum con el de todos los demás usuarios. Calcula cuántas ${term} podés darle a cada persona (tus repetidas que a ellos les faltan) y cuántas ellos pueden darte. Podés filtrar por ciudad o país para encontrar coleccionistas cercanos. Un "Match Perfecto ✦" aparece cuando el intercambio es equilibrado (ambos se dan cantidades similares).`
     },
     {
       q:`¿Cómo propongo un intercambio?`,
@@ -2676,7 +2555,7 @@ function renderFaq(){
     },
     {
       q:`¿Qué pasa cuando marco un intercambio como Completado?`,
-      a:`El álbum de ambas personas se actualiza automáticamente: las ${term} que entregaste se descuentan de tus dobles, y las que recibiste se marcan como "Tengo" en tu álbum. Además aparece un prompt para valorar al otro coleccionista con 1 a 5 estrellas.`
+      a:`El álbum de ambas personas se actualiza automáticamente: las ${term} que entregaste se descuentan de tus repetidas, y las que recibiste se marcan como "Tengo" en tu álbum. Además aparece un prompt para valorar al otro coleccionista con 1 a 5 estrellas.`
     },
     {
       q:`¿Cómo me aseguro de que el intercambio es seguro?`,
@@ -2688,7 +2567,7 @@ function renderFaq(){
     },
     {
       q:`¿Cómo publico mis ${term} en el Tablón?`,
-      a:`Primero marcá tus dobles en el Álbum. Luego andá al Tablón → tocá el botón + → seleccioná cuáles ${term} ofrecés (de tus dobles) y cuáles buscás → "Publicar". Tu publicación aparecerá en el feed para que otros coleccionistas te contacten.`
+      a:`Primero marcá tus repetidas en el Álbum. Luego andá al Tablón → tocá el botón + → seleccioná cuáles ${term} ofrecés (de tus repetidas) y cuáles buscás → "Publicar". Tu publicación aparecerá en el feed para que otros coleccionistas te contacten.`
     },
     {
       q:`¿Mis datos se guardan si cierro la app?`,
