@@ -1401,7 +1401,12 @@ async function renderTablon(){
   const cities=['all',...new Set(allUsers.map(u=>u.city))];
   let h=`<div class="filter-row">${cities.map(c=>`<button class="chip ${cityFilter===c?'act':''}" onclick="setCityFilter('${c}')">${c==='all'?'🌎 Todas':c}</button>`).join('')}</div>`;
   const filtered=posts.filter(p=>cityFilter==='all'||(allUsers.find(u=>u.id===p.userId)?.city===cityFilter));
-  if(!filtered.length)h+=`<div class="empty"><div class="ei">📋</div><p>No hay publicaciones aún.</p></div>`;
+  if(!filtered.length)h+=`<div class="empty">
+    <div class="ei">📋</div>
+    <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">El tablón está vacío</p>
+    <p style="margin-bottom:16px">Acá los coleccionistas publican qué ${getTermPlural()} <strong>ofrecen</strong> (sus dobles) y cuáles <strong>buscan</strong> (sus faltantes).<br><br>¡Sé el primero en publicar!</p>
+    <button onclick="openCreatePost()" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📋 Publicar mis ${getTermPlural()}</button>
+  </div>`;
   filtered.forEach(post=>{
     const u=allUsers.find(x=>x.id===post.userId)||userProfile;
     if(!u)return;
@@ -1488,37 +1493,49 @@ async function renderMatches(){
     const canReceive=od.filter(n=>myMissing.includes(n)).length;
     const score=Math.min(canGive,canReceive);
     const sameCity=other.city===myCity;
-    const sameCountry=getCityCountry(other.city)===getCityCountry(myCity);
-    return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1,sameCity,sameCountry};
+    const sameRegion=(COMMUNE_REGION[other.city]||other.city)===(COMMUNE_REGION[myCity]||myCity)&&getCityCountry(other.city)===myCountry;
+    const sameCountry=getCityCountry(other.city)===myCountry;
+    return{user:other,canGive,canReceive,score,perfect:Math.abs(canGive-canReceive)<=1&&score>=1,sameCity,sameRegion,sameCountry};
   }).filter(m=>m.score>0).sort((a,b)=>{
-    // Sort: same city first, then same country, then by score
+    // Sort: same city → same region → same country → score
     if(a.sameCity&&!b.sameCity)return -1;
     if(!a.sameCity&&b.sameCity)return 1;
+    if(a.sameRegion&&!b.sameRegion)return -1;
+    if(!a.sameRegion&&b.sameRegion)return 1;
     if(a.sameCountry&&!b.sameCountry)return -1;
     if(!a.sameCountry&&b.sameCountry)return 1;
     return b.score-a.score;
   });
 
   const term=getTermPlural();
+  const myRegionLabel=COMMUNE_REGION[userProfile?.city||'']||'Mi región';
+  const myCountryLabel=getCityCountry(userProfile?.city||'')==='CL'?'Chile':getCityCountry(userProfile?.city||'')==='AR'?'Argentina':getCityCountry(userProfile?.city||'')==='MX'?'México':getCityCountry(userProfile?.city||'')==='ES'?'España':'Mi país';
   let h=`<div style="background:var(--green);padding:13px;color:#fff">
     <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">MIS MATCHES</div>
     <div style="font-size:11px;opacity:.8;margin-top:2px">${matches.length} coleccionistas compatibles</div>
   </div>
   <div class="filter-row">
     <button class="chip ${matchProximity==='all'?'act':''}" onclick="setMatchProx('all')">🌎 Todos</button>
-    <button class="chip ${matchProximity==='country'?'act':''}" onclick="setMatchProx('country')">🗺️ Mi país</button>
-    <button class="chip ${matchProximity==='city'?'act':''}" onclick="setMatchProx('city')">📍 Mi ciudad</button>
+    <button class="chip ${matchProximity==='country'?'act':''}" onclick="setMatchProx('country')">🗺️ ${myCountryLabel}</button>
+    ${myRegionLabel?`<button class="chip ${matchProximity==='region'?'act':''}" onclick="setMatchProx('region')">🏙️ ${myRegionLabel}</button>`:''}
+    <button class="chip ${matchProximity==='city'?'act':''}" onclick="setMatchProx('city')">📍 ${getCityDisplay(userProfile?.city||'')}</button>
   </div>`;
 
   if(!matches.length){
-    const emptyMsg=matchProximity!=='all'?'en tu zona. Probá ampliar el filtro.':'aún. Marcá '+getTermPlural()+' en tu álbum para encontrar coincidencias.';
-    tab.innerHTML=h+`<div class="empty"><div class="ei">🔍</div><p>No hay matches ${emptyMsg}</p></div>`;
+    const emptyMsg=matchProximity!=='all'?'en tu zona. Probá ampliar el filtro.':'aún.';
+    tab.innerHTML=h+`<div class="empty">
+      <div class="ei">🎯</div>
+      <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">No hay matches ${emptyMsg}</p>
+      <p style="margin-bottom:16px">El motor de matches cruza tu álbum con el de otros coleccionistas y encuentra intercambios donde <strong>ambos se benefician</strong>.<br><br>Para ver matches necesitás tener ${getTermPlural()} marcadas como <strong>dobles</strong> o <strong>faltantes</strong>.</p>
+      <button onclick="setTab('album')" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">📖 Ir a mi álbum</button>
+    </div>`;
     return;
   }
   matches.forEach(({user:other,canGive,canReceive,perfect,sameCity,sameCountry})=>{
     const rating=getUserRating(other);
     let proxBadge='';
     if(sameCity)proxBadge=`<span style="background:#e8f5ee;color:var(--green-d);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">📍 Tu ciudad</span>`;
+    else if(sameRegion)proxBadge=`<span style="background:#e8f5ee;color:var(--green-d);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">🏙️ Tu región</span>`;
     else if(sameCountry)proxBadge=`<span style="background:#e8f0ff;color:#3346a0;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">🗺️ Tu país</span>`;
     h+=`<div class="match-card ${perfect?'perf':''}">
       <div style="display:flex;gap:6px;margin-bottom:7px;flex-wrap:wrap">
@@ -1619,7 +1636,12 @@ async function renderMessages(){
   await loadConversations();
   const tab=document.getElementById('tab-messages');
   let h=`<div style="padding:12px 14px;background:var(--green);color:#fff"><div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">MENSAJES</div></div>`;
-  if(!conversations.length){tab.innerHTML=h+`<div class="empty"><div class="ei">📭</div><p>Aún no tenés conversaciones.</p></div>`;return;}
+  if(!conversations.length){tab.innerHTML=h+`<div class="empty">
+    <div class="ei">💬</div>
+    <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">Aún no tenés conversaciones</p>
+    <p style="margin-bottom:16px">Los mensajes aparecen acá cuando contactás a otro coleccionista desde el <strong>Tablón</strong> o los <strong>Matches</strong>.<br><br>También podés proponer intercambios directamente desde el chat.</p>
+    <button onclick="setTab('matches')" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">🎯 Ver mis matches</button>
+  </div>`;return;}
   [...conversations].sort((a,b)=>b.updatedAt-a.updatedAt).forEach(conv=>{
     const otherId=conv.participants.find(id=>id!==currentUser?.uid);
     const other=allUsers.find(u=>u.id===otherId)||{alias:'Usuario',city:'',avatar:'👤'};
@@ -1883,7 +1905,7 @@ async function renderProfile(){
         <div style="font-family:'Anton',sans-serif;font-size:26px;letter-spacing:2px">${u.alias}</div>
         <button onclick="openEditProfile()" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✏️</button>
       </div>
-      ${(u.name&&u.name!==u.alias)?`<div style="font-size:12px;opacity:.8">👤 ${u.name}</div>`:''}
+
       <div style="font-size:11px;opacity:.65;margin-top:2px">🗓 Miembro desde ${u.joinedAt?formatJoinDate(u.joinedAt):'hoy'}</div>
       <div style="font-size:12px;opacity:.75;margin-top:3px">📍 ${getCityDisplay(u.city)}</div>
       ${u.contact?`<div style="font-size:11px;opacity:.65;margin-top:3px">💬 ${u.contact}</div>`:''}
@@ -1920,7 +1942,7 @@ window.copyCode=function(code){
 window.openEditProfile=function(){
   const u=userProfile;
   if(!u)return;
-  const AVATARS=['⚽','🏆','⭐','🥇','🎯','🦁','🦅','🔥','💎','🌟'];
+  const AVATARS=['⚽','🏆','⭐','🥇','🎯','🦁','🦅','🔥','💎','🌟','🐉','🦊','🐯','🦋','🦜','🐬','🦈','🦁','🐺','🦅','🦉','🦚','🎪','🎭','🎨','🎸','🎺','🎻','🥊','🏋️','🤸','⛷️','🏄','🚀','🛸','⚡','🌊','🌋','🌈','🍀','🌺','🌸','🏔️','🗺️','🧭','🔮','🪄','🎲','🃏','🧩','🪅'];
   let editAvatar=u.avatar||'⚽';
   const body=`
     <div class="form-group">
@@ -1929,8 +1951,8 @@ window.openEditProfile=function(){
     </div>
     <div class="form-group">
       <label class="form-label">Avatar</label>
-      <div class="avatar-picker" id="ep-av-picker">
-        ${AVATARS.map(av=>`<span class="av-opt ${av===editAvatar?'sel':''}" onclick="selectEditAvatar('${av}',this)">${av}</span>`).join('')}
+      <div id="ep-av-picker" style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px">
+        ${AVATARS.map(av=>`<span style="font-size:24px;cursor:pointer;padding:4px;border-radius:8px;border:2px solid ${av===editAvatar?'var(--green)':'transparent'};background:${av===editAvatar?'#e8f5ee':'transparent'};text-align:center" onclick="selectEditAvatar('${av}',this)">${av}</span>`).join('')}
       </div>
     </div>
     <div class="form-group">
@@ -2092,8 +2114,12 @@ window.openEditProfile=function(){
 
 window.selectEditAvatar=function(av, el){
   editAvatar=av;
-  document.querySelectorAll('#ep-av-picker .av-opt').forEach(e=>e.classList.remove('sel'));
-  el.classList.add('sel');
+  document.querySelectorAll('#ep-av-picker span').forEach(e=>{
+    e.style.borderColor='transparent';
+    e.style.background='transparent';
+  });
+  el.style.borderColor='var(--green)';
+  el.style.background='#e8f5ee';
 };
 let editAvatar='⚽';
 
@@ -2171,7 +2197,15 @@ async function renderGroups(){
   <div id="groups-content">`;
 
   if(!myGroups.length){
-    h+=`<div class="empty"><div class="ei">👥</div><p>Aún no estás en ningún grupo.<br>Creá uno o buscá uno existente.</p></div>`;
+    h+=`<div class="empty">
+      <div class="ei">👥</div>
+      <p style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:8px">Aún no estás en ningún grupo</p>
+      <p style="margin-bottom:16px">Los grupos te permiten intercambiar con tu <strong>círculo cercano</strong>: compañeros de trabajo, amigos, familia o tu curso.<br><br>El matching funciona solo entre los miembros del grupo, haciendo los intercambios más fáciles y seguros.</p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button onclick="openCreateGroup()" style="background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 16px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer">+ Crear grupo</button>
+        <button onclick="showGroupsTab('discover')" style="background:var(--gray-l);color:var(--text);border:none;border-radius:10px;padding:12px 16px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer">🔍 Buscar grupo</button>
+      </div>
+    </div>`;
   } else {
     myGroups.forEach(g=>{ h+=groupCardHtml(g,true); });
   }
