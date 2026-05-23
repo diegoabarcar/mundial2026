@@ -832,21 +832,30 @@ async function loadConversations(){
 // AUTH
 // ============================================================
 onAuthStateChanged(auth,async user=>{
+  hide('scr-loading');
   if(user){
     currentUser=user;
-    const ref=doc(db,'users',user.uid);
-    const snap=await getDoc(ref);
-    if(!snap.exists()){
-      // Nuevo usuario → setup de perfil
-      showSetup();
-    } else {
-      userProfile={id:user.uid,...snap.data()};
-      await loadAllUsers();await loadPosts();await loadConversations();
-      showApp();
+    try{
+      const ref=doc(db,'users',user.uid);
+      const snap=await getDoc(ref);
+      if(!snap.exists()){
+        showSetup();
+      } else {
+        userProfile={id:user.uid,...snap.data()};
+        await loadAllUsers();
+        await loadPosts();
+        await loadConversations();
+        showApp();
+      }
+    }catch(err){
+      console.error('Auth error:',err);
+      // Fallback: show login on error
+      currentUser=null;
+      show('scr-login');
+      document.getElementById('scr-login').style.flexDirection='column';
     }
   } else {
     currentUser=null;userProfile=null;
-    hide('scr-loading');
     show('scr-login');
     document.getElementById('scr-login').style.flexDirection='column';
   }
