@@ -1306,7 +1306,7 @@ function renderAlbum(){
   <div class="search-box">
     <span>🔍</span>
     <input id="album-search" placeholder="Buscar por equipo o código (ej: ARG)..." value="${albumSearch}" oninput="setAlbumSearch(this.value)">
-    ${albumSearch?`<button onclick="setAlbumSearch('')" style="background:none;border:none;cursor:pointer;color:var(--gray);font-size:16px">×</button>`:''}
+    ${albumSearch?'<button onclick="setAlbumSearch(String())" style="background:none;border:none;cursor:pointer;color:var(--gray);font-size:16px">×</button>':''}
   </div>`;
 
   SECTIONS.forEach(sec=>{
@@ -1356,12 +1356,12 @@ function renderAlbum(){
   try{
     const hasAny=Object.values(userProfile?.album||{}).some(v=>v&&(v.state==='have'||v.state==='repeat'));
     if(!hasAny&&albumFilter==='all'&&!albumSearch){
-      h+=`<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">
-        <div style="font-size:32px;margin-bottom:8px">📖</div>
-        <div style="font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:6px">TU ÁLBUM ESTÁ VACÍO</div>
-        <div style="font-size:12px;opacity:.85;margin-bottom:14px;line-height:1.6">Tocá las secciones de arriba para marcar las láminas que tenés, o usá el asistente de carga.</div>
-        <button onclick="startOnboarding()" style="background:var(--gold);color:var(--green-d);border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;width:100%">📖 Cargar mi álbum</button>
-      </div>`;
+      h+='<div style="background:linear-gradient(135deg,var(--green-d),var(--green));margin:14px;border-radius:var(--r);padding:16px;text-align:center;color:#fff">'
+        +'<div style="font-size:32px;margin-bottom:8px">📖</div>'
+        +'<div style="font-family:Anton,sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:6px">TU ÁLBUM ESTÁ VACÍO</div>'
+        +'<div style="font-size:12px;opacity:.85;margin-bottom:14px;line-height:1.6">Tocá las secciones para marcar las láminas que tenés, o usá el asistente de carga.</div>'
+        +'<button onclick="startOnboarding()" style="background:var(--gold);color:var(--green-d);border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;width:100%">📖 Cargar mi álbum</button>'
+        +'</div>';
     }
   }catch(e){}
   tab.innerHTML=h;
