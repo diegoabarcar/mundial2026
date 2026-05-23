@@ -1280,6 +1280,7 @@ async function deleteSticker(id){
 
 const SEC_DESCS={'fwc':'Portada, presentación y láminas especiales del torneo','mex':'Selección de México · CONCACAF · Sede anfitriona','rsa':'Selección de Arabia Saudita · AFC','kor':'Selección de Corea del Sur · AFC','cze':'Selección de República Checa · UEFA','can':'Selección de Canadá · CONCACAF · Sede anfitriona','bih':'Selección de Bosnia y Herzegovina · UEFA','qat':'Selección de Qatar · AFC','sui':'Selección de Suiza · UEFA','bra':'Selección de Brasil · CONMEBOL · 5 veces campeón mundial','mar':'Selección de Marruecos · CAF · Semifinalista Qatar 2022','hai':'Selección de Haití · CONCACAF','sco':'Selección de Escocia · UEFA','usa':'Selección de Estados Unidos · CONCACAF · Sede anfitriona','par':'Selección de Paraguay · CONMEBOL','aus':'Selección de Australia · AFC/OFC','tur':'Selección de Turquía · UEFA','ger':'Selección de Alemania · UEFA · 4 veces campeón mundial','cuw':'Selección de Curazao · CONCACAF','civ':'Selección de Costa de Marfil · CAF','ecu':'Selección de Ecuador · CONMEBOL','ned':'Selección de Países Bajos · UEFA','jpn':'Selección de Japón · AFC','swe':'Selección de Suecia · UEFA','tun':'Selección de Túnez · CAF','bel':'Selección de Bélgica · UEFA','egy':'Selección de Egipto · CAF','irn':'Selección de Irán · AFC','nzl':'Selección de Nueva Zelanda · OFC','esp':'Selección de España · UEFA · 1 vez campeón mundial','cpv':'Selección de Cabo Verde · CAF','ksa':'Selección de Arabia Saudita · AFC','uru':'Selección de Uruguay · CONMEBOL · 2 veces campeón mundial','fra':'Selección de Francia · UEFA · 2 veces campeón mundial','sen':'Selección de Senegal · CAF · Campeón Copa África 2022','irq':'Selección de Irak · AFC','nor':'Selección de Noruega · UEFA','arg':'Selección de Argentina · CONMEBOL · 3 veces campeón mundial','alg':'Selección de Argelia · CAF','aut':'Selección de Austria · UEFA','jor':'Selección de Jordania · AFC','por':'Selección de Portugal · UEFA','cod':'Selección de Rep. Dem. del Congo · CAF','uzb':'Selección de Uzbekistán · AFC','col':'Selección de Colombia · CONMEBOL','eng':'Selección de Inglaterra · UEFA','cro':'Selección de Croacia · UEFA · Subcampeón Rusia 2018','gha':'Selección de Ghana · CAF','pan':'Selección de Panamá · CONCACAF','cc':'Láminas especiales · Copa de Campeones y ceremonia final'};
 function renderAlbum(){
+  try{
   const album=userProfile?.album||{};
   const stats=getAlbumStats(album);
   const pct=Math.round(stats.have/TOTAL_STICKERS*100);
@@ -1299,7 +1300,7 @@ function renderAlbum(){
   <div class="filter-row">
     <button class="chip ${albumFilter==='all'?'act':''}" onclick="setAlbumFilter('all')">Todas</button>
     <button class="chip ${albumFilter==='missing'?'act':''}" onclick="setAlbumFilter('missing')">Solo faltan</button>
-    <button class="chip ${albumFilter==='double'?'act':''}" onclick="setAlbumFilter('double')">Repetidas</button>
+    <button class="chip ${albumFilter==='repeat'?'act':''}" onclick="setAlbumFilter('repeat')">Repetidas</button>
     <button class="chip ${albumFilter==='have'?'act':''}" onclick="setAlbumFilter('have')">Tengo</button>
   </div>
   <div class="search-box">
@@ -1314,7 +1315,7 @@ function renderAlbum(){
       const id=sec.prefix+i;
       const st=album[id];const state=st?st.state:'missing';
       if(albumFilter==='have'&&state==='missing')continue;
-      if(albumFilter==='double'&&state!=='double')continue;
+      if(albumFilter==='double'&&state!=='repeat')continue;
       if(albumFilter==='missing'&&state!=='missing')continue;
       if(albumSearch&&!id.toLowerCase().includes(albumSearch.toLowerCase())&&!sec.name.toLowerCase().includes(albumSearch.toLowerCase()))continue;
       stickers.push({id,state,count:st?.count||0});
@@ -1336,11 +1337,14 @@ function renderAlbum(){
     if(isOpen&&stickers.length){
       h+=`<div class="sticker-grid">`;
       stickers.forEach(({id,state,count})=>{
-        h+=`<div class="stk ${state}" data-sid="${id}" onclick="stickerClick(this.dataset.sid,this)">
-          <span class="stk-n" style="font-size:10px">${id}</span>
-          ${state==='have'?'<span class="stk-ico">✓</span>':''}
-          ${state==='repeat'?`<span class="stk-ico">★</span>${count>1?`<span class="stk-c">×${count}</span>`:''}`:''} 
-        </div>`;
+        h+=`<div class="stk ${state}" data-sid="${id}"
+            onclick="stickerClick(this.dataset.sid,this)"
+            oncontextmenu="event.preventDefault();deleteSticker('${id}')"
+            ontouchstart="stkLongStart('${id}')" ontouchend="stkLongEnd()" ontouchmove="stkLongEnd()">
+            <span style="font-family:'Anton',sans-serif;font-size:9px;letter-spacing:.3px">${id}</span>
+            ${state==='have'?'<span style="font-size:10px">✓</span>':''}
+            ${state==='repeat'?`<span style="font-family:'Anton',sans-serif;font-size:9px;color:var(--gold-d)">×${count||2}</span>`:''}
+          </div>`;
       });
       h+=`</div>`;
     }
@@ -1359,6 +1363,7 @@ function renderAlbum(){
     }
   }catch(e){}
   tab.innerHTML=h;
+  }catch(err){console.error('renderAlbum error:',err);}
 }
 
 window.stickerClick=function(id,el){
