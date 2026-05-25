@@ -988,13 +988,13 @@ async function renderMatches(){
 
   const term=getTermPlural();
   const myRegionLabel=myRegion?getRegionDisplay(myRegion):'';
+  const myCountryLabel=myCountry||'Mi país';
   let h=`<div style="background:var(--green);padding:13px;color:#fff">
     <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">MIS MATCHES</div>
-    <div style="font-size:11px;opacity:.8;margin-top:2px">${matches.length} coleccionistas compatibles</div>
+    <div style="font-size:11px;opacity:.8;margin-top:2px">${matches.length} en ${myCountryLabel}${matchTempCity&&matchTempCity!==userProfile?.city?' 📌':''}  </div>
   </div>
   <div class="filter-row">
-    <button class="chip ${matchProximity==='all'?'act':''}" onclick="setMatchProx('all')">🌎 Todos</button>
-    <button class="chip ${matchProximity==='country'?'act':''}" onclick="setMatchProx('country')">🗺️ ${myCountryLabel}</button>
+    <button class="chip ${matchProximity==='country'?'act':''}" onclick="setMatchProx('country')">🌎 ${myCountryLabel}</button>
     ${myRegionLabel?`<button class="chip ${matchProximity==='region'?'act':''}" onclick="setMatchProx('region')">🏙️ ${myRegionLabel}</button>`:''}
     <button class="chip ${matchProximity==='city'?'act':''}" onclick="setMatchProx('city')">📍 ${getCityDisplay(userProfile?.city||'')}</button>
   </div>`;
@@ -1601,7 +1601,13 @@ window.obFinish=async function(){
   renderAlbum();
 };
 
-function getCityCountry(city){return CITY_COUNTRY[city]||'XX';}
+function getCityCountry(city){return getLocationParts(city).country||'XX';}
+function getCityDisplay(city){
+  if(!city)return '';
+  const loc=getLocationParts(city);
+  if(!loc.region||loc.country==='Otro país')return city;
+  return getRegionDisplay(loc.region)+' · '+city;
+}
 
 // ============================================================
 // MENSAJES
