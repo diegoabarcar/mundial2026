@@ -948,23 +948,27 @@ async function renderMatches(){
   if(!allUsers.length)await loadAllUsers();
   const tab=document.getElementById('tab-matches');
   const myAlbum=userProfile?.album||{};
-  const myCity=userProfile?.city||'';
+  const myCity=matchTempCity||userProfile?.city||'';
+  const myLoc=getLocationParts(myCity);
+  const myRegion=myLoc.region||'';
+  const myCountry=myLoc.country||'';
   const myDoubles=getDoublesList(myAlbum);
   const myMissing=getMissingList(myAlbum);
 
-  let filtered=allUsers.filter(u=>u.id!==currentUser?.uid);
+  // Always filter by same country (no cross-country matches)
+  let filtered=allUsers.filter(u=>{
+    if(u.id===currentUser?.uid)return false;
+    if(!myCountry)return true;
+    return getLocationParts(u.city||'').country===myCountry;
+  });
   if(matchProximity==='city')filtered=filtered.filter(u=>u.city===myCity);
-  else if(matchProximity==='country'){
-    // match by country prefix from city name (simple heuristic using known cities)
-    const myCountry=getCityCountry(myCity);
-    filtered=filtered.filter(u=>getCityCountry(u.city)===myCountry);
-  }
+  else if(matchProximity==='region')filtered=filtered.filter(u=>getLocationParts(u.city||'').region===myRegion&&myRegion);
 
   const matches=filtered.map(other=>{
     const oa=other.album||{};
     const od=getDoublesList(oa);const om=getMissingList(oa);
-    const canGive=myDoubles.filter(n=>om.includes(n)).length;
-    const canReceive=od.filter(n=>myMissing.includes(n)).length;
+    const canGive=myDoubles.filter(id=>om.includes(id)).length;
+    const canReceive=od.filter(id=>myMissing.includes(id)).length;
     const score=Math.min(canGive,canReceive);
     const oLoc=getLocationParts(other.city||'');
     const sameCity=other.city===myCity;
@@ -983,8 +987,7 @@ async function renderMatches(){
   });
 
   const term=getTermPlural();
-  const myRegionLabel=COMMUNE_REGION[userProfile?.city||'']||'Mi región';
-  const myCountryLabel=getCityCountry(userProfile?.city||'')==='CL'?'Chile':getCityCountry(userProfile?.city||'')==='AR'?'Argentina':getCityCountry(userProfile?.city||'')==='MX'?'México':getCityCountry(userProfile?.city||'')==='ES'?'España':'Mi país';
+  const myRegionLabel=myRegion?getRegionDisplay(myRegion):'';
   let h=`<div style="background:var(--green);padding:13px;color:#fff">
     <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px">MIS MATCHES</div>
     <div style="font-size:11px;opacity:.8;margin-top:2px">${matches.length} coleccionistas compatibles</div>
